@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { Avatar, TextField, IconButton, InputAdornment } from '@mui/material';
+import {  TextField, IconButton, InputAdornment } from '@mui/material';
 import Box from '@mui/material/Box';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Visibility from '@mui/icons-material/Visibility';
@@ -15,10 +15,8 @@ export default function Home() {
 
   return (
     <Box className='flex bg-gradient-to-r from-foreground to-secondary w-full h-screen justify-center items-center'>
-      <Box className="flex justify-center items-center flex-col gap-3">
-        <Avatar sx={{ width: 60, height: 60 }} >
-          <AccountCircleIcon color='info' sx={{ width: 50, height: 50 }} />
-        </Avatar>
+      <Box className="flex  items-center flex-col gap-3">
+          <AccountCircleIcon   sx={{ width: 100, height: 100}} />
         <p className='text-lightText font-semibold '>Admin</p>
         <TextField
           id="outlined-basic"
@@ -36,7 +34,8 @@ export default function Home() {
             },
             '& .MuiInputBase-input': {
               color: 'var(--lightText)',  // Text color inside input
-            }
+            },
+            width:300
           }}
           InputProps={{
             endAdornment: (
