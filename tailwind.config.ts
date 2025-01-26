@@ -20,6 +20,7 @@ export default {
         warning: "var(--warning)",
         error: "var(--error)",
         gradientBg: "var(--gradientBg)",
+        action: "var(--action)",
       },
     },
   },

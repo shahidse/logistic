@@ -13,7 +13,8 @@
   --success: #5cb338;
   --warning: #ffc145;
   --error: #d71313;
-  --gradientBg: linear-gradient(to right, #ff7e5f, #feb47b)
+  --gradientBg: linear-gradient(to right, #ff7e5f, #feb47b);
+  --action: #ff8225;
 }
 @media (prefers-color-scheme: dark) {
   :root {
