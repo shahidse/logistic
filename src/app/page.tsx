@@ -18,7 +18,7 @@ export default function Home() {
   return (
     <Box className='flex bg-gradient-to-r from-foreground to-secondary w-full h-screen justify-center items-center '>
       <Box className="flex w-full items-center flex-col gap-3 p-6 max-w-md">
-        <AccountCircleIcon sx={{ width: 100, height: 100 }} />
+        <AccountCircleIcon sx={{ width: 100, height: 100, color:"var(--action)", }} />
         <p className='text-lightText font-semibold '>Admin</p>
         <CustomForm onSubmit={handleTogglePassword}>
           <CustomInput

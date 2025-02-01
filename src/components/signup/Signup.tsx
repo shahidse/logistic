@@ -30,7 +30,7 @@ const Signup = () => {
     return (
         <Box className="bg-gradient-to-r from-foreground to-secondary min-h-screen flex justify-center items-center p-4">
             <Box className="w-full max-w-md  p-6 rounded-md">
-                <p className="text-3xl font-bold h-14  flex justify-center items-center mb-6 text-forground rounded-md shadow-lg">Sign Up</p>
+                <p className="text-3xl font-bold h-14  flex justify-center items-center mb-6 text-forground rounded-md shadow-lg bg-action">Sign Up</p>
                 <Form onSubmit={handleSubmit}>
                     <CustomInput
                         label="Email"
