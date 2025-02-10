@@ -1,4 +1,6 @@
 "use client"
+import ButtonStack from '@/components/common/ButtonStack'
+import CustomButton from '@/components/common/CustomeButton'
 import CustomForm from '@/components/common/CustomForm'
 import CustomInput from '@/components/common/CustomInput'
 import { Box } from '@mui/material'
@@ -20,16 +22,30 @@ function page() {
         },
     }
     return (
-        <Box >
-            <CustomForm onSubmit={handleSubmit} className='flex flex-row flex-wrap gap-4  '>
-                <CustomInput fullWidth={false} className=' md:w-96' label='Product Name' sx={styles} />
-                <CustomInput fullWidth={false} className=' md:w-96' label='Product Name' sx={styles}/>
-                <CustomInput fullWidth={false} className=' md:w-96' label='Product Name' sx={styles}/>
-                <CustomInput fullWidth={false} className=' md:w-96' label='Product Name' sx={styles}/>
-                <CustomInput fullWidth={false} className=' md:w-96' label='Product Name' sx={styles}/>
-                <CustomInput fullWidth={false} className=' md:w-96' label='Product Name' sx={styles}/>
-                <CustomInput fullWidth={false} className=' md:w-96' label='Product Name' sx={styles}/>
-                <CustomInput fullWidth={false} className=' md:w-96' label='Product Name' sx={styles}/>
+        <Box className='' >
+            <CustomForm onSubmit={handleSubmit} className='flex flex-row flex-wrap justify-between gap-3 md:gap-5 p-[32px]'>
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
+                <ButtonStack className='flex justify-end w-full pt-4'>
+                    <Box className=" flex justify-between gap-4 w-[450px] mr-24">
+                        <CustomButton className='flex ' variant='outlined'  sx={{backgroundColor:"transparent"}}>
+                            Cancel
+                        </CustomButton>
+                        <CustomButton className='flex  ' sx={{backgroundColor:"var(--info) "}}>
+                            Submit
+                        </CustomButton>
+                    </Box>
+                </ButtonStack>
             </CustomForm>
         </Box>
     )
