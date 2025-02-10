@@ -1,14 +1,14 @@
+"use client"
 import React, { ReactNode } from 'react';
-
-// Define the type for the component props
 interface CustomFormProps {
-    onSubmit: React.FormEventHandler<HTMLFormElement>; // Type for the onSubmit handler
-    children: ReactNode; // Type for children elements (anything you want to pass inside the form)
+    onSubmit?: React.FormEventHandler<HTMLFormElement>; // Type for the onSubmit handler
+    children?: ReactNode; // Type for children elements (anything you want to pass inside the form)
+    className?: string
 }
 
-const CustomForm: React.FC<CustomFormProps> = ({ onSubmit, children }) => {
+const CustomForm: React.FC<CustomFormProps> = ({ onSubmit, children, className }) => {
     return (
-        <form onSubmit={onSubmit} className="w-full max-w-md space-y-6">
+        <form onSubmit={onSubmit} className={`w-full   ${className}`}>
             {children}
         </form>
     );

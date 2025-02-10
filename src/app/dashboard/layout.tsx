@@ -66,43 +66,38 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
             </header>
 
             {/* Main Content */}
-            <Box className="flex flex-1">
+            <Box className="flex flex-1 p-2">
                 {/* Sidebar */}
                 <aside
-                    className={`fixed md:relative md:block md:w-64 text-lightText p-2 bg-gradient-to-r from-secondary to-surface rounded-md transform transition-transform duration-300 ease-in-out ${
-                        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                    } md:translate-x-0 z-50 h-screen md:h-auto`}
+                    className={`fixed md:relative md:block md:w-64 text-lightText p-2 bg-gradient-to-r from-secondary to-surface rounded-md transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                        } md:translate-x-0 z-50 h-[85%] md:h-auto`}
                 >
                     <nav className="flex flex-col space-y-4 h-1/2 rounded-md">
                         <Link
                             href="/dashboard"
-                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${
-                                pathname === '/dashboard' ? 'bg-action' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
-                            }`}
+                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard' ? 'bg-action' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
+                                }`}
                         >
                             <Home className="mr-2" /> Home
                         </Link>
                         <Link
-                            href="/dashboard/profile"
-                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${
-                                pathname === '/dashboard/profile' ? 'bg-secondary' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
-                            }`}
+                            href="/dashboard/products"
+                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/products' ? 'bg-action' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
+                                }`}
                         >
-                            <Person className="mr-2" /> Profile
+                            <Person className="mr-2" /> Products
                         </Link>
                         <Link
-                            href="/dashboard/settings"
-                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${
-                                pathname === '/dashboard/settings' ? 'bg-secondary' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
-                            }`}
+                            href="/dashboard/products"
+                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/settings' ? 'bg-secondary' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
+                                }`}
                         >
-                            <Settings className="mr-2" /> Settings
+                            <Settings className="mr-2" /> Sales
                         </Link>
                         <Link
                             href="/dashboard/reports"
-                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${
-                                pathname === '/dashboard/reports' ? 'bg-secondary' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
-                            }`}
+                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/reports' ? 'bg-secondary' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
+                                }`}
                         >
                             <BarChart className="mr-2" /> Reports
                         </Link>

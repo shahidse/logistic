@@ -1,5 +1,5 @@
-import React from 'react';
-import { TextField, FormControl, InputAdornment, FormHelperText } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { TextField, FormControl, InputAdornment, FormHelperText, SxProps } from '@mui/material';
 
 interface InputProps {
     label?: string; // Label text for the input field
@@ -13,7 +13,8 @@ interface InputProps {
     error?: boolean; // Whether the input field has an error (for validation purposes)
     helperText?: string; // Helper text to display below the input field (usually for errors)
     className?: string;
-    sx?: any; // Custom styles
+    sx?: SxProps; // Custom styles
+    fullWidth?: boolean
 }
 
 const CustomInput: React.FC<InputProps> = ({
@@ -28,10 +29,36 @@ const CustomInput: React.FC<InputProps> = ({
     error = false,
     helperText,
     className,
-    sx
+    sx = {
+        '& label': { color: 'var(--foreground)' }, // Default label color
+        '& label.Mui-focused': { color: 'var(--background)' }, // Label color on focus
+        '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+                borderColor: error ? 'red' : 'var(--secondary)', // Border color based on error state
+            },
+            '&:hover fieldset': { borderColor: 'var(--secondary)' }, // Border color on hover
+            '&.Mui-focused fieldset': { borderColor: 'var(--surface)' }, // Border color on focus
+        },
+        '& .MuiInputBase-input': {
+            color: 'var(--lightText)', // Text color inside input
+        },
+    },
+    fullWidth = true
 }) => {
+    const [screenWidth, setScreenWidth] = useState<number>(0);
+    useEffect(() => {
+        const handleResize = () => {
+            setScreenWidth(window.innerWidth);
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     return (
-        <FormControl fullWidth error={error}>
+        <FormControl fullWidth={screenWidth < 768 ? true : fullWidth} error={error}>
             <TextField
                 type={type}
                 name={name}
@@ -40,24 +67,10 @@ const CustomInput: React.FC<InputProps> = ({
                 required={required}
                 placeholder={placeholder}
                 variant="outlined"
-                fullWidth
+                fullWidth={screenWidth < 768 ? true : fullWidth}
                 label={label}
-                className={`bg-secondary rounded-[8px] ${className}  shadow-lg border-transparent`}
-                sx={{
-                    ...sx,
-                    '& label': { color: 'var(--foreground)' }, // Default label color
-                    '& label.Mui-focused': { color: 'var(--background)' }, // Label color on focus
-                    '& .MuiOutlinedInput-root': {
-                        '& fieldset': {
-                            borderColor: error ? 'red' : 'var(--secondary)', // Border color based on error state
-                        },
-                        '&:hover fieldset': { borderColor: 'var(--secondary)' }, // Border color on hover
-                        '&.Mui-focused fieldset': { borderColor: 'var(--surface)' }, // Border color on focus
-                    },
-                    '& .MuiInputBase-input': {
-                        color: 'var(--lightText)', // Text color inside input
-                    },
-                }}
+                className={`flex bg-secondary rounded-[8px]  shadow-lg border-transparent ${className}`}
+                sx={sx}
                 InputProps={{
                     endAdornment: icon ? (
                         <InputAdornment position="end">{icon}</InputAdornment>

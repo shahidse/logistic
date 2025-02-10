@@ -1,11 +1,10 @@
 "use client"
 import React, { useState } from 'react';
 import Form from '@/components/common/CustomForm';
-import { Email, Lock, LockOpen } from '@mui/icons-material';
+import { Email, Lock } from '@mui/icons-material';
 import CustomInput from '@/components/common/CustomInput';
 import { Box, Link } from '@mui/material';
 import CustomButton from '../common/CustomeButton';
-import NextLink from 'next/link';
 const Signin = () => {
     const [formData, setFormData] = useState({
         email: '',
@@ -23,7 +22,6 @@ const Signin = () => {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        // Handle form submission logic
         console.log('Form submitted:', formData);
     };
 
@@ -31,7 +29,7 @@ const Signin = () => {
         <Box className="bg-gradient-to-r from-foreground to-secondary min-h-screen flex justify-center items-center p-4">
             <Box className="w-full max-w-md  p-6 rounded-md">
                 <p className="text-3xl font-bold h-14  flex justify-center items-center mb-6 text-forground rounded-md shadow-lg bg-action">Sign In</p>
-                <Form onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit} className='flex flex-col  gap-4'>
                     <CustomInput
                         label="Email"
                         type="email"

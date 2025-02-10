@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button as MUIButton, CircularProgress } from '@mui/material';
+import { Button as MUIButton, CircularProgress, SxProps } from '@mui/material';
 import { ReactNode } from 'react';
 
 // Define CustomButtonProps interface
@@ -16,6 +16,8 @@ interface CustomButtonProps {
     variant?: 'contained' | 'outlined' | 'text';
     disableRipple?: boolean;
     loading?: boolean; // Set default as false
+    fullWidth?: boolean;
+    sx?: SxProps
 }
 
 // Generic Custom Button Component
@@ -30,16 +32,19 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     variant = 'contained',
     disableRipple = false,
     loading = false,
+    fullWidth = true,
+    sx = {
+        backgroundColor: 'var(--foreground)'
+    },
     ...props
 }) => {
     // Set TailwindCSS and MUI Button classes dynamically
-    const buttonClasses = ` h-12  text-sm font-medium rounded-[10px] shadow-lg focus:bg-action ${
-        variant === 'contained'
-            ? ' text-surface hover:bg-action'
-            : variant === 'outlined'
+    const buttonClasses = ` h-12  text-sm font-medium rounded-[10px] shadow-lg focus:bg-action ${variant === 'contained'
+        ? ' text-surface hover:bg-action'
+        : variant === 'outlined'
             ? 'border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white'
             : 'text-blue-500 hover:bg-blue-50'
-    } ${className}`;
+        } ${className}`;
 
     return (
         <MUIButton
@@ -48,17 +53,14 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             className={buttonClasses}
             color={color}
             variant={variant}
-            startIcon={loading ? <CircularProgress size={24} color="inherit" /> : startIcon} 
+            startIcon={loading ? <CircularProgress size={24} color="inherit" /> : startIcon}
             endIcon={endIcon}
             disableRipple={disableRipple}
-            disabled={loading} 
+            disabled={loading}
             loading={loading}
             loadingPosition='end'
-            fullWidth
-            sx={{
-                backgroundColor:"var(--foreground)"
-            }}
-
+            fullWidth={fullWidth}
+            sx={sx}
             {...props}
         >
             {loading ? '' : children} {/* Hide children text when loading */}
