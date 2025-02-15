@@ -15,6 +15,10 @@
   --error: #d71313;
   --gradientBg: linear-gradient(to right, #ff7e5f, #feb47b);
   --action: #ff8225;
+  --lightError: rgba(224, 201, 198, 0.527);
+  --lightSuccess: rgba(120, 171, 120, 0.286);
+  --lightWarning: rgba(120, 90, 30, 0.7);
+  --lightInfo: rgba(134, 206, 230, 0.558);
 }
 @media (prefers-color-scheme: dark) {
   :root {

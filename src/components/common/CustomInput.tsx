@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, FormControl, InputAdornment, FormHelperText, SxProps } from '@mui/material';
+import { TextField, FormControl, InputAdornment, FormHelperText, SxProps, CircularProgress } from '@mui/material';
 
 interface InputProps {
     label?: string; // Label text for the input field
@@ -14,7 +14,8 @@ interface InputProps {
     helperText?: string; // Helper text to display below the input field (usually for errors)
     className?: string;
     sx?: SxProps; // Custom styles
-    fullWidth?: boolean
+    fullWidth?: boolean,
+    loading?: boolean
 }
 
 const CustomInput: React.FC<InputProps> = ({
@@ -29,6 +30,7 @@ const CustomInput: React.FC<InputProps> = ({
     error = false,
     helperText,
     className,
+    loading = false,
     sx = {
         '& label': { color: 'var(--foreground)' }, // Default label color
         '& label.Mui-focused': { color: 'var(--background)' }, // Label color on focus
@@ -75,6 +77,9 @@ const CustomInput: React.FC<InputProps> = ({
                     endAdornment: icon ? (
                         <InputAdornment position="end">{icon}</InputAdornment>
                     ) : null,
+                    startAdornment: loading ? (
+                        <InputAdornment position='end'><CircularProgress size={24} color="inherit" /></InputAdornment>
+                    ) : null
                 }}
             />
             {helperText && <FormHelperText>{helperText}</FormHelperText>}
