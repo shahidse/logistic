@@ -25,14 +25,21 @@ const CustomInput: React.FC<InputProps> = ({
     placeholder,
     value,
     onChange,
-    required = false,
+    required = true,
     icon,
     error = false,
     helperText,
     className,
     loading = false,
     sx = {
+
         '& label': { color: 'var(--foreground)' }, // Default label color
+        '& .MuiInputLabel-asterisk': {
+            color: 'red',
+            fontSize: '1.2rem',
+            fontWeight: 'bold',
+            fontStyle: 'italic'
+        },
         '& label.Mui-focused': { color: 'var(--background)' }, // Label color on focus
         '& .MuiOutlinedInput-root': {
             '& fieldset': {

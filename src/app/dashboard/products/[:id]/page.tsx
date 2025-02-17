@@ -12,6 +12,12 @@ function page() {
     }
     const styles = {
         '& label': { color: 'var(--foreground)' }, // Default label color
+        '& .MuiInputLabel-asterisk': {
+            color: 'red',
+            fontSize: '1.2rem',
+            fontWeight: 'bold',
+            fontStyle: 'italic'
+        },
         '& label.Mui-focused': { color: 'var(--foreground)' }, // Label color on focus
         '& .MuiOutlinedInput-root': {
             '&:hover fieldset': { borderColor: 'var(--foreground)' }, // Border color on hover
@@ -38,10 +44,10 @@ function page() {
                 <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
                 <ButtonStack className='flex justify-end w-full pt-4'>
                     <Box className=" flex justify-between gap-4 w-[450px] mr-24">
-                        <CustomButton className='flex ' variant='outlined'  sx={{backgroundColor:"transparent"}}>
+                        <CustomButton className='flex ' variant='outlined' sx={{ backgroundColor: "transparent" }}>
                             Cancel
                         </CustomButton>
-                        <CustomButton className='flex  ' sx={{backgroundColor:"var(--info) "}}>
+                        <CustomButton className='flex  ' sx={{ backgroundColor: "var(--info) " }}>
                             Submit
                         </CustomButton>
                     </Box>

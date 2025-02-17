@@ -1,15 +1,45 @@
 import { UserApiService } from "@/services/UserApiService";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { InitialState } from "./usersSlice";
 
 export const getSecretToken = createAsyncThunk(
   "user/secret",
   async (userData: { secret: string }, { rejectWithValue }) => {
     try {
-      const response = await UserApiService.getInstance().getSecretToken(userData);
-console.log('jdklast',response)
+      const response = await UserApiService.getInstance().getSecretToken(
+        userData
+      );
       return await response; // Successful response
     } catch (error: any) {
       return rejectWithValue(error.message); // Return error message
+    }
+  }
+);
+export const signup = createAsyncThunk(
+  "user/signup",
+  async (userData: InitialState["signUpForm"], { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().signUp(userData, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const signin = createAsyncThunk(
+  "user/signin",
+  async (userData: InitialState['signInForm'], { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().logIn(userData, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
   }
 );

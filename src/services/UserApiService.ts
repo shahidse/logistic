@@ -14,4 +14,10 @@ export class UserApiService extends BaseApiService {
   async getSecretToken(data: any): Promise<any> {
     return await this.post(`users/secret`, data);
   }
+  async signUp(data: any, options?: RequestInit) {
+    return await this.post("users/signup", data, options);
+  }
+  async logIn(data: any, options?: RequestInit) {
+    return await this.post("users/login", data, options);
+  }
 }

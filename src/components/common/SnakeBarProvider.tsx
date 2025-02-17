@@ -20,7 +20,7 @@ export const useSnackbar = () => {
 export const SnackbarProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [open, setOpen] = useState(false);
     const [message, setMessage] = useState('success message');
-    const [severity, setSeverity] = useState<'error' | 'success' | 'info' | 'warning'>('info');
+    const [severity, setSeverity] = useState<'error' | 'success' | 'info' | 'warning'>('warning');
 
     const showSnackbar = (message: string, severity: 'error' | 'success' | 'info' | 'warning') => {
         setMessage(message);

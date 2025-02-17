@@ -10,13 +10,13 @@
   --darkText: #393e46;
   --lightText: #f7f7f7;
   --info: #0d1282;
-  --success: #5cb338;
+  --success: rgb(27, 209, 14);
   --warning: #ffc145;
   --error: #d71313;
   --gradientBg: linear-gradient(to right, #ff7e5f, #feb47b);
   --action: #ff8225;
   --lightError: rgba(224, 201, 198, 0.527);
-  --lightSuccess: rgba(120, 171, 120, 0.286);
+  --lightSuccess:rgba(51, 118, 30, 0.5);
   --lightWarning: rgba(120, 90, 30, 0.7);
   --lightInfo: rgba(134, 206, 230, 0.558);
 }
