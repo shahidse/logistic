@@ -81,6 +81,13 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
                             <Home className="mr-2" /> Home
                         </Link>
                         <Link
+                            href="/dashboard/company"
+                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/company' ? 'bg-action' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
+                                }`}
+                        >
+                            <Person className="mr-2" /> Company
+                        </Link>
+                        <Link
                             href="/dashboard/products"
                             className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/products' ? 'bg-action' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
                                 }`}
@@ -88,7 +95,7 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
                             <Person className="mr-2" /> Products
                         </Link>
                         <Link
-                            href="/dashboard/products"
+                            href="/dashboard/sales"
                             className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/settings' ? 'bg-secondary' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
                                 }`}
                         >

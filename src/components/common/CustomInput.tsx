@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, FormControl, InputAdornment, FormHelperText, SxProps, CircularProgress } from '@mui/material';
-
+import { TextField, FormControl, InputAdornment, FormHelperText, SxProps, CircularProgress, MenuItem, Box } from '@mui/material';
+interface Option {
+    value: string;
+    label: string;
+}
 interface InputProps {
     label?: string; // Label text for the input field
-    type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url'; // Allowed input types (can be extended as needed)
+    type?: React.HTMLInputTypeAttribute; // Allowed input types (can be extended as needed)
     name?: string; // Name attribute for the input
     placeholder?: string; // Placeholder text for the input field
     value?: string | number; // Value of the input (either string or number)
@@ -15,7 +18,10 @@ interface InputProps {
     className?: string;
     sx?: SxProps; // Custom styles
     fullWidth?: boolean,
-    loading?: boolean
+    loading?: boolean,
+    select?: boolean,
+    options?: Option[],
+    defaultValue?: string
 }
 
 const CustomInput: React.FC<InputProps> = ({
@@ -31,9 +37,15 @@ const CustomInput: React.FC<InputProps> = ({
     helperText,
     className,
     loading = false,
+    select = false,
+    options = [{
+        value: 'value',
+        label: 'label'
+    }],
+    defaultValue = '',
     sx = {
 
-        '& label': { color: 'var(--foreground)' }, // Default label color
+        '& label': { color: 'var(--foreground)', }, // Default label color
         '& .MuiInputLabel-asterisk': {
             color: 'red',
             fontSize: '1.2rem',
@@ -70,16 +82,21 @@ const CustomInput: React.FC<InputProps> = ({
         <FormControl fullWidth={screenWidth < 768 ? true : fullWidth} error={error}>
             <TextField
                 type={type}
+                select={select}
                 name={name}
                 value={value}
                 onChange={onChange}
                 required={required}
                 placeholder={placeholder}
                 variant="outlined"
+                defaultValue={defaultValue}
                 fullWidth={screenWidth < 768 ? true : fullWidth}
                 label={label}
                 className={`flex bg-secondary rounded-[8px]  shadow-lg border-transparent ${className}`}
                 sx={sx}
+                InputLabelProps={{
+                    shrink: type === 'date' || type == 'Date' || type === 'file' ? true : undefined,
+                }}
                 InputProps={{
                     endAdornment: icon ? (
                         <InputAdornment position="end">{icon}</InputAdornment>
@@ -88,9 +105,13 @@ const CustomInput: React.FC<InputProps> = ({
                         <InputAdornment position='end'><CircularProgress size={24} color="inherit" /></InputAdornment>
                     ) : null
                 }}
-            />
+            > {select && options?.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                </MenuItem>
+            ))}</TextField>
             {helperText && <FormHelperText>{helperText}</FormHelperText>}
-        </FormControl>
+        </FormControl >
     );
 };
 
