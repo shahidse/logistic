@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Home, Person, Settings, BarChart, Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+import Footer from '@/components/common/Footer';
 
 export default function DashboardLayout({ children }: { children: React.JSX.Element }) {
     const pathname = usePathname();
@@ -118,9 +119,7 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
             </Box>
 
             {/* Footer */}
-            <footer className="flex justify-center bg-foreground items-center text-lightText h-10">
-                &copy; Copyright @2024
-            </footer>
+            <Footer />
         </Box>
     );
 }

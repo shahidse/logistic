@@ -3,18 +3,14 @@ import ButtonStack from '@/components/common/ButtonStack'
 import CustomButton from '@/components/common/CustomeButton'
 import CustomForm from '@/components/common/CustomForm'
 import CustomInput from '@/components/common/CustomInput'
+import { countriesArray } from '@/constants'
 import { Box } from '@mui/material'
 import React from 'react'
-import { continents, countries, languages } from 'countries-list'
 
 function page() {
     const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
         console.log(e)
     }
-    const countriesArray = Object.entries(countries).map(([code, data]) => ({
-        value: code,
-        label: data.name
-    }));
     const styles = {
         '& label': { color: 'var(--foreground)' }, // Default label color
         '& .MuiInputLabel-asterisk': {
