@@ -38,7 +38,6 @@ function SecretForm() {
             }
         }).catch((err) => {
             showSnackbar(err.message, 'error')
-
         })
     }
     return (

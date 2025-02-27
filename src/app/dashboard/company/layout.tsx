@@ -9,6 +9,7 @@ import React from 'react'
 
 function ProductsLayout({ children }: { children: React.JSX.Element }) {
     const router = useRouter()
+    
     const handleAddProduct = () => {
         router.push('/dashboard/company/0')
     }

@@ -36,7 +36,7 @@ const initialState: InitialState = {
 };
 
 export const usersSlice = createSlice({
-  name: "counter",
+  name: "users",
   initialState,
   reducers: {
     setState: (
