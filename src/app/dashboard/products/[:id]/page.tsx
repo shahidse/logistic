@@ -46,7 +46,7 @@ function page() {
                     <CustomInput fullWidth={false} className=' md:w-[450px]' label='Product Description' required={false} sx={styles} multiline />
                 </Box>
                 <ButtonStack className='flex justify-end w-full pt-4'>
-                    <Box className=" flex justify-between gap-4 w-[450px] mr-24">
+                    <Box className=" flex justify-between gap-4 w-[450px] ">
                         <CustomButton className='flex ' variant='outlined' sx={{ backgroundColor: "transparent" }} type='reset'>
                             Cancel
                         </CustomButton>
