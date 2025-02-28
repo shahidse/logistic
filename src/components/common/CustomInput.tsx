@@ -23,7 +23,8 @@ interface InputProps {
     options?: Option[],
     defaultValue?: string,
     multiline?: boolean,
-    rows?: number
+    rows?: number,
+    disabled?: boolean
 }
 
 const CustomInput: React.FC<InputProps> = ({
@@ -47,6 +48,7 @@ const CustomInput: React.FC<InputProps> = ({
     defaultValue = '',
     multiline = false,
     rows = 4,
+    disabled = false,
     sx = {
 
         '& label': { color: 'var(--foreground)', }, // Default label color
@@ -93,13 +95,14 @@ const CustomInput: React.FC<InputProps> = ({
                 required={required}
                 placeholder={placeholder}
                 variant="outlined"
-                defaultValue={defaultValue}
+                // defaultValue={defaultValue}
                 fullWidth={screenWidth < 768 ? true : fullWidth}
                 label={label}
                 className={`flex bg-secondary rounded-[8px]  shadow-lg border-transparent ${className}`}
                 sx={sx}
                 multiline={multiline}
                 rows={rows}
+                disabled={disabled}
                 InputLabelProps={{
                     shrink: type === 'date' || type == 'Date' || type === 'file' ? true : undefined,
                 }}

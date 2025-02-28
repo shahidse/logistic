@@ -5,19 +5,18 @@ import CustomForm from '@/components/common/CustomForm'
 import CustomInput from '@/components/common/CustomInput'
 import { countriesArray } from '@/constants'
 import { setFormState } from '@/lib/features/company/comapanySlice'
-import { useAppDispatch, useAppSelector } from '@/lib/hooks'
+import { addCompany } from '@/lib/features/company/comapanyThunk'
 import { Box } from '@mui/material'
 import React from 'react'
+import { useFormHandler } from '@/hooks/formHandler'
 function CompanyForm() {
-    const dispatch = useAppDispatch()
-    const { form: { name, address, phone, foundingDate, country, city, logo, website }, id } = useAppSelector(state => state.company)
-    const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e: any) => {
-        e.preventDefault()
-    }
-    const handleChange = (e: any) => {
-        const { name, value } = e.target;
-        dispatch(setFormState({ key: name, value }))
-    };
+    const { form, loading, handleSubmit, handleChange } = useFormHandler({
+        sliceKey: "company",
+        submitAction: addCompany,
+        redirectPath: "company",
+        setFormState,
+    });
+    const { name, address, phone, foundingDate, country, city, website } = form;
     const styles = {
         '& label': { color: 'var(--foreground)' }, // Default label color
         '& .MuiInputLabel-asterisk': {
@@ -44,14 +43,14 @@ function CompanyForm() {
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={foundingDate} name='foundingDate' required={false} label='Founding Date' type='Date' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={country} name='country' required={false} label='Countary of Origin' sx={styles} select={true} options={countriesArray} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={city} name='city' required={false} label='City' sx={styles} />
-                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={logo} name='logo' required={false} label='Logo' sx={styles} type='file' />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' disabled name='logo' required={false} label='Logo' sx={styles} type='file' />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={website} name='website' required={false} label='Website Url' type='url' sx={styles} />
                 <ButtonStack className='flex justify-end w-full pt-4'>
                     <Box className=" flex justify-between gap-4 w-[450px] mr-24">
                         <CustomButton className='flex ' variant='outlined' sx={{ backgroundColor: "transparent" }}>
                             Cancel
                         </CustomButton>
-                        <CustomButton className='flex  ' sx={{ backgroundColor: "var(--info) " }}>
+                        <CustomButton loading={loading} className='flex  ' sx={{ backgroundColor: "var(--info) " }} type='submit'>
                             Submit
                         </CustomButton>
                     </Box>

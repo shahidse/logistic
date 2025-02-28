@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { signup } from "./comapanyThunk";
+import { addCompany, getCompany } from "./comapanyThunk";
+// import { addCompany } from "./comapanyThunk";
 export interface InitialState {
   loading: boolean;
   error: string;
@@ -11,9 +12,10 @@ export interface InitialState {
     foundingDate: string;
     country: string;
     city: string;
-    logo: string;
+    logo: File | any;
     website: string;
   };
+  data:Array<any>
 }
 const initialState: InitialState = {
   loading: false,
@@ -23,12 +25,13 @@ const initialState: InitialState = {
     name: "",
     address: "",
     phone: "",
-    foundingDate: new Date().toLocaleDateString(),
+    foundingDate: new Date().toISOString(),
     country: "",
     city: "",
-    logo: "",
+    logo: "No File Chosen",
     website: "",
   },
+  data:[]
 };
 
 export const comapnySline = createSlice({
@@ -46,32 +49,48 @@ export const comapnySline = createSlice({
       state[key] = value;
     },
     setFormState: (
-      state,
+      state: InitialState,
       action: PayloadAction<{
         key: keyof InitialState["form"];
-        value: string;
+        value: any;
       }>
     ) => {
       const { key, value } = action.payload;
       state.form[key] = value;
     },
+
     resetState: () => {
       return { ...initialState }; // Spread the initialState to reset all fields
     },
   },
+
   extraReducers: (builder) => {
-    // builder
-    //   .addCase(signup.pending, (state) => {
-    //     state.loading = true;
-    //   })
-    //   .addCase(signup.fulfilled, (state, actions) => {
-    //     state.loading = false;
-    //     state.error = "";
-    //   })
-    //   .addCase(signup.rejected, (state, actions) => {
-    //     state.loading = false;
-    //     state.error = actions.payload as string;
-    //   });
+    builder
+      .addCase(addCompany.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(addCompany.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+        state.id = actions.payload.id;
+      })
+      .addCase(addCompany.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+      builder
+      .addCase(getCompany.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCompany.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+        state.data = actions.payload;
+      })
+      .addCase(getCompany.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
   },
 });
 

@@ -8,6 +8,19 @@ export const makeStore = () => {
       users: userSlice,
       company: companySlice,
     },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          // Ignore all form-related actions where a File might be passed
+          ignoredActions: ["company/setFormState"],
+
+          // Ignore paths that may contain non-serializable values
+          ignoredActionPaths: ["payload.value"], // Ignore payload values (which may contain Files)
+
+          // Ignore paths in the state where non-serializable data is stored
+          ignoredPaths: ["company.form.logo"], // Ignore the logo field in the form object
+        },
+      }),
   });
 };
 

@@ -1,11 +1,10 @@
-import CustomizedTables from '@/components/common/CustomizedTables'
+import Company from '@/components/company/Company'
 import React from 'react'
 
 function page() {
+
     return (
-        <div>
-            <CustomizedTables></CustomizedTables>
-        </div>
+        <Company />
     )
 }
 
