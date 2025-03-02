@@ -11,8 +11,8 @@ export class CompanyApiService extends BaseApiService {
     }
     return CompanyApiService.instance;
   }
-  async getCompanyById(id: string): Promise<any> {
-    return await this.get(`company/${id}`);
+  async getCompanyById(id: string, options?: RequestInit): Promise<any> {
+    return await this.get(`company/${id}`, options);
   }
   async getCompanies(options?: RequestInit): Promise<any> {
     return await this.get(`company`, options);
@@ -20,10 +20,14 @@ export class CompanyApiService extends BaseApiService {
   async createCompany(data: any, options?: RequestInit): Promise<any> {
     return await this.post(`company`, data, options);
   }
-  async updateCompany(id: string, data: any): Promise<any> {
-    return await this.put(`company/${id}`, data);
+  async updateCompany(
+    id: string,
+    data: any,
+    options?: RequestInit
+  ): Promise<any> {
+    return await this.put(`company/${id}`, data, options);
   }
-  async deleteCompany(id: string): Promise<any> {
-    return await this.delete(`company/${id}`);
+  async deleteCompany(id: string, options?: RequestInit): Promise<any> {
+    return await this.delete(`company/${id}`, options);
   }
 }

@@ -1,5 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addCompany, getCompany } from "./comapanyThunk";
+import {
+  addCompany,
+  deleteCompany,
+  getCompany,
+  getCompanyById,
+} from "./comapanyThunk";
 // import { addCompany } from "./comapanyThunk";
 export interface InitialState {
   loading: boolean;
@@ -15,7 +20,7 @@ export interface InitialState {
     logo: File | any;
     website: string;
   };
-  data:Array<any>
+  data: Array<any>;
 }
 const initialState: InitialState = {
   loading: false,
@@ -25,13 +30,13 @@ const initialState: InitialState = {
     name: "",
     address: "",
     phone: "",
-    foundingDate: new Date().toISOString(),
+    foundingDate: new Date().toISOString().split("T")[0],
     country: "",
     city: "",
     logo: "No File Chosen",
     website: "",
   },
-  data:[]
+  data: [],
 };
 
 export const comapnySline = createSlice({
@@ -78,7 +83,7 @@ export const comapnySline = createSlice({
         state.loading = false;
         state.error = actions.payload as string;
       });
-      builder
+    builder
       .addCase(getCompany.pending, (state) => {
         state.loading = true;
       })
@@ -88,6 +93,34 @@ export const comapnySline = createSlice({
         state.data = actions.payload;
       })
       .addCase(getCompany.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(getCompanyById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCompanyById.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+        state.form = actions.payload;
+        state.form.foundingDate = new Date(actions.payload.foundingDate)
+          .toISOString()
+          .split("T")[0];
+      })
+      .addCase(getCompanyById.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(deleteCompany.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteCompany.fulfilled, (state) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(deleteCompany.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });

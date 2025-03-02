@@ -8,7 +8,7 @@ interface CustomFormProps {
 
 const CustomForm: React.FC<CustomFormProps> = ({ onSubmit, children, className }) => {
     return (
-        <form onSubmit={onSubmit} className={`w-full bg-background rounded  ${className}`}>
+        <form onSubmit={onSubmit} className={`w-full  rounded  ${className}`}>
             {children}
         </form>
     );

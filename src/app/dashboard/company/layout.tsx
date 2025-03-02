@@ -4,22 +4,21 @@ import ButtonStack from '@/components/common/ButtonStack'
 import CustomButton from '@/components/common/CustomeButton'
 import { Add } from '@mui/icons-material'
 import { Box } from '@mui/material'
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 
-function ProductsLayout({ children }: { children: React.JSX.Element }) {
+function ProductsLayout({ children, params }: { children: React.JSX.Element, params: { id: string }; }) {
     const router = useRouter()
-    
+    const { id } = params;
     const handleAddProduct = () => {
-        router.push('/dashboard/company/0')
+        router.push('/dashboard/company/add')
     }
-    const path = usePathname()
     return (
         <Box className='flex flex-col gap-8'>
             <ActionBar  >
                 <ButtonStack>
                     <>
-                        <CustomButton startIcon={<Add />} fullWidth={false} onClick={handleAddProduct} sx={{ backgroundColor: path == '/dashboard/company/0' ? 'var(--action)' : 'var(--success)' }}>Add Company</CustomButton>
+                        <CustomButton startIcon={<Add />} fullWidth={false} onClick={handleAddProduct} sx={{ backgroundColor: id != 'add' ? 'var(--action)' : 'var(--success)' }}>Add New Company</CustomButton>
                     </>
                 </ButtonStack>
 
