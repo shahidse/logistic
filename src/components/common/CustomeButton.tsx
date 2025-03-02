@@ -39,7 +39,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
     ...props
 }) => {
     // Set TailwindCSS and MUI Button classes dynamically
-    const buttonClasses = ` h-12  text-sm font-medium rounded-[10px] shadow-lg focus:bg-action ${variant === 'contained'
+    const buttonClasses = ` h-12  text-sm font-medium rounded-[10px] shadow-lg focus:bg-action focus:text-white focus:border-white ${variant === 'contained'
         ? ' text-surface hover:bg-action'
         : variant === 'outlined'
             ? 'border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white'

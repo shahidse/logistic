@@ -46,7 +46,6 @@ export const useFormHandler = <
     dispatch(setFormState({ key: name as K, value: newValue as V }));
   };
 
-  // Handle form submission
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(submitAction(form))
@@ -64,7 +63,7 @@ export const useFormHandler = <
       });
   };
   useEffect(() => {
-    if (id && typeof id == 'number' && getDataById) {
+    if (id &&  id != 'add' && getDataById) {
       dispatch(getDataById(id));
     }
   }, [id, getDataById, dispatch]);
