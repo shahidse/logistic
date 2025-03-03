@@ -13,3 +13,17 @@ export const currencyArray = [
     label: "PKR",
   },
 ];
+export const productsUnits = [
+  {
+    value: "KG",
+    label: "KG",
+  },
+  {
+    value: "DOZEN",
+    label: "DOZEN",
+  },
+  {
+    value: "CARTON",
+    label: "CARTON",
+  },
+];

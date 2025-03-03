@@ -89,13 +89,14 @@ const CustomInput: React.FC<InputProps> = ({
             <TextField
                 type={type}
                 select={select}
+                
                 name={name}
                 value={value}
                 onChange={onChange}
                 required={required}
                 placeholder={placeholder}
                 variant="outlined"
-                // defaultValue={defaultValue}
+                // defaultValue={select? value:null}
                 fullWidth={screenWidth < 768 ? true : fullWidth}
                 label={label}
                 className={`flex bg-secondary rounded-[8px]  shadow-lg border-transparent ${className}`}

@@ -1,6 +1,6 @@
 import CompanyForm from '@/components/company/CompanyForm'
 import React from 'react'
-interface ProductPageProps {
+export interface ProductPageProps {
     params: { id: string }; // params contain the dynamic route
 }
 

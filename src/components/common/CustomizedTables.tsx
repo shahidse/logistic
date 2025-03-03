@@ -97,7 +97,7 @@ export default function DynamicTable({ data, handleSelectRow, handleSelectAll, h
                                     ))}
                                     <StyledTableCell>
                                         <ButtonStack>
-                                            <Box>
+                                            <Box className='flex '>
                                                 <CustomIconButton handle={() => handleEdit(row.id)} color="primary">
                                                     <EditIcon />
                                                 </CustomIconButton>

@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./features/users/usersSlice";
 import companySlice from "./features/company/comapanySlice";
+import productsSlice from "./features/producsts/productsSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       users: userSlice,
       company: companySlice,
+      products: productsSlice,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

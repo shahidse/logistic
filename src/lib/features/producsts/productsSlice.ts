@@ -1,23 +1,30 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  addCompany,
-  deleteCompany,
-  getCompany,
-  getCompanyById,
-} from "./comapanyThunk";
+  addProducts,
+  deleteProducts,
+  getProducts,
+  getProductsById,
+} from "./productsThunk";
 export interface InitialState {
   loading: boolean;
   error: string;
   id: string;
   form: {
     name: string;
-    address: string;
-    phone: string;
-    foundingDate: string;
-    country: string;
-    city: string;
-    logo: File | any;
-    website: string;
+    companyId: string;
+    salePrice: number;
+    saleCurrency: string;
+    purchaseCurrency: string;
+    unit: string;
+    purchasePrice: number;
+    quantities: string;
+    netPurchasePrice: number;
+    netSalePrice: number;
+    expiry: string;
+    pros: string;
+    cons: string;
+    usage: string;
+    description: string;
   };
   data: Array<any>;
 }
@@ -27,19 +34,26 @@ const initialState: InitialState = {
   id: "",
   form: {
     name: "",
-    address: "",
-    phone: "",
-    foundingDate: new Date().toISOString().split("T")[0],
-    country: "",
-    city: "",
-    logo: "No File Chosen",
-    website: "",
+    companyId: "",
+    salePrice: 0,
+    saleCurrency: "",
+    purchaseCurrency: "",
+    unit: "",
+    purchasePrice: 0,
+    quantities: "",
+    netPurchasePrice: 0,
+    netSalePrice: 0,
+    expiry: new Date().toISOString().split("T")[0], // or new Date() if you want to set it to the current date
+    pros: "",
+    cons: "",
+    usage: "",
+    description: "",
   },
   data: [],
 };
 
-export const comapnySline = createSlice({
-  name: "company",
+const productsSlice = createSlice({
+  name: "products",
   initialState,
   reducers: {
     setState: (
@@ -67,65 +81,65 @@ export const comapnySline = createSlice({
       return { ...initialState }; // Spread the initialState to reset all fields
     },
   },
-
   extraReducers: (builder) => {
     builder
-      .addCase(addCompany.pending, (state) => {
+      .addCase(addProducts.pending, (state) => {
         state.loading = true;
       })
-      .addCase(addCompany.fulfilled, (state, actions) => {
+      .addCase(addProducts.fulfilled, (state, actions) => {
         state.loading = false;
         state.error = "";
         state.id = actions.payload.id;
       })
-      .addCase(addCompany.rejected, (state, actions) => {
+      .addCase(addProducts.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });
     builder
-      .addCase(getCompany.pending, (state) => {
+      .addCase(getProducts.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getCompany.fulfilled, (state, actions) => {
+      .addCase(getProducts.fulfilled, (state, actions) => {
         state.loading = false;
         state.error = "";
         state.data = actions.payload;
       })
-      .addCase(getCompany.rejected, (state, actions) => {
+      .addCase(getProducts.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });
     builder
-      .addCase(getCompanyById.pending, (state) => {
+      .addCase(getProductsById.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getCompanyById.fulfilled, (state, actions) => {
+      .addCase(getProductsById.fulfilled, (state, actions) => {
         state.loading = false;
         state.error = "";
         state.form = actions.payload;
-        state.form.foundingDate = new Date(actions.payload.foundingDate)
+        state.form.expiry = new Date(actions?.payload?.expiry)
           .toISOString()
           .split("T")[0];
+        state.form.companyId = actions.payload.company?.id || '0';
       })
-      .addCase(getCompanyById.rejected, (state, actions) => {
+      .addCase(getProductsById.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });
     builder
-      .addCase(deleteCompany.pending, (state) => {
+      .addCase(deleteProducts.pending, (state) => {
         state.loading = true;
       })
-      .addCase(deleteCompany.fulfilled, (state) => {
+      .addCase(deleteProducts.fulfilled, (state) => {
         state.loading = false;
         state.error = "";
       })
-      .addCase(deleteCompany.rejected, (state, actions) => {
+      .addCase(deleteProducts.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });
   },
 });
 
-export const { setState, setFormState, resetState } = comapnySline.actions;
+export const { setState, setFormState, resetState } = productsSlice.actions;
 
-export default comapnySline.reducer;
+export default productsSlice.reducer;
