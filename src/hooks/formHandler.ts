@@ -64,7 +64,6 @@ export const useFormHandler = <
   };
   useEffect(() => {
     if (id &&  id != 'add' && getDataById) {
-      console.log('id', id)
       dispatch(getDataById(id));
     }
   }, [id, getDataById, dispatch]);
