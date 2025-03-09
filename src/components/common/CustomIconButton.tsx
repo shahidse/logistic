@@ -4,10 +4,13 @@ type CustomIconButtonProps = {
     handle: () => void;
     children: React.ReactNode;
     color?: any;
+    className?: string
 }
-function CustomIconButton({ handle, color = 'primary', children }: CustomIconButtonProps) {
+function CustomIconButton({ handle, color = 'primary', children, className }: CustomIconButtonProps) {
     return (
-        <IconButton onClick={handle} color={color}>
+        <IconButton onClick={handle} color={color} className={
+            className
+        }>
             {children}
         </IconButton >
     )

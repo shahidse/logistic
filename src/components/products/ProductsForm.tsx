@@ -57,7 +57,7 @@ function ProductsForm({ id }: { id: string }) {
     }, [dispatch])
     return (
         <Box  >
-            <CustomForm onSubmit={handleSubmit} className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px]'>
+            <CustomForm onSubmit={handleSubmit} className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background'>
                 <CustomInput name='name' onChange={handleChange} value={name} fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
                 <CustomInput name='companyId' onChange={handleChange} value={companyId} fullWidth={false} className=' md:w-[450px]' label='Product Company' sx={styles} select options={formattedData} />
                 <CustomInput name='saleCurrency' onChange={handleChange} value={saleCurrency} fullWidth={false} className=' md:w-[250px]' label='Sale Currency' sx={styles} select options={currencyArray} />

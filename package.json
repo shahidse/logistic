@@ -16,6 +16,7 @@
     "@mui/x-charts": "^7.24.1",
     "@reduxjs/toolkit": "^2.5.1",
     "countries-list": "^3.1.1",
+    "framer-motion": "^12.4.10",
     "next": "15.1.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

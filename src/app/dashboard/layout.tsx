@@ -5,17 +5,17 @@ import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { Home, Person, Settings, BarChart, Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 import Footer from '@/components/common/Footer';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function DashboardLayout({ children }: { children: React.JSX.Element }) {
     const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null); // For user menu
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    // User menu handlers
     const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -70,52 +70,44 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
             <Box className="flex flex-1 p-2">
                 {/* Sidebar */}
                 <aside
-                    className={`fixed md:relative md:block md:w-64 text-lightText p-2 bg-gradient-to-r from-secondary to-surface rounded-md transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                        } md:translate-x-0 z-50 h-[85%] md:h-auto`}
+                    className={`fixed md:relative md:block md:w-64 text-lightText p-2 bg-gradient-to-r from-secondary to-surface rounded-md transform transition-transform duration-300 ease-in-out ${
+                        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                    } md:translate-x-0 z-50 h-[85%] md:h-auto`}
                 >
                     <nav className="flex flex-col space-y-4 h-1/2 rounded-md">
-                        <Link
-                            href="/dashboard"
-                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard' ? 'bg-action' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
-                                }`}
-                        >
-                            <Home className="mr-2" /> Home
-                        </Link>
-                        <Link
-                            href="/dashboard/company"
-                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/company' ? 'bg-action' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
-                                }`}
-                        >
-                            <Person className="mr-2" /> Company
-                        </Link>
-                        <Link
-                            href="/dashboard/products"
-                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/products' ? 'bg-action' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
-                                }`}
-                        >
-                            <Person className="mr-2" /> Products
-                        </Link>
-                        <Link
-                            href="/dashboard/sales"
-                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/settings' ? 'bg-secondary' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
-                                }`}
-                        >
-                            <Settings className="mr-2" /> Sales
-                        </Link>
-                        <Link
-                            href="/dashboard/reports"
-                            className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === '/dashboard/reports' ? 'bg-secondary' : 'hover:bg-action hover:translate-x-2 hover:translate-y-2 bg-foreground'
-                                }`}
-                        >
-                            <BarChart className="mr-2" /> Reports
-                        </Link>
+                        {[
+                            { name: 'Home', path: '/dashboard', icon: <Home /> },
+                            { name: 'Company', path: '/dashboard/company', icon: <Person /> },
+                            { name: 'Products', path: '/dashboard/products', icon: <Person /> },
+                            { name: 'Sales', path: '/dashboard/sales', icon: <Settings /> },
+                            { name: 'Reports', path: '/dashboard/reports', icon: <BarChart /> },
+                        ].map((item, index) => (
+                            <Link key={index} href={item.path} passHref>
+                                <motion.div
+                                    className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${
+                                        pathname === item.path ? 'bg-action' : 'hover:bg-action bg-foreground'
+                                    }`}
+                                    whileHover={{ scale: 1.05, x: 5 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    {item.icon} <span className="ml-2">{item.name}</span>
+                                </motion.div>
+                            </Link>
+                        ))}
                     </nav>
                 </aside>
 
-                {/* Main Content Area */}
-                <main className="flex-1 p-4 md:p-8 bg-surface overflow-auto rounded-md">
-                    {children}
-                </main>
+                {/* Animated Main Content */}
+                <motion.main
+                    className="flex-1 p-4 md:p-8 bg-surface overflow-auto rounded-md"
+                    key={pathname}
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -50 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <AnimatePresence mode="wait">{children}</AnimatePresence>
+                </motion.main>
             </Box>
 
             {/* Footer */}
