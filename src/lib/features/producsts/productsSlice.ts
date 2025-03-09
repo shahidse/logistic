@@ -40,7 +40,7 @@ const initialState: InitialState = {
     purchaseCurrency: "",
     unit: "",
     purchasePrice: 0,
-    quantities: "",
+    quantities: '0',
     netPurchasePrice: 0,
     netSalePrice: 0,
     expiry: new Date().toISOString().split("T")[0], // or new Date() if you want to set it to the current date

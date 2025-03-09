@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
-import { ActionCreatorWithPayload, AsyncThunk } from "@reduxjs/toolkit";
+import {
+  ActionCreator,
+  ActionCreatorWithPayload,
+  AsyncThunk,
+} from "@reduxjs/toolkit";
 import { useSnackbar } from "@/components/common/SnakeBarProvider";
-import { resetState } from "@/lib/features/company/comapanySlice";
 
 interface UseFormHandlerProps<T, K extends keyof T, V> {
   sliceKey: string; // Define which part of the state to manage
@@ -12,6 +15,7 @@ interface UseFormHandlerProps<T, K extends keyof T, V> {
   setFormState: ActionCreatorWithPayload<{ key: K; value: V }>; // Action creator to set form state
   getDataById?: AsyncThunk<any, string, {}>; // Optional async thunk action to fetch data by ID
   id?: string; // Optional ID for fetching data
+  resetState?: ActionCreator<any>;
 }
 
 export const useFormHandler = <
@@ -25,6 +29,7 @@ export const useFormHandler = <
   setFormState,
   getDataById,
   id,
+  resetState = () => {},
 }: UseFormHandlerProps<T, K, V>) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -52,8 +57,8 @@ export const useFormHandler = <
       .then((res) => {
         if (res.type.endsWith("/fulfilled")) {
           showSnackbar("Form submitted successfully!", "success");
-          dispatch(resetState())
-          router.push("/dashboard/" + redirectPath); 
+          resetState();
+          router.push("/dashboard/" + redirectPath);
         } else if (res.type.endsWith("/rejected")) {
           showSnackbar(error || "Submission failed!", "error");
         }
@@ -63,7 +68,7 @@ export const useFormHandler = <
       });
   };
   useEffect(() => {
-    if (id &&  id != 'add' && getDataById) {
+    if (id && id != "add" && getDataById) {
       dispatch(getDataById(id));
     }
   }, [id, getDataById, dispatch]);

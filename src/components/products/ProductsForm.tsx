@@ -7,7 +7,7 @@ import ButtonStack from '../common/ButtonStack'
 import CustomButton from '../common/CustomeButton'
 import { currencyArray, productsUnits } from '@/constants'
 import { addProducts, getProductsById } from '@/lib/features/producsts/productsThunk'
-import { setFormState } from '@/lib/features/producsts/productsSlice'
+import { resetState, setFormState } from '@/lib/features/producsts/productsSlice'
 import { useFormHandler } from '@/hooks/formHandler'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { getCompany } from '@/lib/features/company/comapanyThunk'
@@ -20,6 +20,7 @@ function ProductsForm({ id }: { id: string }) {
         setFormState,
         getDataById: getProductsById,
         id,
+        resetState: resetState
     });
     const { name, companyId, saleCurrency, purchaseCurrency, unit, purchasePrice, salePrice, quantities, netPurchasePrice, expiry, pros, cons, usage, description, netSalePrice } = form;
     const dispatch = useAppDispatch()
@@ -31,9 +32,7 @@ function ProductsForm({ id }: { id: string }) {
                 value: rest?.id,
             }))
             : [];
-
         formatted.push({ value: 0, label: "Other" }); // Always add "Other"
-
         return formatted;
     }, [data]);
     const styles = {
