@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import CustomIconButton from './CustomIconButton';
 import { KeyboardArrowRight } from '@mui/icons-material';
+import CustomPieCahrt from './CustomPieChart';
 
 const cards = [
   {
@@ -65,8 +66,8 @@ function SelectActionCard() {
       sx={{
         // width: '100%',
         display: 'flex',
-        flexWrap:'wrap',
-        justifyContent:'flex-start',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start',
         gap: 4,
       }}
     >
@@ -97,14 +98,14 @@ function SelectActionCard() {
                 color: card.textColor
               }}>
                 {card.title}
-                <CustomIconButton handle={handleArrow} ><KeyboardArrowRight  sx={{
+                <CustomIconButton handle={handleArrow} ><KeyboardArrowRight sx={{
                   color: card.arrow,
-                  fontSize:"40px"
+                  fontSize: "40px"
                 }}></KeyboardArrowRight></CustomIconButton>
               </Typography>
               <Typography variant="body1" color="text.secondary">
                 {card.description}
-                {card.description}
+                <CustomPieCahrt width={100} height={ 100} />
               </Typography>
             </CardContent>
           </CardActionArea>

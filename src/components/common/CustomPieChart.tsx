@@ -1,7 +1,13 @@
 import * as React from 'react';
 import { PieChart } from '@mui/x-charts/PieChart';
-
-export default function CustomPieCahrt() {
+type Props = {
+  width?: number,
+  height?: number
+}
+export default function CustomPieCahrt({
+  width = 400,
+  height = 200
+}: Props) {
   return (
     <PieChart
       series={[
@@ -13,8 +19,8 @@ export default function CustomPieCahrt() {
           ],
         },
       ]}
-      width={400}
-      height={200}
+      width={width}
+      height={height}
     />
   );
 }
