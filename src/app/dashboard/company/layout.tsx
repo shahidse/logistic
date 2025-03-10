@@ -26,6 +26,7 @@ function CompanyLayout({ children }: { children: React.JSX.Element }) {
     const handleBack = () => {
         router.back()
     }
+    const safeId = typeof id === 'string' ? id : undefined;
 
     return (
         <motion.div
@@ -76,7 +77,7 @@ function CompanyLayout({ children }: { children: React.JSX.Element }) {
             {/* Animated Children (Page Content) */}
             <AnimatePresence mode="wait">
                 <motion.div
-                    key={id}
+                    key={safeId}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.9 }}

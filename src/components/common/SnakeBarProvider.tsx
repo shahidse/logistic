@@ -1,7 +1,7 @@
 'use client'
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, } from 'react';
 import { Snackbar, SxProps } from '@mui/material';
-import { Error, CheckCircle, Info, Warning } from '@mui/icons-material';
+import { Error as ErrorBoundary, CheckCircle, Info, Warning } from '@mui/icons-material';
 
 interface SnackbarContextType {
     showSnackbar: (message: string, severity: 'error' | 'success' | 'info' | 'warning') => void;
@@ -74,7 +74,7 @@ export const SnackbarProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const getSeverityIcon = () => {
         switch (severity) {
             case 'error':
-                return <Error sx={{ color: 'inherit', marginRight: '8px' }} />;
+                return <ErrorBoundary sx={{ color: 'inherit', marginRight: '8px' }} />;
             case 'success':
                 return <CheckCircle sx={{ color: 'inherit', marginRight: '8px' }} />;
             case 'info':
