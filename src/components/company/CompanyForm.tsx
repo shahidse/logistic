@@ -4,20 +4,21 @@ import CustomButton from '@/components/common/CustomeButton'
 import CustomForm from '@/components/common/CustomForm'
 import CustomInput from '@/components/common/CustomInput'
 import { countriesArray } from '@/constants'
-import { setFormState } from '@/lib/features/company/comapanySlice'
+import { setFormState, resetState } from '@/lib/features/company/comapanySlice';
 import { addCompany } from '@/lib/features/company/comapanyThunk'
 import { Box } from '@mui/material'
 import React from 'react'
 import { useFormHandler } from '@/hooks/formHandler'
 import { getCompanyById } from '../../lib/features/company/comapanyThunk';
 function CompanyForm({ id }: { id: string }) {
-    const { form, loading, handleSubmit, handleChange, } = useFormHandler({
+    const { form, loading, handleSubmit, handleChange, handleReset } = useFormHandler({
         sliceKey: "company",
         submitAction: addCompany,
         redirectPath: "company",
         setFormState,
         getDataById: getCompanyById,
         id,
+        resetState
     });
     const { name, address, phone, foundingDate, country, city, website } = form;
     const styles = {
@@ -39,7 +40,7 @@ function CompanyForm({ id }: { id: string }) {
     }
     return (
         <Box className='' >
-            <CustomForm onSubmit={handleSubmit} className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background'>
+            <CustomForm onSubmit={handleSubmit} onReset={handleReset} className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background'>
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={name} name='name' label='Company Name' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={address} name='address' required={false} label='Comapnay Address' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={phone} name='phone' required={false} label='Comapny Phone' sx={styles} />
@@ -50,7 +51,7 @@ function CompanyForm({ id }: { id: string }) {
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={website} name='website' required={false} label='Website Url' type='url' sx={styles} />
                 <ButtonStack className='flex justify-end w-full pt-4'>
                     <Box className=" flex justify-between gap-4 w-[450px] mr-24">
-                        <CustomButton className='flex ' variant='outlined' sx={{ backgroundColor: "transparent" }}>
+                        <CustomButton className='flex ' variant='outlined' sx={{ backgroundColor: "transparent" }} type='reset'>
                             Cancel
                         </CustomButton>
                         <CustomButton loading={loading} className='flex  ' sx={{ backgroundColor: "var(--info) " }} type='submit'>

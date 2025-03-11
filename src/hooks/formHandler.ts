@@ -67,10 +67,14 @@ export const useFormHandler = <
         showSnackbar(err.message, "error");
       });
   };
+  const handleReset = (e: React.FormEvent<HTMLFormElement>) => {
+    e.currentTarget.reset();
+    dispatch(resetState());
+  };
   useEffect(() => {
     if (id && id != "add" && getDataById) {
       dispatch(getDataById(id));
     }
   }, [id, getDataById, dispatch]);
-  return { form, loading, error, handleChange, handleSubmit };
+  return { form, loading, error, handleChange, handleSubmit, handleReset };
 };

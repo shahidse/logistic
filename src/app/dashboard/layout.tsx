@@ -2,8 +2,8 @@
 import { Box, Menu, MenuItem, Avatar, IconButton, Typography } from '@mui/material';
 import Link from 'next/link';
 import React, { useState } from 'react';
-import { usePathname } from 'next/navigation';
-import { Home, Person, Settings, BarChart, Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+import { usePathname, useRouter } from 'next/navigation';
+import { Home, Person, Settings, BarChart, Menu as MenuIcon, Close as CloseIcon, People, LogoutOutlined } from '@mui/icons-material';
 import Footer from '@/components/common/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -11,7 +11,7 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
     const pathname = usePathname();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
+    const router = useRouter()
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
@@ -23,7 +23,18 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
     const handleMenuClose = () => {
         setAnchorEl(null);
     };
+    const handleProfile = () => {
+        console.log('helasljdfaskldjf')
+    }
+    const handleSettings = () => {
 
+    }
+    const handleSignout = () => {
+        const promptMessage = confirm('Are you sure?')
+        if (promptMessage) {
+            router.push('/')
+        }
+    }
     return (
         <Box className="flex flex-col min-h-screen">
             {/* Header */}
@@ -49,18 +60,18 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
                         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                     >
-                        <MenuItem onClick={handleMenuClose}>
-                            <Link href="/dashboard/profile" className="flex items-center">
-                                <Person className="mr-2" /> Profile
+                        <MenuItem onClick={handleProfile}>
+                            <Link href="/dashboard/users" className="flex items-center">
+                                <Person className="mr-2" color='primary' /> Profile
                             </Link>
                         </MenuItem>
-                        <MenuItem onClick={handleMenuClose}>
+                        <MenuItem onClick={handleSettings}>
                             <Link href="/dashboard/settings" className="flex items-center">
-                                <Settings className="mr-2" /> Settings
+                                <Settings className="mr-2" color='secondary'/> Settings
                             </Link>
                         </MenuItem>
-                        <MenuItem onClick={handleMenuClose}>
-                            <Typography>Logout</Typography>
+                        <MenuItem onClick={handleSignout}>
+                            <Typography><LogoutOutlined color='error' className="mr-2"/> Logout</Typography>
                         </MenuItem>
                     </Menu>
                 </div>
@@ -70,9 +81,8 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
             <Box className="flex flex-1 p-2">
                 {/* Sidebar */}
                 <aside
-                    className={`fixed md:relative md:block md:w-64 text-lightText p-2 bg-gradient-to-r from-secondary to-surface rounded-md transform transition-transform duration-300 ease-in-out ${
-                        isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-                    } md:translate-x-0 z-50 h-[85%] md:h-auto`}
+                    className={`fixed md:relative md:block md:w-64 text-lightText p-2 bg-gradient-to-r from-secondary to-surface rounded-md transform transition-transform duration-300 ease-in-out ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+                        } md:translate-x-0 z-50 h-[85%] md:h-auto`}
                 >
                     <nav className="flex flex-col space-y-4 h-1/2 rounded-md">
                         {[
@@ -80,13 +90,13 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
                             { name: 'Company', path: '/dashboard/company', icon: <Person /> },
                             { name: 'Products', path: '/dashboard/products', icon: <Person /> },
                             { name: 'Sales', path: '/dashboard/sales', icon: <Settings /> },
+                            { name: 'Clients', path: '/dashboard/clients', icon: <People /> },
                             { name: 'Reports', path: '/dashboard/reports', icon: <BarChart /> },
                         ].map((item, index) => (
                             <Link key={index} href={item.path} passHref>
                                 <motion.div
-                                    className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${
-                                        pathname === item.path ? 'bg-action' : 'hover:bg-action bg-foreground'
-                                    }`}
+                                    className={`shadow-md flex items-center h-12 rounded-md p-3 font-semibold ${pathname === item.path ? 'bg-action' : 'hover:bg-action bg-foreground'
+                                        }`}
                                     whileHover={{ scale: 1.05, x: 5 }}
                                     transition={{ duration: 0.3 }}
                                 >

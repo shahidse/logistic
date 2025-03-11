@@ -1,17 +1,16 @@
 'use client';
+import React from 'react'
 import ActionBar from '@/components/common/ActionBar'
 import ButtonStack from '@/components/common/ButtonStack'
 import CustomButton from '@/components/common/CustomeButton'
 import { Add, ArrowBack } from '@mui/icons-material'
 import { Box } from '@mui/material'
 import { useParams, useRouter } from 'next/navigation'
-import React from 'react'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { resetState } from '@/lib/features/company/comapanySlice';
 import CustomIconButton from '@/components/common/CustomIconButton';
 import { motion, AnimatePresence } from 'framer-motion';
-
-function CompanyLayout({ children }: { children: React.JSX.Element }) {
+function ClientLayout({ children }: { children: React.JSX.Element }) {
     const router = useRouter()
     const param = useParams()
     const { id } = param
@@ -20,7 +19,7 @@ function CompanyLayout({ children }: { children: React.JSX.Element }) {
 
     const handleAddProduct = () => {
         dispatch(resetState())
-        router.push('/dashboard/company/add')
+        router.push('/dashboard/clients/add')
     }
 
     const handleBack = () => {
@@ -51,7 +50,7 @@ function CompanyLayout({ children }: { children: React.JSX.Element }) {
                                         <CustomIconButton handle={handleBack}>
                                             <ArrowBack />
                                         </CustomIconButton>
-                                        Add New Company
+                                        Add New Client
                                     </>
                                 ) : id ? `Edit ${name}` : ''}
                             </Box>
@@ -66,7 +65,7 @@ function CompanyLayout({ children }: { children: React.JSX.Element }) {
                                     onClick={handleAddProduct}
                                     sx={{ backgroundColor: id !== 'add' ? 'var(--success)' : 'var(--action)' }}
                                 >
-                                    Add New Company
+                                    Add New Client
                                 </CustomButton>
                             </motion.div>
                         </>
@@ -88,6 +87,7 @@ function CompanyLayout({ children }: { children: React.JSX.Element }) {
             </AnimatePresence>
         </motion.div>
     )
+
 }
 
-export default CompanyLayout
+export default ClientLayout
