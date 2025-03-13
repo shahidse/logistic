@@ -25,6 +25,9 @@ export default {
         lightSuccess: "var(--lightSuccess)",
         lightWarning: "var(--lightWarning)",
         lightInfo: "var(--lightInfo)",
+        inputBackground: "var(--inputBackground)",
+        inputBorder: "var(--inputBorder)",
+        formBackground:'var(--formBackground)'
       },
     },
   },

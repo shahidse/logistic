@@ -16,9 +16,12 @@
   --gradientBg: linear-gradient(to right, #ff7e5f, #feb47b);
   --action: #ff8225;
   --lightError: rgba(224, 201, 198, 0.527);
-  --lightSuccess:rgba(51, 118, 30, 0.5);
+  --lightSuccess: rgba(51, 118, 30, 0.5);
   --lightWarning: rgba(120, 90, 30, 0.7);
   --lightInfo: rgba(134, 206, 230, 0.558);
+  --inputBackground: rgba(154, 185, 205, 0.5);
+  --inputBorder: rgba(154, 185, 205, 0.6);
+  --formBackground: rgba(240, 211, 17, 0.1);
 }
 @media (prefers-color-scheme: dark) {
   :root {

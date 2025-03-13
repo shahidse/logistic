@@ -16,6 +16,18 @@ export interface InitialState {
     email: string;
     password: string;
   };
+  form: {
+    email: string;
+    fullName: string;
+    password: string;
+    confirmPassword: string;
+    userName: string;
+    dob: string;
+    address: string;
+    city: string;
+    country: string;
+    role: number;
+  };
 }
 const initialState: InitialState = {
   loading: false,
@@ -32,6 +44,18 @@ const initialState: InitialState = {
   signInForm: {
     email: "",
     password: "",
+  },
+  form: {
+    email: "",
+    fullName: "",
+    password: "",
+    confirmPassword: "",
+    userName: "",
+    dob: "",
+    address: "",
+    city: "",
+    country: "",
+    role: 0,
   },
 };
 
@@ -69,8 +93,21 @@ export const usersSlice = createSlice({
       const { key, value } = action.payload;
       state.signInForm[key] = value;
     },
+    setClientFormState: (
+      state,
+      action: PayloadAction<{
+        key: keyof InitialState["form"];
+        value: string;
+      }>
+    ) => {
+      const { key, value } = action.payload;
+      state.form[key] = value;
+    },
     resetState: (state) => {
       return { ...initialState }; // Spread the initialState to reset all fields
+    },
+    resetClientForm: (state) => {
+      return { ...state, clientForm: initialState.clientForm };
     },
   },
   extraReducers: (builder) => {
@@ -120,7 +157,7 @@ export const usersSlice = createSlice({
   },
 });
 
-export const { setState, setSignUpFormState, setSignInFormState } =
+export const { setState, setSignUpFormState, setSignInFormState, resetClientForm, setClientFormState } =
   usersSlice.actions;
 
 export default usersSlice.reducer;

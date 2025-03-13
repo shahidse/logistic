@@ -45,11 +45,12 @@ function ProductsForm({ id }: { id: string }) {
         },
         '& label.Mui-focused': { color: 'var(--foreground)' }, // Label color on focus
         '& .MuiOutlinedInput-root': {
+            '& fieldset':{borderColor: 'var(--inputBorder)'},
             '&:hover fieldset': { borderColor: 'var(--foreground)' }, // Border color on hover
             '&.Mui-focused fieldset': { borderColor: 'var(--foreground)' }, // Border color on focus
         },
         '& .MuiInputBase-input': {
-            color: 'var(--lightText)', // Text color inside input
+            color: 'var(--info)', // Text color inside input
         },
     }
     useEffect(() => {

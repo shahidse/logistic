@@ -1,3 +1,4 @@
+import ClientsForm from '@/components/clients/ClientsForm';
 import React from 'react'
 export interface ProductPageProps {
     params: any; // params contain the dynamic route
@@ -6,8 +7,7 @@ export interface ProductPageProps {
 async function page({ params }: ProductPageProps) {
     const { id } = await params;
     return (
-        <div>
-            No data available        </div>
+        <ClientsForm />
     )
 }
 
