@@ -5,24 +5,23 @@ import CustomForm from '@/components/common/CustomForm'
 import CustomInput from '@/components/common/CustomInput'
 import { countriesArray } from '@/constants'
 import { setClientFormState, resetClientForm } from '@/lib/features/users/usersSlice';
-import { addCompany } from '@/lib/features/company/comapanyThunk'
 import { Box } from '@mui/material'
 import React from 'react'
 import { useFormHandler } from '@/hooks/formHandler'
-import { getCompanyById } from '../../lib/features/company/comapanyThunk';
+import { createClient, getClientById } from '@/lib/features/users/usersThunk'
 function ClientsForm({ id }: { id: string }) {
     const { form, loading, handleSubmit, handleChange, handleReset } = useFormHandler({
         sliceKey: "users",
-        submitAction: addCompany,
+        submitAction: createClient,
         redirectPath: "clients",
         setFormState:setClientFormState,
-        getDataById: getCompanyById,
+        getDataById: getClientById,
         id,
         resetState:resetClientForm
     });
-    const { fullName, address, phone, dob, country, city, email, userName, profilePic } = form;
+    const { fullName, address, phone, dob, country, city, email, userName, profilePic, role } = form;
     const styles = {
-        '& label': { color: 'var(--foreground)' }, // Default label color
+        '& label': { color: 'var(--secondary)' }, // Default label color
         '& .MuiInputLabel-asterisk': {
             color: 'red',
             fontSize: '1.2rem',
@@ -32,7 +31,7 @@ function ClientsForm({ id }: { id: string }) {
         '& label.Mui-focused': { color: 'var(--foreground)' }, // Label color on focus
         '& .MuiOutlinedInput-root': {
             '& fieldset': { borderColor: 'var(--inputBorder)' },
-            '&:hover fieldset': { borderColor: 'var(--inputBorder)' }, // Border color on hover
+            '&:hover fieldset': { borderColor: 'var(--info)' }, // Border color on hover
             '&.Mui-focused fieldset': { borderColor: 'var(--secondary)' }, // Border color on focus
         },
         '& .MuiInputBase-input': {
@@ -42,10 +41,10 @@ function ClientsForm({ id }: { id: string }) {
     return (
         <Box className='' >
             <CustomForm onSubmit={handleSubmit} onReset={handleReset} className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background '>
-                {/* <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={role} name='fullName' label='Role' sx={styles} /> */}
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={role} name='fullName' label='Role' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px] border-inputBorder' value={fullName} name='fullName' label='Client Name' sx={styles} />
-                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={email} name='fullName' label='Client Email' sx={styles} />
-                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={userName} name='fullName' label='Client UserName' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={email} name='email' label='Client Email' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={userName} name='userName' label='Client UserName' sx={styles} />
 
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={phone} name='phone' required={false} label='Client Phone' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={address} name='address' required={false} label='Client Street Address' sx={styles} />

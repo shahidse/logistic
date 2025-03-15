@@ -1,5 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getSecretToken, signin, signup } from "./usersThunk";
+import {
+  createClient,
+  deleteClient,
+  getClient,
+  getClientById,
+  getSecretToken,
+  signin,
+  signup,
+  updateClient,
+} from "./usersThunk";
 export interface InitialState {
   loading: boolean;
   secret: string;
@@ -107,7 +116,7 @@ export const usersSlice = createSlice({
       return { ...initialState }; // Spread the initialState to reset all fields
     },
     resetClientForm: (state) => {
-      return { ...state, clientForm: initialState.clientForm };
+      return { ...state, form: initialState.form };
     },
   },
   extraReducers: (builder) => {
@@ -154,10 +163,75 @@ export const usersSlice = createSlice({
         state.loading = false;
         state.error = actions.payload as string;
       });
+    builder
+      .addCase(createClient.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createClient.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(createClient.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(updateClient.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateClient.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(updateClient.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(getClient.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getClient.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(getClient.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(getClientById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getClientById.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(getClientById.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(deleteClient.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteClient.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+      })
+      .addCase(deleteClient.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
   },
 });
 
-export const { setState, setSignUpFormState, setSignInFormState, resetClientForm, setClientFormState } =
-  usersSlice.actions;
+export const {
+  setState,
+  setSignUpFormState,
+  setSignInFormState,
+  resetClientForm,
+  setClientFormState,
+} = usersSlice.actions;
 
 export default usersSlice.reducer;

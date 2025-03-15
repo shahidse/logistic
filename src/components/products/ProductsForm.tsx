@@ -36,7 +36,7 @@ function ProductsForm({ id }: { id: string }) {
         return formatted;
     }, [data]);
     const styles = {
-        '& label': { color: 'var(--foreground)' }, // Default label color
+        '& label': { color: 'var(--secondary)' }, // Default label color
         '& .MuiInputLabel-asterisk': {
             color: 'red',
             fontSize: '1.2rem',

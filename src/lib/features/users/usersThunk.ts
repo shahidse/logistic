@@ -31,10 +31,86 @@ export const signup = createAsyncThunk(
 );
 export const signin = createAsyncThunk(
   "user/signin",
-  async (userData: InitialState['signInForm'], { rejectWithValue }) => {
+  async (userData: InitialState["signInForm"], { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("token");
       const response = await UserApiService.getInstance().logIn(userData, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const createClient = createAsyncThunk(
+  "clients/create",
+  async (userData: InitialState["form"], { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().createClient(
+        userData,
+        {
+          headers: { authorization: `Bearer ${token}` },
+        }
+      );
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const updateClient = createAsyncThunk(
+  "clients/update",
+  async (userData: InitialState["form"], { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().updateClient(
+        userData,
+        {
+          headers: { authorization: `Bearer ${token}` },
+        }
+      );
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const getClient = createAsyncThunk(
+  "clients/get",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().getClients({
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const getClientById = createAsyncThunk(
+  "clients/get/id",
+  async (id: any, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().getClientById(id, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const deleteClient = createAsyncThunk(
+  "clients/delete",
+  async (id: any, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().deleteClient(id, {
         headers: { authorization: `Bearer ${token}` },
       });
       return await response;

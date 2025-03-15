@@ -20,4 +20,19 @@ export class UserApiService extends BaseApiService {
   async logIn(data: any, options?: RequestInit) {
     return await this.post("users/login", data, options);
   }
+  async createClient(data: any, options?: RequestInit) {
+    return await this.post(`clients`, data, options);
+  }
+  async getClients(data: any, options?: RequestInit) {
+    return await this.get(`clients`, options);
+  }
+  async updateClient(id: any, data: any, options?: RequestInit) {
+    return await this.put(`clients/${id}`, data, options);
+  }
+  async deleteClient(id: any, options?: RequestInit) {
+    return await this.delete(`clients/${id}`, data);
+  }
+  async getClientById(id: any, options?: RequestInit) {
+    return await this.get(`clients/${id}`, options);
+  }
 }

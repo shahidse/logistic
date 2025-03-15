@@ -22,7 +22,7 @@ function CompanyForm({ id }: { id: string }) {
     });
     const { name, address, phone, foundingDate, country, city, website } = form;
     const styles = {
-        '& label': { color: 'var(--foreground)' }, // Default label color
+        '& label': { color: 'var(--secondary)' }, // Default label color
         '& .MuiInputLabel-asterisk': {
             color: 'red',
             fontSize: '1.2rem',

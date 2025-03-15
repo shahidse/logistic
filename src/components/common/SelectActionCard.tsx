@@ -105,6 +105,7 @@ function SelectActionCard() {
               </Typography>
               <Typography variant="body1" color="text.secondary">
                 {card.description}
+                {card.description}
                 <CustomPieCahrt width={100} height={ 100} />
               </Typography>
             </CardContent>
