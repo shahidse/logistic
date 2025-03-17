@@ -32,7 +32,7 @@ function ProductsForm({ id }: { id: string }) {
                 value: rest?.id,
             }))
             : [];
-        formatted.push({ value: 0, label: "Other" }); // Always add "Other"
+        formatted.push({ value: 0, label: "Other" }); 
         return formatted;
     }, [data]);
     const styles = {

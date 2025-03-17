@@ -119,3 +119,17 @@ export const deleteClient = createAsyncThunk(
     }
   }
 );
+export const getRoles = createAsyncThunk(
+  "users/roles",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().getRoles({
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

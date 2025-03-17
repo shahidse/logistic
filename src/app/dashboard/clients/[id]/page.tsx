@@ -7,7 +7,7 @@ export interface ProductPageProps {
 async function page({ params }: ProductPageProps) {
     const { id } = await params;
     return (
-        <ClientsForm />
+        <ClientsForm id={id} />
     )
 }
 

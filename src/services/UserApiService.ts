@@ -1,5 +1,4 @@
 import { BaseApiService } from "./BaseApiService";
-
 export class UserApiService extends BaseApiService {
   constructor(apiUrl?: string) {
     super(apiUrl);
@@ -23,16 +22,19 @@ export class UserApiService extends BaseApiService {
   async createClient(data: any, options?: RequestInit) {
     return await this.post(`clients`, data, options);
   }
-  async getClients(data: any, options?: RequestInit) {
+  async getClients(options?: RequestInit) {
     return await this.get(`clients`, options);
   }
   async updateClient(id: any, data: any, options?: RequestInit) {
     return await this.put(`clients/${id}`, data, options);
   }
   async deleteClient(id: any, options?: RequestInit) {
-    return await this.delete(`clients/${id}`, data);
+    return await this.delete(`clients/${id}`, options);
   }
   async getClientById(id: any, options?: RequestInit) {
     return await this.get(`clients/${id}`, options);
+  }
+  async getRoles(options?: RequestInit) {
+    return await this.get("users/roles", options);
   }
 }

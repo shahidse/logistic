@@ -4,6 +4,7 @@ import {
   deleteClient,
   getClient,
   getClientById,
+  getRoles,
   getSecretToken,
   signin,
   signup,
@@ -35,8 +36,11 @@ export interface InitialState {
     address: string;
     city: string;
     country: string;
-    role: number;
+    rolesId: string;
+    phone: number;
   };
+  roles: any;
+  data: any;
 }
 const initialState: InitialState = {
   loading: false,
@@ -64,8 +68,11 @@ const initialState: InitialState = {
     address: "",
     city: "",
     country: "",
-    role: 0,
+    rolesId: "",
+    phone: 0,
   },
+  roles: [],
+  data: [],
 };
 
 export const usersSlice = createSlice({
@@ -194,6 +201,7 @@ export const usersSlice = createSlice({
       .addCase(getClient.fulfilled, (state, actions) => {
         state.loading = false;
         state.error = "";
+        state.data = actions.payload;
       })
       .addCase(getClient.rejected, (state, actions) => {
         state.loading = false;
@@ -206,6 +214,8 @@ export const usersSlice = createSlice({
       .addCase(getClientById.fulfilled, (state, actions) => {
         state.loading = false;
         state.error = "";
+        state.form = actions.payload;
+        state.form.rolesId = String(actions.payload?.roles?.id) || "";
       })
       .addCase(getClientById.rejected, (state, actions) => {
         state.loading = false;
@@ -220,6 +230,19 @@ export const usersSlice = createSlice({
         state.error = "";
       })
       .addCase(deleteClient.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(getRoles.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getRoles.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+        state.roles = actions.payload;
+      })
+      .addCase(getRoles.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });

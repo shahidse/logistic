@@ -6,20 +6,30 @@ import CustomInput from '@/components/common/CustomInput'
 import { countriesArray } from '@/constants'
 import { setClientFormState, resetClientForm } from '@/lib/features/users/usersSlice';
 import { Box } from '@mui/material'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useFormHandler } from '@/hooks/formHandler'
-import { createClient, getClientById } from '@/lib/features/users/usersThunk'
+import { createClient, getClientById, getRoles } from '@/lib/features/users/usersThunk'
+import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 function ClientsForm({ id }: { id: string }) {
     const { form, loading, handleSubmit, handleChange, handleReset } = useFormHandler({
         sliceKey: "users",
         submitAction: createClient,
         redirectPath: "clients",
-        setFormState:setClientFormState,
+        setFormState: setClientFormState,
         getDataById: getClientById,
         id,
-        resetState:resetClientForm
+        resetState: resetClientForm
     });
-    const { fullName, address, phone, dob, country, city, email, userName, profilePic, role } = form;
+    const { fullName, address, phone, dob, country, city, email, userName, rolesId , password, confirmPassword} = form;
+    const dispatch = useAppDispatch()
+    const { roles } = useAppSelector((state) => state.users)
+    const formattedData: [] = React.useMemo(() => {
+        if (!roles || !roles.length) return [{ value: 0, label: "Other" }]; // Fallback to "Other" if no roles
+        return roles?.filter((role) => role.role == 'Client').map(({ ...rest }) => ({
+            label: rest?.role,
+            value: rest?.id,
+        }));
+    }, [roles]);
     const styles = {
         '& label': { color: 'var(--secondary)' }, // Default label color
         '& .MuiInputLabel-asterisk': {
@@ -38,14 +48,18 @@ function ClientsForm({ id }: { id: string }) {
             color: 'var(--info)', // Text color inside input
         },
     }
+    useEffect(() => {
+        dispatch(getRoles())
+    }, [dispatch])
     return (
         <Box className='' >
             <CustomForm onSubmit={handleSubmit} onReset={handleReset} className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background '>
-                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={role} name='fullName' label='Role' sx={styles} />
-                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px] border-inputBorder' value={fullName} name='fullName' label='Client Name' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={rolesId} name='rolesId' label='Role' sx={styles} select options={formattedData} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={fullName} name='fullName' label='Client Name' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={email} name='email' label='Client Email' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={userName} name='userName' label='Client UserName' sx={styles} />
-
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={password} name='password' label='Client Password' sx={styles} /> 
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={confirmPassword} name='confirmPassword' label='Client Confirm Password' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={phone} name='phone' required={false} label='Client Phone' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={address} name='address' required={false} label='Client Street Address' sx={styles} />
                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={country} name='country' required={false} label='Countary of Origin' sx={styles} select={true} options={countriesArray} />

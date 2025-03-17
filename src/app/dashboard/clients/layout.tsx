@@ -15,7 +15,7 @@ function ClientLayout({ children }: { children: React.JSX.Element }) {
     const param = useParams()
     const { id } = param
     const dispatch = useAppDispatch()
-    const { form: { name } } = useAppSelector(state => state.company)
+    const { form: { fullName } } = useAppSelector(state => state.users)
 
     const handleAddProduct = () => {
         dispatch(resetState())
@@ -45,14 +45,16 @@ function ClientLayout({ children }: { children: React.JSX.Element }) {
                     <ButtonStack className='flex justify-between w-full '>
                         <>
                             <Box className="flex items-center font-bold text-2xl gap-2">
+                                {id && (
+                                    <CustomIconButton handle={handleBack}>
+                                        <ArrowBack />
+                                    </CustomIconButton>
+                                )}
                                 {id === 'add' ? (
                                     <>
-                                        <CustomIconButton handle={handleBack}>
-                                            <ArrowBack />
-                                        </CustomIconButton>
                                         Add New Client
                                     </>
-                                ) : id ? `Edit ${name}` : ''}
+                                ) : id ? `Edit ${fullName}` : ''}
                             </Box>
 
                             <motion.div

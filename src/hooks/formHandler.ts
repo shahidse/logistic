@@ -37,7 +37,7 @@ export const useFormHandler = <
   const form = useAppSelector((state) => state[sliceKey]?.form || {}); // Access form dynamically
   const loading = useAppSelector((state) => state[sliceKey]?.loading);
   const error = useAppSelector((state) => state[sliceKey]?.error);
-
+  const allState = useAppSelector((state) => state[sliceKey]);
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -53,6 +53,7 @@ export const useFormHandler = <
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    console.log('form', form)
     dispatch(submitAction(form))
       .then((res) => {
         if (res.type.endsWith("/fulfilled")) {
@@ -76,5 +77,14 @@ export const useFormHandler = <
       dispatch(getDataById(id));
     }
   }, [id, getDataById, dispatch]);
-  return { form, loading, error, handleChange, handleSubmit, handleReset };
+  return {
+    form,
+    loading,
+    error,
+    handleChange,
+    handleSubmit,
+    handleReset,
+    dispatch,
+    allState
+  };
 };
