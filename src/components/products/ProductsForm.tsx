@@ -48,6 +48,8 @@ function ProductsForm({ id }: { id: string }) {
             '& fieldset':{borderColor: 'var(--inputBorder)'},
             '&:hover fieldset': { borderColor: 'var(--foreground)' }, // Border color on hover
             '&.Mui-focused fieldset': { borderColor: 'var(--foreground)' }, // Border color on focus
+            backdropFilter: 'blur(10px)',
+
         },
         '& .MuiInputBase-input': {
             color: 'var(--info)', // Text color inside input

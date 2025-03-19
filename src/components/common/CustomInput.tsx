@@ -60,6 +60,7 @@ const CustomInput: React.FC<InputProps> = ({
         },
         '& label.Mui-focused': { color: 'var(--background)' }, // Label color on focus
         '& .MuiOutlinedInput-root': {
+            backdropFilter: 'blur(10px)',
             '& fieldset': {
                 borderColor: error ? 'red' : 'var(--secondary)', // Border color based on error state
             },
@@ -89,7 +90,7 @@ const CustomInput: React.FC<InputProps> = ({
             <TextField
                 type={type}
                 select={select}
-                
+
                 name={name}
                 value={value}
                 onChange={onChange}
