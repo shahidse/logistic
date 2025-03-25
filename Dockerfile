@@ -1,5 +1,5 @@
 # Use official Node.js image
-FROM node:current-alpine 
+FROM node:22-alpine
 
 # Set working directory inside container
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install --legacy-peer-deps
 
 # Copy the entire project (except files in .dockerignore)
 COPY . .
