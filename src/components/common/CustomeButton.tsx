@@ -43,7 +43,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         ? ' text-surface hover:bg-action'
         : variant === 'outlined'
             ? 'border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white'
-            : 'text-blue-500 hover:bg-blue-50'
+            : 'text-blue-500 hover:bg-blue-50 focus:text-blue-500'
         } ${className}`;
 
     return (

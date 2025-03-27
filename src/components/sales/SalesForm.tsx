@@ -91,27 +91,19 @@ function SalesForm({ id }: { id: string }) {
         'Oliver Hansen',
         'Van Henry',
         'April Tucker',
-        'Ralph Hubbard',
-        'Omar Alexander',
-        'Carlos Abbott',
-        'Miriam Wagner',
-        'Bradley Wilkerson',
-        'Virginia Andrews',
-        'Kelly Snyder',
     ];
     return (
-        <Box>
-            <CustomForm onSubmit={handleSubmit} className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background'>
+        <Box className='h-[65vh]'>
+            <CustomForm onSubmit={handleSubmit} className='max-h-full overflow-y-auto flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background'>
                 <Box className='flex w-full flex-col gap-4'>
                     <p className='text-2xl font-semibold'>Client</p>
-                    <CustomInput name='client' onChange={handleChange} value={name} fullWidth={false} className=' md:w-[450px]' label='Product Name' sx={styles} />
-                    <MultipleSelectChip label="Select Users"
+                    <MultipleSelectChip label="Select Clients"
                         options={options}
                         value={selectedValues}
                         onChange={handleSelectChange} />
                     <Divider />
                 </Box>
-                <Box className="flex w-full flex-col gap-4 overflow-auto h-auto md:h-[40vh]">
+                <Box className="flex w-full flex-col gap-4">
                     <p className='text-2xl font-semibold'>Products</p>
                     <Box className="flex gap-4 flex-wrap">
                         {productFields.map((_, index) => (

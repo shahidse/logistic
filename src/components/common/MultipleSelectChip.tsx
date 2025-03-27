@@ -27,7 +27,6 @@ const MenuProps = {
         style: {
             maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
             width: 250,
-            
         },
     },
 };
@@ -55,7 +54,7 @@ const MultipleSelectChip: React.FC<MultipleSelectChipProps> = ({
     return (
         <FormControl sx={{ width: width }} error={error}>
             <InputLabel id="multiple-chip-select-label" sx={{
-                color: 'var(--secondary)'
+                color: 'var(--secondary)',
             }}>{label}</InputLabel>
             <Select
                 labelId="multiple-chip-select-label"
@@ -73,24 +72,23 @@ const MultipleSelectChip: React.FC<MultipleSelectChipProps> = ({
                 )}
                 MenuProps={MenuProps}
                 // Custom styles based on CustomInput
+                className={`flex bg-inputBorder backdrop-blur rounded-[6px] text-[info] shadow-lg`}
                 sx={{
-                    // backgroundColor: 'var(--inputBackground)',
                     backdropFilter: 'blur(10px)',
                     'label + &': {
-                        color:"var(--inputBorder)"
+                        color: "var(--inputBorder)"
                     },
                     '& .MuiInputBase-input': {
+                        backdropFilter: 'blur(10px)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                         position: 'relative',
-                        backgroundColor: 'var(--inputBackground)',
-                        borderColor:"var(--inputBorder)",
-                        border:0,
-                        padding: '10px 26px 10px 12px',
-                        transition: theme.transitions.create(['border-color', 'box-shadow']),
-                        '&:focus': {
-                            color:"var(--inputBorder)"
-                        },
-                        
                     },
+                    '& fieldset': {
+                        borderColor: error ? 'red' : 'var(--inputBorder)', // Border color based on error state
+                    },
+                    '&:hover fieldset': { borderColor: 'var(--secondary)' }, // Border color on hover
                 }}
                 inputProps={{
                     endAdornment: loading ? (
@@ -107,7 +105,7 @@ const MultipleSelectChip: React.FC<MultipleSelectChipProps> = ({
                 ))}
             </Select>
             {helperText && <Box sx={{ mt: 1, color: 'red', fontSize: '0.75rem' }}>{helperText}</Box>}
-        </FormControl>
+        </FormControl >
     );
 };
 
