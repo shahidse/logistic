@@ -1,6 +1,6 @@
 'use client'
 import { Box, Divider, IconButton, SelectChangeEvent } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import CustomForm from '../common/CustomForm'
 import CustomInput from '../common/CustomInput'
 import ButtonStack from '../common/ButtonStack'
@@ -26,7 +26,7 @@ function SalesForm({ id }: { id: string }) {
         resetState: resetState
     });
 
-    const { name, companyId, saleCurrency, purchaseCurrency } = form;
+    const { companyId, saleCurrency, purchaseCurrency } = form;
     const dispatch = useAppDispatch()
     const { data } = useAppSelector((state) => state.company)
 
@@ -41,39 +41,33 @@ function SalesForm({ id }: { id: string }) {
         return formatted;
     }, [data]);
 
-    const [productFields, setProductFields] = useState([{}]); // Manage product fields dynamically
+    const [productFields, setProductFields] = useState([{}]); 
 
-    // Styles for the fields
     const styles = {
-        '& label': { color: 'var(--secondary)' }, // Default label color
+        '& label': { color: 'var(--secondary)' },
         '& .MuiInputLabel-asterisk': {
             color: 'red',
             fontSize: '1.2rem',
             fontWeight: 'bold',
             fontStyle: 'italic'
         },
-        '& label.Mui-focused': { color: 'var(--foreground)' }, // Label color on focus
+        '& label.Mui-focused': { color: 'var(--foreground)' },
         '& .MuiOutlinedInput-root': {
             '& fieldset': { borderColor: 'var(--inputBorder)' },
-            '&:hover fieldset': { borderColor: 'var(--foreground)' }, // Border color on hover
-            '&.Mui-focused fieldset': { borderColor: 'var(--foreground)' }, // Border color on focus
+            '&:hover fieldset': { borderColor: 'var(--foreground)' },
+            '&.Mui-focused fieldset': { borderColor: 'var(--foreground)' },
             backdropFilter: 'blur(10px)',
         },
         '& .MuiInputBase-input': {
-            color: 'var(--info)', // Text color inside input
+            color: 'var(--info)',
         },
     }
-
-    // Add a new product field
     const addProductField = () => {
-        setProductFields(prevFields => [...prevFields, {}]); // Add an empty object to represent a new field
+        setProductFields(prevFields => [...prevFields, {}]);
     };
-
-    // Remove a product field at a specific index
     const removeProductField = (index: number) => {
-        // Prevent removing all fields
         if (productFields.length > 1) {
-            setProductFields(prevFields => prevFields.filter((_, i) => i !== index)); // Remove field at the given index
+            setProductFields(prevFields => prevFields.filter((_, i) => i !== index));
         }
     };
 
@@ -95,7 +89,7 @@ function SalesForm({ id }: { id: string }) {
     return (
         <Box className='h-[65vh]'>
             <CustomForm onSubmit={handleSubmit} className='max-h-full overflow-y-auto flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background'>
-                <Box className='flex w-full flex-col gap-4'>
+                <Box className='flex w-full flex-col gap-5'>
                     <p className='text-2xl font-semibold'>Client</p>
                     <MultipleSelectChip label="Select Clients"
                         options={options}
@@ -107,8 +101,8 @@ function SalesForm({ id }: { id: string }) {
                     <p className='text-2xl font-semibold'>Products</p>
                     <Box className="flex gap-4 flex-wrap">
                         {productFields.map((_, index) => (
-                            <>
-                                <Box key={index} className="flex gap-4 flex-wrap w-full">
+                            <Fragment key={index}>
+                                <Box className="flex gap-4 flex-wrap w-full">
                                     {/* Delete Button to remove the field set */}
                                     {productFields.length > 1 && (
                                         <CustomIconButton handle={() => removeProductField(index)} color="error" >
@@ -116,44 +110,183 @@ function SalesForm({ id }: { id: string }) {
                                         </CustomIconButton>
                                     )
                                     }
-
-                                    {/* Product field set */}
                                     <CustomInput
-                                        name={`companyId_${index}`}
+                                        name={`productId_${index}`}
                                         onChange={handleChange}
-                                        value={companyId}
+                                        // value={product.companyId || ""}
                                         fullWidth={false}
-                                        className=' md:w-[450px]'
+                                        className='md:w-[450px]'
                                         label={`Product Company ${index + 1}`}
                                         sx={styles}
-                                        select
-                                        options={formattedData}
                                     />
+
                                     <CustomInput
+                                        name={`productQuantities_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.productQuantities || 0}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Product Quantity ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+                                    {/* <CustomInput
                                         name={`saleCurrency_${index}`}
                                         onChange={handleChange}
-                                        value={saleCurrency}
+                                        // value={product.saleCurrency || ""}
                                         fullWidth={false}
-                                        className=' md:w-[250px]'
+                                        className='md:w-[250px]'
                                         label={`Sale Currency ${index + 1}`}
-                                        sx={styles}
                                         select
                                         options={currencyArray}
                                     />
+
                                     <CustomInput
                                         name={`purchaseCurrency_${index}`}
                                         onChange={handleChange}
-                                        value={purchaseCurrency}
+                                        // value={product.purchaseCurrency || ""}
                                         fullWidth={false}
-                                        className=' md:w-[250px]'
+                                        className='md:w-[250px]'
                                         label={`Purchase Currency ${index + 1}`}
-                                        sx={styles}
                                         select
                                         options={currencyArray}
+                                    /> */}
+
+
+                                    <CustomInput
+                                        name={`netPrice_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.netPrice || 0}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        sx={styles}
+
+                                        label={`Net Price ${index + 1}`}
+                                    />
+
+                                    <CustomInput
+                                        name={`netPriceCurrency_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.netPriceCurrency || ""}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Net Price Currency ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`paidAmount_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.paidAmount || 0}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Paid Amount ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`remainingAmount_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.remainingAmount || 0}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Remaining Amount ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`descriptions_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.descriptions || ""}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Descriptions ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`status_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.status || ""}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Status ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`paymentMethod_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.paymentMethod || ""}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Payment Method ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`paymentDate_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.paymentDate || ""}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Payment Date ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`shippingAddress_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.shippingAddress || ""}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Shipping Address ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`deliveryDate_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.deliveryDate || ""}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Delivery Date ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`shippingStatus_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.shippingStatus || ""}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Shipping Status ${index + 1}`}
+                                        sx={styles}
+
+                                    />
+
+                                    <CustomInput
+                                        name={`specialInstructions_${index}`}
+                                        onChange={handleChange}
+                                        // value={product.specialInstructions || ""}
+                                        fullWidth={false}
+                                        className="md:w-[250px]"
+                                        label={`Special Instructions ${index + 1}`}
+                                        sx={styles}
+
                                     />
                                 </Box>
                                 {productFields.length > 1 && index != productFields.length - 1 && (<Divider className='w-full' />)}
-                            </>
+                            </Fragment>
                         ))}
                     </Box>
                     <Box className="flex">

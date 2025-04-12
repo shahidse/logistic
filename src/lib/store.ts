@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./features/users/usersSlice";
 import companySlice from "./features/company/comapanySlice";
 import productsSlice from "./features/producsts/productsSlice";
+import { SalesSlice } from "./features/sales/saleSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,16 +10,15 @@ export const makeStore = () => {
       users: userSlice,
       company: companySlice,
       products: productsSlice,
+      sales: SalesSlice.reducer,
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
         serializableCheck: {
           // Ignore all form-related actions where a File might be passed
           ignoredActions: ["company/setFormState"],
-
           // Ignore paths that may contain non-serializable values
           ignoredActionPaths: ["payload.value"], // Ignore payload values (which may contain Files)
-
           // Ignore paths in the state where non-serializable data is stored
           ignoredPaths: ["company.form.logo"], // Ignore the logo field in the form object
         },
