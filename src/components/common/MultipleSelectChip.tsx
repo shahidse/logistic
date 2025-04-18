@@ -11,9 +11,9 @@ import { CircularProgress, InputAdornment } from '@mui/material';
 
 interface MultipleSelectChipProps {
     label: string;
-    options: string[]; // List of options to display in the select
+    options: any[]; // List of options to display in the select
     value: string[]; // The selected values
-    onChange: (event: SelectChangeEvent<string[]>) => void; // Change handler for the select
+    onChange: (event: SelectChangeEvent<any>) => void; // Change handler for the select
     width?: number; // Optional: width of the FormControl
     loading?: boolean; // Whether to show loading spinner
     error?: boolean; // Whether there is an error
@@ -65,9 +65,10 @@ const MultipleSelectChip: React.FC<MultipleSelectChipProps> = ({
                 input={<OutlinedInput id="select-multiple-chip" label={label} />}
                 renderValue={(selected) => (
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                        {selected.map((value) => (
-                            <Chip key={value} label={value} color='info' />
-                        ))}
+                        {selected.map((id) => {
+                            const label = options.find(option => option.value === id)?.label || id;
+                            return <Chip key={id} label={label} color="info" />;
+                        })}
                     </Box>
                 )}
                 MenuProps={MenuProps}
@@ -90,17 +91,17 @@ const MultipleSelectChip: React.FC<MultipleSelectChipProps> = ({
                     },
                     '&:hover fieldset': { borderColor: 'var(--secondary)' }, // Border color on hover
                 }}
-                inputProps={{
-                    endAdornment: loading ? (
+                endAdornment={
+                    loading ? (
                         <InputAdornment position="end">
-                            <CircularProgress size={24} color="inherit" />
+                            <CircularProgress color="inherit" size={20} />
                         </InputAdornment>
-                    ) : null,
-                }}
+                    ) : null
+                }
             >
                 {options.map((option) => (
-                    <MenuItem key={option} value={option} style={getStyles(option, value, theme)}>
-                        {option}
+                    <MenuItem key={option.value} value={option.value} style={getStyles(option, value, theme)}>
+                        {option.label}
                     </MenuItem>
                 ))}
             </Select>

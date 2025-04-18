@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button as MUIButton, CircularProgress, SxProps } from '@mui/material';
+import { Button as MUIButton, SxProps } from '@mui/material';
 import { ReactNode } from 'react';
 
 // Define CustomButtonProps interface
@@ -53,7 +53,7 @@ const CustomButton: React.FC<CustomButtonProps> = ({
             className={buttonClasses}
             color={color}
             variant={variant}
-            startIcon={loading ? <CircularProgress size={24} color="inherit" /> : startIcon}
+            startIcon={startIcon}
             endIcon={endIcon}
             disableRipple={disableRipple}
             disabled={loading}

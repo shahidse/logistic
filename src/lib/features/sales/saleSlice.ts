@@ -22,7 +22,7 @@ export interface InitialState {
   error: string;
   id: string;
   form: {
-    clientIds: number[];
+    clientIds: any[];
     products: Product[];
   };
   data: unknown[];
@@ -34,22 +34,24 @@ const initialState: InitialState = {
   id: "",
   form: {
     clientIds: [],
-    products: [{
+    products: [
+      {
         productId: 0,
         productQuantities: 0,
         netPrice: 0,
-        netPriceCurrency: "",
+        netPriceCurrency: "PKR",
         paidAmount: 0,
         remainingAmount: 0,
         descriptions: "",
-        status: "",
-        paymentMethod: "",
-        paymentDate: "",
+        status: "PENDING",
+        paymentMethod: "CASH",
+        paymentDate: new Date().toISOString().split("T")[0],
         shippingAddress: "",
-        deliveryDate: "",
+        deliveryDate: new Date().toISOString().split("T")[0],
         shippingStatus: "",
-        specialInstructions: ""
-    }],
+        specialInstructions: "",
+      },
+    ],
   },
   data: [],
 };
@@ -83,19 +85,18 @@ export const SalesSlice = createSlice({
     },
     addProduct: (state) => {
       state.form.products.push({
-        productId: 0, 
+        productId: 0,
         productQuantities: 0,
         netPrice: 0,
-        netPriceCurrency: "",
-        isPaid: false,
+        netPriceCurrency: "PKR",
         paidAmount: 0,
         remainingAmount: 0,
         descriptions: "",
-        status: "",
-        paymentMethod: "",
-        paymentDate: "",
+        status: "PENDING",
+        paymentMethod: "CASH",
+        paymentDate: new Date().toISOString().split("T")[0],
         shippingAddress: "",
-        deliveryDate: "",
+        deliveryDate: new Date().toISOString().split("T")[0],
         shippingStatus: "",
         specialInstructions: "",
       });
@@ -107,10 +108,8 @@ export const SalesSlice = createSlice({
     clearProducts: (state) => {
       state.form.products = [];
     },
-    addClientId: (state, action: PayloadAction<string>) => {
-      if (!state.form.clientIds.includes(action.payload)) {
-        state.form.clientIds.push(action.payload);
-      }
+    addClientId: (state, action: PayloadAction<Array<any>>) => {
+      state.form.clientIds = [...action.payload];
     },
     removeClientId: (state, action: PayloadAction<string>) => {
       state.form.clientIds = state.form.clientIds.filter(
@@ -134,5 +133,6 @@ export const {
   removeProduct,
   clearProducts,
   resetState,
+  addProduct,
 } = SalesSlice.actions;
 export default SalesSlice.reducer;
