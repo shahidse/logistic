@@ -1,20 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { addSale } from "./salesThunk";
 
 export interface Product {
-  productId: number;
+  id: number | string; // Assuming it can be a number or UUID string
   productQuantities: number;
-  netPrice: number;
+  netPrice: string; // string if it includes decimal or currency formatting
   netPriceCurrency: string;
-  paidAmount: number;
+  paidAmount: number; // If you're using numbers in the frontend for math
   remainingAmount: number;
-  descriptions: string;
+  descriptions?: string;
   status: string;
   paymentMethod: string;
-  paymentDate: string;
-  shippingAddress: string;
-  deliveryDate: string;
-  shippingStatus: string;
-  specialInstructions: string;
+  paymentDate?: string; // ISO date string (e.g. '2025-04-20T00:00:00.000Z')
+  shippingAddress?: string;
+  deliveryDate?: string; // Also ISO date format
+  shippingStatus?: string;
+  specialInstructions?: string;
 }
 
 export interface InitialState {
@@ -36,9 +37,9 @@ const initialState: InitialState = {
     clientIds: [],
     products: [
       {
-        productId: 0,
+        id: "",
         productQuantities: 0,
-        netPrice: 0,
+        netPrice: "0",
         netPriceCurrency: "PKR",
         paidAmount: 0,
         remainingAmount: 0,
@@ -85,9 +86,9 @@ export const SalesSlice = createSlice({
     },
     addProduct: (state) => {
       state.form.products.push({
-        productId: 0,
+        id: "",
         productQuantities: 0,
-        netPrice: 0,
+        netPrice: "0",
         netPriceCurrency: "PKR",
         paidAmount: 0,
         remainingAmount: 0,
@@ -121,6 +122,62 @@ export const SalesSlice = createSlice({
       state.form.clientIds = [];
     },
     resetState: () => initialState,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(addSale.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(addSale.fulfilled, (state, action: PayloadAction<unknown[]>) => {
+        state.loading = false;
+        state.data = action.payload;
+      })
+      .addCase(addSale.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+    // builder
+    //   .addCase("sales/createSale/pending", (state) => {
+    //     state.loading = true;
+    //     state.error = "";
+    //   })
+    //   .addCase("sales/createSale/fulfilled", (state, action: PayloadAction<unknown>) => {
+    //     state.loading = false;
+    //     state.data = [...state.data, action.payload];
+    //   })
+    //   .addCase("sales/createSale/rejected", (state, action: PayloadAction<string>) => {
+    //     state.loading = false;
+    //     state.error = action.payload;
+    //   });
+    // builder
+    //   .addCase("sales/updateSale/pending", (state) => {
+    //     state.loading = true;
+    //     state.error = "";
+    //   })
+    //   .addCase("sales/updateSale/fulfilled", (state, action: PayloadAction<unknown>) => {
+    //     state.loading = false;
+    //     state.data = state.data.map((sale) =>
+    //       (sale as any).id === (action.payload as any).id ? action.payload : sale
+    //     );
+    //   })
+    //   .addCase("sales/updateSale/rejected", (state, action: PayloadAction<string>) => {
+    //     state.loading = false;
+    //     state.error = action.payload;
+    //   });
+    // builder
+    //   .addCase("sales/deleteSale/pending", (state) => {
+    //     state.loading = true;
+    //     state.error = "";
+    //   })
+    //   .addCase("sales/deleteSale/fulfilled", (state, action: PayloadAction<string>) => {
+    //     state.loading = false;
+    //     state.data = state.data.filter((sale) => (sale as any).id !== action.payload);
+    //   })
+    //   .addCase("sales/deleteSale/rejected", (state, action: PayloadAction<string>) => {
+    //     state.loading = false;
+    //     state.error = action.payload;
+    //   });
   },
 });
 

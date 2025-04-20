@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TextField, FormControl, InputAdornment, FormHelperText, SxProps, CircularProgress, MenuItem, Box } from '@mui/material';
 interface Option {
-    value: string;
-    label: string;
+    value: any;
+    label: any;
 }
 interface InputProps {
     label?: string; // Label text for the input field
@@ -45,7 +45,6 @@ const CustomInput: React.FC<InputProps> = ({
         value: 'value',
         label: 'label'
     }],
-    defaultValue = '',
     multiline = false,
     rows = 4,
     disabled = false,
@@ -73,6 +72,7 @@ const CustomInput: React.FC<InputProps> = ({
     },
     fullWidth = true
 }) => {
+
     const [screenWidth, setScreenWidth] = useState<number>(0);
     useEffect(() => {
         const handleResize = () => {
@@ -104,7 +104,8 @@ const CustomInput: React.FC<InputProps> = ({
                 sx={sx}
                 multiline={multiline}
                 rows={rows}
-                disabled={disabled}
+                disabled={disabled || loading}
+
                 InputLabelProps={{
                     shrink: type === 'date' || type == 'Date' || type === 'file' ? true : undefined,
                 }}
@@ -113,14 +114,16 @@ const CustomInput: React.FC<InputProps> = ({
                         <InputAdornment position="end">{icon}</InputAdornment>
                     ) : null,
                     startAdornment: loading ? (
-                        <InputAdornment position='end'><CircularProgress size={24} color="inherit" /></InputAdornment>
+                        <InputAdornment position='start'><CircularProgress size={24} color="inherit" /></InputAdornment>
                     ) : null
                 }}
-            > {select && options?.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                </MenuItem>
-            ))}</TextField>
+            > {select &&
+                (options && options.length > 0 ? options : [{ label: 'No options available', value: 0 }])
+                    .map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}</TextField>
             {helperText && <FormHelperText>{helperText}</FormHelperText>}
         </FormControl >
     );

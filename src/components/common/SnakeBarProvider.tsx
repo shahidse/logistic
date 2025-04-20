@@ -36,38 +36,41 @@ export const SnackbarProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         switch (severity) {
             case 'error':
                 return {
-                    backgroundColor: 'var(--lightError)', color: 'var(--error)',
+                    backgroundColor: 'var(--error)', color: 'var(--error)',
                     backdropFilter: 'blur(10px)',
-                    border: '1px solid var(--lightError)',
+                    borderLeft: '20px solid var(--error)',
                     borderRadius: '8px',
                     boxShadow: '0px 4px 6px var(--lightError)',
+                    fontSize: '16px',
                 };
             case 'success':
                 return {
-                    backgroundColor: 'var(--lightSuccess)', color: 'var(--success)',
+                    backgroundColor: 'var(--success)', color: 'var(--success)',
                     backdropFilter: 'blur(10px)',
-                    border: '1px solid var(--lightSuccess)',
+                    borderLeft: '20px solid var(--success)',
                     borderRadius: '8px',
                     boxShadow: '0px 4px 6px var(--lightSuccess)',
                 };
             case 'info':
                 return {
-                    backgroundColor: 'var(--lightInfo)', color: 'var(--info)',
+                    backgroundColor: 'var(--info)', color: 'var(--info)',
                     backdropFilter: 'blur(10px)',
-                    border: '1px solid var(--lightInfo)',
+                    borderLeft: '20px solid var(--info)',
                     borderRadius: '8px',
                     boxShadow: '0px 4px 6px var(--lightInfo)',
                 };
             case 'warning':
                 return {
-                    backgroundColor: 'var(--lightWarning)', color: 'var(--warning)',
+                    backgroundColor: 'var(--warning)', color: 'var(--warning)',
                     backdropFilter: 'blur(10px)',
-                    border: '1px solid var(--lightWarning)',
+                    borderLeft: '20px solid var(--warning)',
                     borderRadius: '8px',
                     boxShadow: '0px 4px 6px var(--lightWarning)',
+                    fontSize: '22px',
+
                 };
             default:
-                return { backgroundColor: '#1976d2', color: '#fff' };
+                return { backgroundColor: '#1976d', color: '#fff' };
         }
     };
 
@@ -96,7 +99,7 @@ export const SnackbarProvider: React.FC<{ children: React.ReactNode }> = ({ chil
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 sx={getSnackbarStyle(severity)}
             >
-                <div style={{ padding: '16px', borderRadius: '8px', boxShadow: '0px 3px 5px rgba(0, 0, 0, 0.2)', display: 'flex', alignItems: 'center' }}>
+                <div style={{ padding: '24px', borderRadius: '8px', display: 'flex', alignItems: 'center',backgroundColor: 'white',  }}>
                     {getSeverityIcon()}
                     {message}
                 </div>

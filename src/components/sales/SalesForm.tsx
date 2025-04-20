@@ -8,37 +8,23 @@ import CustomButton from '../common/CustomeButton'
 import { currencyArray, PaymentMethod, SaleStatus, ShippingStatus } from '@/constants'
 
 import { useAppDispatch, useAppSelector } from '@/lib/hooks'
-import { getCompany } from '@/lib/features/company/comapanyThunk'
 import { Add, Delete } from '@mui/icons-material'
 import CustomIconButton from '../common/CustomIconButton'
 import MultipleSelectChip from '../common/MultipleSelectChip'
 import { getClient } from '@/lib/features/users/usersThunk'
-import { addClientId, addProduct, removeProduct, setProductFormState } from '@/lib/features/sales/saleSlice'
+import { addClientId, addProduct, removeProduct, resetState, setProductFormState } from '@/lib/features/sales/saleSlice'
 import { useRouter } from 'next/navigation'
+import { getProducts } from '@/lib/features/producsts/productsThunk'
+import { addSale } from '@/lib/features/sales/salesThunk'
+import { useSnackbar } from '../common/SnakeBarProvider'
 
 function SalesForm({ id }: { id: string }) {
     const router = useRouter()
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        // dispatch(addProduct1({ ...form, id }))
-        //     .then((res) => {
-        //         if (res.type.endsWith("/fulfilled")) {
-        //             showSnackbar("Form submitted successfully!", "success");    
-        //             resetState();
-        //             router.push("/dashboard/" + redirectPath);
-        //         }
-        //         else if (res.type.endsWith("/rejected")) {
-        //             showSnackbar(error || "Submission failed!", "error");
-        //         }
-        //     }
-        //     )
-        //     .catch((err) => {
-        //         showSnackbar(err.message, "error");
-        //     });
-    }
     const dispatch = useAppDispatch()
+    const { showSnackbar } = useSnackbar()
     const { data } = useAppSelector((state) => state.users)
-    const { form: { products, clientIds }, loading, } = useAppSelector((state) => state.sales)
+    const productData = useAppSelector((state) => state.products);
+    const { form: { products, clientIds }, loading, error } = useAppSelector((state) => state.sales)
     const styles = {
         '& label': { color: 'var(--secondary)' },
         '& .MuiInputLabel-asterisk': {
@@ -58,6 +44,24 @@ function SalesForm({ id }: { id: string }) {
             color: 'var(--info)',
         },
     }
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        dispatch(addSale({ products, clientIds }))
+            .then((res) => {
+                if (res.type.endsWith("/fulfilled")) {
+                    showSnackbar("Form submitted successfully!", "success");
+                    resetState();
+                    router.push("/dashboard/sales");
+                }
+                else if (res.type.endsWith("/rejected")) {
+                    showSnackbar(error || "Submission failed!", "error");
+                }
+            }
+            )
+            .catch((err) => {
+                showSnackbar(err.message, "error");
+            });
+    }
     const addProductField = () => {
         dispatch(addProduct())
     };
@@ -70,9 +74,6 @@ function SalesForm({ id }: { id: string }) {
         const { name, value } = e.target;
         dispatch(setProductFormState({ index, key: name, value }))
     }
-    useEffect(() => {
-        dispatch(getCompany())
-    }, [dispatch])
     const handleSelectChange = (event: SelectChangeEvent) => {
         const {
             target: { value },
@@ -81,7 +82,7 @@ function SalesForm({ id }: { id: string }) {
         dispatch(addClientId(selectedIds))
     };
     const clientsOptions = React.useMemo(() => {
-        const formatted = data?.length
+        const formatted = data.length
             ? data.map(({ ...rest }) => {
                 return { label: rest?.fullName, value: rest?.id }
             }
@@ -89,8 +90,23 @@ function SalesForm({ id }: { id: string }) {
             : [];
         return formatted;
     }, [data]);
+
+
+    const productsOptions = React.useMemo(() => {
+        const formatted = productData.data.length
+            ? productData.data.map((p: any) => ({
+                label: p.name,
+                value: Number(p.id)
+            }))
+            : [];
+        if (formatted.length === 0) {
+            formatted.push({ label: "No Product", value: 0 })
+        }
+        return formatted
+    }, [productData.data]);
     useEffect(() => {
         dispatch(getClient());
+        dispatch(getProducts())
     }, [dispatch]);
     return (
         <Box className='h-[65vh]'>
@@ -117,13 +133,16 @@ function SalesForm({ id }: { id: string }) {
                                     )
                                     }
                                     <CustomInput
-                                        name={`productId`}
+                                        name={`id`}
                                         onChange={(e: any) => handleChange(e, index)}
-                                        value={product.productId}
+                                        value={product.id}
                                         fullWidth={false}
                                         className='md:w-[250px]'
                                         label={`Product Company ${index + 1}`}
                                         sx={styles}
+                                        select
+                                        options={productsOptions}
+                                        loading={productData.loading}
                                     />
 
                                     <CustomInput
@@ -134,7 +153,7 @@ function SalesForm({ id }: { id: string }) {
                                         className="md:w-[250px]"
                                         label={`Product Quantity ${index + 1}`}
                                         sx={styles}
-
+                                        type='number'
                                     />
                                     <CustomInput
                                         name={`netPriceCurrency`}
@@ -151,19 +170,18 @@ function SalesForm({ id }: { id: string }) {
                                     <CustomInput
                                         name={`netPrice`}
                                         onChange={(e: any) => handleChange(e, index)}
-                                        // value={product.netPrice || 0}
+                                        value={product.netPrice}
                                         fullWidth={false}
                                         className="md:w-[250px]"
                                         sx={styles}
                                         label={`Net Price ${index + 1}`}
                                         type='number'
-
                                     />
 
                                     <CustomInput
                                         name={`paidAmount`}
                                         onChange={(e: any) => handleChange(e, index)}
-                                        // value={product.paidAmount || 0}
+                                        value={product.paidAmount}
                                         fullWidth={false}
                                         className="md:w-[250px]"
                                         label={`Paid Amount ${index + 1}`}
@@ -222,7 +240,7 @@ function SalesForm({ id }: { id: string }) {
                                     <CustomInput
                                         name={`deliveryDate`}
                                         onChange={(e: any) => handleChange(e, index)}
-                                        // value={product.deliveryDate || ""}
+                                        value={product.deliveryDate}
                                         fullWidth={false}
                                         className="md:w-[250px]"
                                         label={`Delivery Date ${index + 1}`}
@@ -240,6 +258,7 @@ function SalesForm({ id }: { id: string }) {
                                         sx={styles}
                                         select
                                         options={ShippingStatus}
+                                        required={false}
                                     />
                                     <CustomInput
                                         name={`shippingAddress`}
@@ -251,6 +270,8 @@ function SalesForm({ id }: { id: string }) {
                                         sx={styles}
                                         multiline
                                         rows={2}
+                                        required={false}
+
                                     />
                                     <CustomInput
                                         name={`descriptions`}
@@ -262,6 +283,8 @@ function SalesForm({ id }: { id: string }) {
                                         sx={styles}
                                         multiline
                                         rows={3}
+                                        required={false}
+
                                     />
 
                                     <CustomInput
@@ -274,6 +297,7 @@ function SalesForm({ id }: { id: string }) {
                                         sx={styles}
                                         multiline
                                         rows={4}
+                                        required={false}
                                     />
                                 </Box>
                                 {products.length > 1 && index != products.length - 1 && (<Divider className='w-full' />)}
