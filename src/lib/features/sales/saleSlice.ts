@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addSale } from "./salesThunk";
+import { addSale, getSales } from "./salesThunk";
+import { act } from "react";
 
 export interface Product {
   id: number | string; // Assuming it can be a number or UUID string
@@ -137,19 +138,20 @@ export const SalesSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
-    // builder
-    //   .addCase("sales/createSale/pending", (state) => {
-    //     state.loading = true;
-    //     state.error = "";
-    //   })
-    //   .addCase("sales/createSale/fulfilled", (state, action: PayloadAction<unknown>) => {
-    //     state.loading = false;
-    //     state.data = [...state.data, action.payload];
-    //   })
-    //   .addCase("sales/createSale/rejected", (state, action: PayloadAction<string>) => {
-    //     state.loading = false;
-    //     state.error = action.payload;
-    //   });
+    builder
+      .addCase(getSales.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(getSales.fulfilled, (state, action) => {
+        state.loading = false;
+        state.data = action.payload.data;
+        console.log(action.payload);
+      })
+      .addCase(getSales.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
     // builder
     //   .addCase("sales/updateSale/pending", (state) => {
     //     state.loading = true;

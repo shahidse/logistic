@@ -14,8 +14,10 @@ export class SalesApiService extends BaseApiService {
   async getSalesById(id: string, options?: RequestInit): Promise<any> {
     return await this.get(`sales/${id}`, options);
   }
-  async getCompanies(options?: RequestInit): Promise<any> {
-    return await this.get(`sales`, options);
+  async getSales(searchParam?: any, options?: RequestInit): Promise<any> {
+    const queryString = new URLSearchParams(searchParam).toString();
+    const url = queryString ? `sales?${queryString}` : `sales`;
+    return await this.get(url, options);
   }
   async createSales(data: any, options?: RequestInit): Promise<any> {
     return await this.post(`sales`, data, options);

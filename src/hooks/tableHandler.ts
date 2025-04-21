@@ -12,7 +12,7 @@ import { AsyncThunk } from "@reduxjs/toolkit";
  * @param formatData - Optional function to format the data.
  */
 export const useTableHandler = <T extends { id: number | string }>(
-  fetchData: () => any,
+  fetchData: (arg?:any) => any,
   deleteItem: AsyncThunk<any, string, {}>,
   selectData: (state: any) => T[],
   formatData?: (data: T[]) => T[],

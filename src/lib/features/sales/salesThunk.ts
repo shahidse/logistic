@@ -1,82 +1,86 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { SalesApiService } from "@/services/SalesApiService";
 import { InitialState } from "./saleSlice";
+import { li } from "framer-motion/client";
 
 export const addSale = createAsyncThunk(
-    "sales/add",
-    async (saleData: InitialState["form"], { rejectWithValue }) => {
-        try {
-            const token = localStorage.getItem("accessToken");
-            const response = await SalesApiService.getInstance().createSales(saleData, {
-                headers: { authorization: `Bearer ${token}` },
-            });
-            return await response;
-        } catch (error: any) {
-            return rejectWithValue(error.message);
+  "sales/add",
+  async (saleData: InitialState["form"], { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await SalesApiService.getInstance().createSales(
+        saleData,
+        {
+          headers: { authorization: `Bearer ${token}` },
         }
+      );
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
+  }
 );
 
 export const getSales = createAsyncThunk(
-    "sales/get",
-    async (_, { rejectWithValue }) => {
-        try {
-            const token = localStorage.getItem("accessToken");
-            const response = await SalesApiService.getInstance().getSales({
-                headers: { authorization: `Bearer ${token}` },
-            });
-            return await response;
-        } catch (error: any) {
-            return rejectWithValue(error.message);
-        }
+  "sales/get",
+  async (arg: any, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await SalesApiService.getInstance().getSales(arg, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
+  }
 );
 
 export const getSaleById = createAsyncThunk(
-    "sales/get/id",
-    async (id: string, { rejectWithValue }) => {
-        try {
-            const token = localStorage.getItem("accessToken");
-            const response = await SalesApiService.getInstance().getSaleById(id, {
-                headers: { authorization: `Bearer ${token}` },
-            });
-            return await response;
-        } catch (error: any) {
-            return rejectWithValue(error.message);
-        }
+  "sales/get/id",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await SalesApiService.getInstance().getSaleById(id, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
+  }
 );
 
 export const updateSale = createAsyncThunk(
-    "sales/update",
-    async (saleData: InitialState["form"], { rejectWithValue }) => {
-        try {
-            const token = localStorage.getItem("accessToken");
-            const response = await SalesApiService.getInstance().updateSale(
-                saleData.id,
-                saleData,
-                {
-                    headers: { authorization: `Bearer ${token}` },
-                }
-            );
-            return await response;
-        } catch (error: any) {
-            return rejectWithValue(error.message);
+  "sales/update",
+  async (saleData: InitialState["form"], { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await SalesApiService.getInstance().updateSale(
+        saleData.id,
+        saleData,
+        {
+          headers: { authorization: `Bearer ${token}` },
         }
+      );
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
+  }
 );
 
 export const deleteSale = createAsyncThunk(
-    "sales/delete",
-    async (id: string, { rejectWithValue }) => {
-        try {
-            const token = localStorage.getItem("accessToken");
-            const response = await SalesApiService.getInstance().deleteSale(id, {
-                headers: { authorization: `Bearer ${token}` },
-            });
-            return await response;
-        } catch (error: any) {
-            return rejectWithValue(error.message);
-        }
+  "sales/delete",
+  async (id: string, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await SalesApiService.getInstance().deleteSales(id, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
     }
+  }
 );
