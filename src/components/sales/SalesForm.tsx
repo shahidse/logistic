@@ -1,6 +1,6 @@
 'use client'
 import { Box, Divider, SelectChangeEvent } from '@mui/material'
-import React, { Fragment, useEffect, } from 'react'
+import React, { Fragment, useEffect, useState, } from 'react'
 import CustomForm from '../common/CustomForm'
 import CustomInput from '../common/CustomInput'
 import ButtonStack from '../common/ButtonStack'
@@ -15,7 +15,7 @@ import { getClient } from '@/lib/features/users/usersThunk'
 import { addClientId, addProduct, removeProduct, resetState, setProductFormState } from '@/lib/features/sales/saleSlice'
 import { useRouter } from 'next/navigation'
 import { getProducts } from '@/lib/features/producsts/productsThunk'
-import { addSale } from '@/lib/features/sales/salesThunk'
+import { addSale, getSaleById, updateSale } from '@/lib/features/sales/salesThunk'
 import { useSnackbar } from '../common/SnakeBarProvider'
 
 function SalesForm({ id }: { id: string }) {
@@ -46,6 +46,25 @@ function SalesForm({ id }: { id: string }) {
     }
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (id && id != "add") {
+            dispatch(updateSale({ id, data: { products, clientIds } }))
+                .then((res) => {
+                    if (res.type.endsWith("/fulfilled")) {
+                        showSnackbar("Form updated successfully!", "success");
+                        resetState();
+                        router.push("/dashboard/sales");
+                    }
+                    else if (res.type.endsWith("/rejected")) {
+                        showSnackbar(error || "Update failed!", "error");
+                    }
+                }
+                )
+                .catch((err) => {
+                    showSnackbar(err.message, "error");
+                });
+            return;
+
+        }
         dispatch(addSale({ products, clientIds }))
             .then((res) => {
                 if (res.type.endsWith("/fulfilled")) {
@@ -90,8 +109,6 @@ function SalesForm({ id }: { id: string }) {
             : [];
         return formatted;
     }, [data]);
-
-
     const productsOptions = React.useMemo(() => {
         const formatted = productData.data.length
             ? productData.data.map((p: any) => ({
@@ -107,7 +124,10 @@ function SalesForm({ id }: { id: string }) {
     useEffect(() => {
         dispatch(getClient());
         dispatch(getProducts())
-    }, [dispatch]);
+        if (id && id != "add") {
+            dispatch(getSaleById(id));
+        }
+    }, [dispatch, id]);
     return (
         <Box className='h-[65vh]'>
             <CustomForm onSubmit={handleSubmit} className='max-h-full overflow-y-auto flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background' >
@@ -144,7 +164,6 @@ function SalesForm({ id }: { id: string }) {
                                         options={productsOptions}
                                         loading={productData.loading}
                                     />
-
                                     <CustomInput
                                         name={`productQuantities`}
                                         onChange={(e: any) => handleChange(e, index)}
@@ -305,20 +324,23 @@ function SalesForm({ id }: { id: string }) {
                         ))}
                     </Box>
                     <Box className="flex">
-                        <CustomButton
-                            variant='text'
-                            sx={{
-                                backgroundColor: "transparent",
-                                display: 'flex',
-                                justifyContent: 'start',
-                                width: 'auto'
-                            }}
-                            className='shadow-none flex active:bg-blue-400 focus:bg-transparent focus:text-blue-600'
-                            startIcon={<Add />}
-                            onClick={addProductField}
-                        >
-                            Additional Products
-                        </CustomButton>
+                        {id && id == "add" && (
+                            <CustomButton
+                                variant='text'
+                                sx={{
+                                    backgroundColor: "transparent",
+                                    display: 'flex',
+                                    justifyContent: 'start',
+                                    width: 'auto'
+                                }}
+                                className='shadow-none flex active:bg-blue-400 focus:bg-transparent focus:text-blue-600'
+                                startIcon={<Add />}
+                                onClick={addProductField}
+                            >
+                                Additional Products
+                            </CustomButton>
+                        )}
+                        
                     </Box>
                 </Box>
                 <Divider className='w-full' />

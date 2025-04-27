@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { addSale, getSales } from "./salesThunk";
+import { addSale, getSaleById, getSales } from "./salesThunk";
 import { act } from "react";
 
 export interface Product {
@@ -146,9 +146,44 @@ export const SalesSlice = createSlice({
       .addCase(getSales.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload.data;
-        console.log(action.payload);
       })
       .addCase(getSales.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      });
+    builder
+      .addCase(getSaleById.pending, (state) => {
+        state.loading = true;
+        state.error = "";
+      })
+      .addCase(getSaleById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.error = "";
+        state.form.clientIds = [action.payload.client.id];
+        state.form.products = [
+          {
+            id: action.payload.product.id,
+            productQuantities: action.payload.productQuantities,
+            netPrice: action.payload.netPrice,
+            netPriceCurrency: action.payload.netPriceCurrency,
+            paidAmount: action.payload.paidAmount,
+            remainingAmount: action.payload.remainingAmount,
+            descriptions: action.payload.descriptions,
+            status: action.payload.status,
+            paymentMethod: action.payload.paymentMethod,
+            paymentDate: new Date(action.payload.paymentDate)
+              .toISOString()
+              .split("T")[0],
+            shippingAddress: action.payload.shippingAddress,
+            deliveryDate: new Date(action.payload.deliveryDate)
+              .toISOString()
+              .split("T")[0],
+            shippingStatus: action.payload.shippingStatus,
+            specialInstructions: action.payload.specialInstructions,
+          },
+        ];
+      })
+      .addCase(getSaleById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });

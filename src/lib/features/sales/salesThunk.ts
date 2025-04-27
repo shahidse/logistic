@@ -41,7 +41,7 @@ export const getSaleById = createAsyncThunk(
   async (id: string, { rejectWithValue }) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await SalesApiService.getInstance().getSaleById(id, {
+      const response = await SalesApiService.getInstance().getSalesById(id, {
         headers: { authorization: `Bearer ${token}` },
       });
       return await response;
@@ -53,12 +53,15 @@ export const getSaleById = createAsyncThunk(
 
 export const updateSale = createAsyncThunk(
   "sales/update",
-  async (saleData: InitialState["form"], { rejectWithValue }) => {
+  async (
+    saleData: { id: string, data: InitialState["form"] },
+    { rejectWithValue }
+  ) => {
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await SalesApiService.getInstance().updateSale(
+      const response = await SalesApiService.getInstance().updateSales(
         saleData.id,
-        saleData,
+        saleData.data,
         {
           headers: { authorization: `Bearer ${token}` },
         }

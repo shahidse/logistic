@@ -18,6 +18,7 @@ interface MultipleSelectChipProps {
     loading?: boolean; // Whether to show loading spinner
     error?: boolean; // Whether there is an error
     helperText?: string; // Error message
+    required?: boolean; // Whether the field is required
 }
 
 const ITEM_HEIGHT = 48;
@@ -48,6 +49,7 @@ const MultipleSelectChip: React.FC<MultipleSelectChipProps> = ({
     loading = false,
     error = false,
     helperText = '',
+    required = true,
 }) => {
     const theme = useTheme();
 
@@ -61,6 +63,7 @@ const MultipleSelectChip: React.FC<MultipleSelectChipProps> = ({
                 id="multiple-chip-select"
                 multiple
                 value={value}
+                required={required}
                 onChange={onChange}
                 input={<OutlinedInput id="select-multiple-chip" label={label} />}
                 renderValue={(selected) => (
