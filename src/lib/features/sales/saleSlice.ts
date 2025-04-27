@@ -159,6 +159,7 @@ export const SalesSlice = createSlice({
       .addCase(getSaleById.fulfilled, (state, action) => {
         state.loading = false;
         state.error = "";
+        state.id = action.payload.id;
         state.form.clientIds = [action.payload.client.id];
         state.form.products = [
           {

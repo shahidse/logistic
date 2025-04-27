@@ -127,7 +127,7 @@ function SalesForm({ id }: { id: string }) {
         if (id && id != "add") {
             dispatch(getSaleById(id));
         }
-    }, [dispatch, id]);
+    }, [dispatch,id]);
     return (
         <Box className='h-[65vh]'>
             <CustomForm onSubmit={handleSubmit} className='max-h-full overflow-y-auto flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background' >

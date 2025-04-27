@@ -13,7 +13,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 function SalesLayout({ children }: { children: React.JSX.Element }) {
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const { form: { name } } = useAppSelector(state => state.products)
     const { id } = useParams()
 
     const handleAddProduct = () => {
@@ -43,14 +42,14 @@ function SalesLayout({ children }: { children: React.JSX.Element }) {
                     <ButtonStack className='flex justify-between w-full '>
                         <>
                             <Box className="flex items-center font-bold text-xl md:text-2xl gap-2">
+                                <CustomIconButton handle={handleBack}>
+                                    <ArrowBack />
+                                </CustomIconButton>
                                 {id === 'add' ? (
-                                    <>
-                                        <CustomIconButton handle={handleBack}>
-                                            <ArrowBack />
-                                        </CustomIconButton>
+                                    <p>
                                         Add New Sale
-                                    </>
-                                ) : id ? `Edit ${name}` : ''}
+                                    </p>
+                                ) : id ? `Edit Sale with id ${id}` : ''}
                             </Box>
 
                             {/* Animated Button */}

@@ -44,13 +44,13 @@ function ProductsLayout({ children }: { children: React.JSX.Element }) {
                     <ButtonStack className='flex justify-between w-full '>
                         <>
                             <Box className="flex items-center font-bold text-2xl gap-2">
+                                <CustomIconButton handle={handleBack}>
+                                    <ArrowBack />
+                                </CustomIconButton>
                                 {id === 'add' ? (
-                                    <>
-                                        <CustomIconButton handle={handleBack}>
-                                            <ArrowBack />
-                                        </CustomIconButton>
+                                    <p>
                                         Add New Product
-                                    </>
+                                    </p>
                                 ) : id ? `Edit ${name}` : ''}
                             </Box>
 
