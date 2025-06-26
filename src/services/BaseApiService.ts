@@ -20,20 +20,22 @@ export class BaseApiService {
         body: data ? JSON.stringify(data) : undefined,
       });
 
+      const responseJson = await response.json();
       if (response.status === 401) {
-        localStorage.clear();
-        window.location.href = "/"; // Redirect user to login page
-        return new Error(`Session Expires`);
+        if (responseJson.message === "Unauthorized") {
+          localStorage.clear();
+          window.location.href = "/";
+          throw new Error(responseJson.message || "UNAUTHORIZED");
+        }
       }
 
       if (!response.ok) {
-        const errorMessage = await response.json();
         throw new Error(
-          errorMessage.message || `Error: ${response.statusText}`
+          responseJson.message || `Error: ${response.statusText}`
         );
       }
 
-      return await response.json();
+      return await responseJson;
     } catch (error) {
       console.error(`Base API ${method} Error:`, error);
       throw error;

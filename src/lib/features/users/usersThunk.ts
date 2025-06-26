@@ -9,9 +9,9 @@ export const getSecretToken = createAsyncThunk(
       const response = await UserApiService.getInstance().getSecretToken(
         userData
       );
-      return await response; // Successful response
+      return await response;
     } catch (error: any) {
-      return rejectWithValue(error.message); // Return error message
+      return rejectWithValue(error.message);
     }
   }
 );

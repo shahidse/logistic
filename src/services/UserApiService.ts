@@ -17,7 +17,8 @@ export class UserApiService extends BaseApiService {
     return await this.post("users/signup", data, options);
   }
   async logIn(data: any, options?: RequestInit) {
-    return await this.post("users/login", data, options);
+    const res = await this.post("users/login", data, options);
+    return res
   }
   async createClient(data: any, options?: RequestInit) {
     return await this.post(`clients`, data, options);
