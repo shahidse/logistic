@@ -1,11 +1,10 @@
+import Customers from '@/components/customers/Customers'
 import React from 'react'
 
 function page() {
-    return (
-        <div>
-            No data available
-        </div>
-    )
+  return (
+    <Customers/>
+  )
 }
 
 export default page
