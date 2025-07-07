@@ -133,3 +133,31 @@ export const getRoles = createAsyncThunk(
     }
   }
 );
+export const getCustomers = createAsyncThunk(
+  "customers/get",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().getCustomers({
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const getCustomersById = createAsyncThunk(
+  "customers/get/id",
+  async (id: any, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().getCustoemrById(id, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

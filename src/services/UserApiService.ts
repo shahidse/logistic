@@ -38,4 +38,10 @@ export class UserApiService extends BaseApiService {
   async getRoles(options?: RequestInit) {
     return await this.get("users/roles", options);
   }
+  async getCustomers(options?: RequestInit) {
+    return await this.get(`customers`, options);
+  }
+   async getCustoemrById(id: any, options?: RequestInit) {
+    return await this.get(`customers/${id}`, options);
+  }
 }

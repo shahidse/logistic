@@ -1,18 +1,18 @@
 'use client'
 import { useTableHandler } from '@/hooks/tableHandler'
-import { deleteClient, getClient } from '@/lib/features/users/usersThunk';
+import { deleteClient, getCustomers } from '@/lib/features/users/usersThunk';
 import { RootState } from '@/lib/store';
 import React from 'react'
 import CustomizedTables from '@/components/common/CustomizedTables';
 
 function Customers() {
     const formatedData = (data: any[]) =>
-        data.map(({ ...rest }) => ({
+        data.map(({ password, encryptedPassword,profilePic,  ...rest }) => ({
             ...rest,
             roles: rest.roles.role,
         }));
     const { formattedData, selected, handleSelectAll, handleSelectRow, handleEdit, handleDelete } = useTableHandler(
-        getClient,
+        getCustomers,
         deleteClient,
         (state: RootState) => state.users.data,
         formatedData,

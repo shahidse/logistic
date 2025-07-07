@@ -4,6 +4,8 @@ import {
   deleteClient,
   getClient,
   getClientById,
+  getCustomers,
+  getCustomersById,
   getRoles,
   getSecretToken,
   signin,
@@ -243,6 +245,33 @@ export const usersSlice = createSlice({
         state.roles = actions.payload;
       })
       .addCase(getRoles.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(getCustomers.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCustomers.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+        state.data = actions.payload;
+      })
+      .addCase(getCustomers.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(getCustomersById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCustomersById.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+        state.form = actions.payload;
+        state.form.rolesId = String(actions.payload?.roles?.id) || "";
+      })
+      .addCase(getCustomersById.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });

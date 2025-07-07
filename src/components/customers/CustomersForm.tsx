@@ -9,7 +9,7 @@
  import { Box } from '@mui/material'
  import React, { useEffect } from 'react'
  import { useFormHandler } from '@/hooks/formHandler'
- import { createClient, getClientById, getRoles } from '@/lib/features/users/usersThunk'
+ import { createClient, getCustomersById, getRoles } from '@/lib/features/users/usersThunk'
  import { useAppDispatch, useAppSelector } from '@/lib/hooks'
  function CustomersForm({ id }: { id: string }) {
      const { form, loading, handleSubmit, handleChange, handleReset } = useFormHandler({
@@ -17,7 +17,7 @@
          submitAction: createClient,
          redirectPath: "clients",
          setFormState: setClientFormState,
-         getDataById: getClientById,
+         getDataById: getCustomersById,
          id,
          resetState: resetClientForm
      });
@@ -26,7 +26,7 @@
      const { roles } = useAppSelector((state) => state.users)
      const formattedData: [] = React.useMemo(() => {
          if (!roles || !roles.length) return [{ value: 0, label: "Other" }]; // Fallback to "Other" if no roles
-         return roles?.filter((role) => role.role == 'Client').map(({ ...rest }) => ({
+         return roles?.filter((role) => role.role == 'Customer').map(({ ...rest }) => ({
              label: rest?.role,
              value: rest?.id,
          }));
@@ -57,13 +57,13 @@
          <Box className='' >
              <CustomForm onSubmit={handleSubmit} onReset={handleReset} className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background '>
                  <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={rolesId} name='rolesId' label='Role' sx={styles} select options={formattedData} />
-                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={fullName} name='fullName' label='Client Name' sx={styles} />
-                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={email} name='email' label='Client Email' sx={styles} />
-                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={userName} name='userName' label='Client UserName' sx={styles} />
-                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={password} name='password' label='Client Password' sx={styles} /> 
-                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={confirmPassword} name='confirmPassword' label='Client Confirm Password' sx={styles} />
-                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={phone} name='phone' required={false} label='Client Phone' sx={styles} />
-                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={address} name='address' required={false} label='Client Street Address' sx={styles} />
+                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={fullName} name='fullName' label='Customer Name' sx={styles} />
+                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={email} name='email' label='Customer Email' sx={styles} />
+                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={userName} name='userName' label='Customer UserName' sx={styles} />
+                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={password} name='password' label='Customer Password' sx={styles} /> 
+                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={confirmPassword} name='confirmPassword' label='Customer Confirm Password' sx={styles} />
+                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={phone} name='phone' required={false} label='Customer Phone' sx={styles} />
+                 <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={address} name='address' required={false} label='Customer Street Address' sx={styles} />
                  <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={country} name='country' required={false} label='Countary of Origin' sx={styles} select={true} options={countriesArray} />
                  <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={city} name='city' required={false} label='City' sx={styles} />
                  <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' disabled name='profilePic' required={false} label='Profile Picture' sx={styles} type='file' />
