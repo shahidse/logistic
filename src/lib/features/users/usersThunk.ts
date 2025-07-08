@@ -161,3 +161,31 @@ export const getCustomersById = createAsyncThunk(
     }
   }
 );
+export const getTransporters = createAsyncThunk(
+  "transporters/get",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().getTransporters({
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+export const getTransportersById = createAsyncThunk(
+  "transporters/get/id",
+  async (id: any, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().getTransportersById(id, {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

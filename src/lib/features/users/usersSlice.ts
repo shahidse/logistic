@@ -8,6 +8,8 @@ import {
   getCustomersById,
   getRoles,
   getSecretToken,
+  getTransporters,
+  getTransportersById,
   signin,
   signup,
   updateClient,
@@ -272,6 +274,33 @@ export const usersSlice = createSlice({
         state.form.rolesId = String(actions.payload?.roles?.id) || "";
       })
       .addCase(getCustomersById.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(getTransporters.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getTransporters.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+        state.data = actions.payload;
+      })
+      .addCase(getTransporters.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(getTransportersById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getTransportersById.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+        state.form = actions.payload;
+        state.form.rolesId = String(actions.payload?.roles?.id) || "";
+      })
+      .addCase(getTransportersById.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });

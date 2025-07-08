@@ -44,4 +44,10 @@ export class UserApiService extends BaseApiService {
    async getCustoemrById(id: any, options?: RequestInit) {
     return await this.get(`customers/${id}`, options);
   }
+  async getTransporters(options?: RequestInit) {
+    return await this.get(`transporters`, options);
+  }
+   async getTransportersById(id: any, options?: RequestInit) {
+    return await this.get(`transporters/${id}`, options);
+  }
 }
