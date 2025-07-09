@@ -4,17 +4,19 @@ import { deleteClient, getClient } from '@/lib/features/users/usersThunk';
 import { RootState } from '@/lib/store';
 import React from 'react'
 import CustomizedTables from '@/components/common/CustomizedTables';
+import { deleteInventory, getInventories } from '@/lib/features/inventory/inventoryThunk';
 
 function Inventory() {
     const formatedData = (data: any[]) =>
         data.map(({ ...rest }) => ({
             ...rest,
-            roles: rest.roles.role,
+            brands:rest.brands.name,
+            isActive: rest.isActive ? 'Active' : 'Inactive',
         }));
     const { formattedData, selected, handleSelectAll, handleSelectRow, handleEdit, handleDelete } = useTableHandler(
-        getClient,
-        deleteClient,
-        (state: RootState) => state.users.data,
+        getInventories,
+        deleteInventory,
+        (state: RootState) => state.inventory.data,
         formatedData,
         '/dashboard/inventory'
     );

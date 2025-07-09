@@ -97,7 +97,7 @@ export const inventorySlice = createSlice({
       })
       .addCase(getInventories.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload.data;
+        state.data = action.payload;
       })
       .addCase(getInventories.rejected, (state, action) => {
         state.loading = false;

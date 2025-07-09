@@ -61,7 +61,7 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
                         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                     >
                         <MenuItem onClick={handleProfile}>
-                            <Link href="/dashboard/users" className="flex items-center">
+                            <Link href="/users" className="flex items-center">
                                 <Person className="mr-2" color='primary' /> Profile
                             </Link>
                         </MenuItem>

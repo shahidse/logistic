@@ -25,7 +25,7 @@ function TransportersForm({ id }: { id: string }) {
     const { roles } = useAppSelector((state) => state.users)
     const formattedData: [] = React.useMemo(() => {
         if (!roles || !roles.length) return [{ value: 0, label: "Other" }]; // Fallback to "Other" if no roles
-        return roles?.filter((role) => role.role == 'Transporter').map(({ ...rest }) => ({
+        return roles?.filter((role:any) => role.role == 'Transporter').map(({ ...rest }) => ({
             label: rest?.role,
             value: rest?.id,
         }));
@@ -53,96 +53,26 @@ function TransportersForm({ id }: { id: string }) {
         dispatch(getRoles())
     }, [dispatch])
     return (
-        <Box className=''>
-            <CustomForm
-                onSubmit={handleSubmit}
-                onReset={handleReset}
-                className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background'
-            >
-                <CustomInput
-                    fullWidth={false}
-                    onChange={handleChange}
-                    className='md:w-[450px]'
-                    value={name}
-                    name='name'
-                    label='Inventory Name'
-                    sx={styles}
-                />
-                <CustomInput
-                    fullWidth={false}
-                    onChange={handleChange}
-                    className='md:w-[450px]'
-                    value={description}
-                    name='description'
-                    label='Description'
-                    sx={styles}
-                />
-                <CustomInput
-                    fullWidth={false}
-                    onChange={handleChange}
-                    className='md:w-[450px]'
-                    value={location}
-                    name='location'
-                    label='Location (Depot/Warehouse)'
-                    sx={styles}
-                />
-                <CustomInput
-                    fullWidth={false}
-                    onChange={handleChange}
-                    className='md:w-[450px]'
-                    value={priority}
-                    name='priority'
-                    label='Inventory Priority'
-                    sx={styles}
-                    select
-                    options={[
-                        { label: 'Primary', value: 'Primary' },
-                        { label: 'Secondary', value: 'Secondary' },
-                        { label: 'Tertiary', value: 'Tertiary' },
-                        { label: 'EnRoute', value: 'EnRoute' },
-                    ]}
-                />
-                <CustomInput
-                    fullWidth={false}
-                    onChange={handleChange}
-                    className='md:w-[450px]'
-                    value={brands}
-                    name='brands'
-                    label='Brand'
-                    sx={styles}
-                    select
-                    options={brandOptions} // Replace with dynamic brand list
-                />
-                <CustomInput
-                    fullWidth={false}
-                    onChange={handleChange}
-                    className='md:w-[450px]'
-                    value={isActive}
-                    name='isActive'
-                    label='Is Active'
-                    sx={styles}
-                    select
-                    options={[
-                        { label: 'Yes', value: true },
-                        { label: 'No', value: false },
-                    ]}
-                />
+        <Box className='' >
+            <CustomForm onSubmit={handleSubmit} onReset={handleReset} className='flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background '>
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={rolesId} name='rolesId' label='Role' sx={styles} select options={formattedData} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={fullName} name='fullName' label='Transporter Name' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={email} name='email' label='Transporter Email' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={userName} name='userName' label='Transporter UserName' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={password} name='password' label='Transporter Password' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={confirmPassword} name='confirmPassword' label='Transporter Confirm Password' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={phone} name='phone' required={false} label='Transporter Phone' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={address} name='address' required={false} label='Transporter Street Address' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={country} name='country' required={false} label='Countary of Origin' sx={styles} select={true} options={countriesArray} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={city} name='city' required={false} label='City' sx={styles} />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' disabled name='profilePic' required={false} label='Profile Picture' sx={styles} type='file' />
+                <CustomInput fullWidth={false} onChange={handleChange} className=' md:w-[450px]' value={dob} name='dob' required={false} label='Date of Birth' type='date' sx={styles} />
                 <ButtonStack className='flex justify-end w-full pt-4'>
-                    <Box className='flex justify-between gap-4 w-[450px] mr-24'>
-                        <CustomButton
-                            className='flex'
-                            variant='outlined'
-                            sx={{ backgroundColor: 'transparent' }}
-                            type='reset'
-                        >
+                    <Box className=" flex justify-between gap-4 w-[450px] mr-24">
+                        <CustomButton className='flex ' variant='outlined' sx={{ backgroundColor: "transparent" }} type='reset'>
                             Cancel
                         </CustomButton>
-                        <CustomButton
-                            loading={loading}
-                            className='flex'
-                            sx={{ backgroundColor: 'var(--info)' }}
-                            type='submit'
-                        >
+                        <CustomButton loading={loading} className='flex  ' sx={{ backgroundColor: "var(--info) " }} type='submit'>
                             Submit
                         </CustomButton>
                     </Box>
