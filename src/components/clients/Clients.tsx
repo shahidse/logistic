@@ -7,7 +7,7 @@ import CustomizedTables from '@/components/common/CustomizedTables';
 
 function Clients() {
     const formatedData = (data: any[]) =>
-        data.map(({ ...rest }) => ({
+        data.map(({encryptedPassword,password, ...rest }) => ({
             ...rest,
             roles: rest.roles.role,
         }));

@@ -158,7 +158,7 @@ function SalesForm({ id }: { id: string }) {
                                         value={product.id}
                                         fullWidth={false}
                                         className='md:w-[250px]'
-                                        label={`Product Company ${index + 1}`}
+                                        label={`Product ${index + 1}`}
                                         sx={styles}
                                         select
                                         options={productsOptions}

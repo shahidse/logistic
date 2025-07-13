@@ -3,7 +3,7 @@ import { Box, Menu, MenuItem, Avatar, IconButton, Typography } from '@mui/materi
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import { Home, Person, Settings, BarChart, Menu as MenuIcon, Close as CloseIcon, People, LogoutOutlined, Inventory, EmojiTransportation, ShoppingCart, Group, Business, Category } from '@mui/icons-material';
+import { Home, Person, Settings, BarChart, Menu as MenuIcon, Close as CloseIcon, People, LogoutOutlined, Inventory, EmojiTransportation, ShoppingCart, Group, Business, Category, Warehouse, MoveToInbox, LocalShipping } from '@mui/icons-material';
 import Footer from '@/components/common/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -94,6 +94,7 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
                             { name: 'Customers', path: '/dashboard/customers', icon: <Group /> },
                             { name: 'Transporter', path: '/dashboard/transporters', icon: <EmojiTransportation /> },
                             { name: 'Inventory', path: '/dashboard/inventory', icon: <Inventory /> },
+                            { name: 'Distributions', path: '/dashboard/distributions', icon: <LocalShipping /> },
                             { name: 'Reports', path: '/dashboard/reports', icon: <BarChart /> },
                         ].map((item, index) => (
                             <Link key={index} href={item.path} passHref>

@@ -16,6 +16,7 @@ interface UseFormHandlerProps<T, K extends keyof T, V> {
   getDataById?: AsyncThunk<any, string, {}>; // Optional async thunk action to fetch data by ID
   id?: string; // Optional ID for fetching data
   resetState?: ActionCreator<any>;
+  fetchExtraData?: Array<any>; // Optional array of async thunks to fetch extra data
 }
 
 export const useFormHandler = <
@@ -30,6 +31,7 @@ export const useFormHandler = <
   getDataById,
   id,
   resetState = () => {},
+  fetchExtraData = [],
 }: UseFormHandlerProps<T, K, V>) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -53,7 +55,7 @@ export const useFormHandler = <
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('form', form)
+    console.log("form", form);
     dispatch(submitAction(form))
       .then((res) => {
         if (res.type.endsWith("/fulfilled")) {
@@ -73,10 +75,15 @@ export const useFormHandler = <
     dispatch(resetState());
   };
   useEffect(() => {
+    if (fetchExtraData.length > 0) {
+      fetchExtraData.forEach((action) => {
+        dispatch(action());
+      });
+    }
     if (id && id != "add" && getDataById) {
       dispatch(getDataById(id));
     }
-  }, [id, getDataById, dispatch]);
+  }, [id, getDataById, dispatch, fetchExtraData]);
   return {
     form,
     loading,
@@ -85,6 +92,6 @@ export const useFormHandler = <
     handleSubmit,
     handleReset,
     dispatch,
-    allState
+    allState,
   };
 };

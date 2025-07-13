@@ -87,7 +87,7 @@ const CustomInput: React.FC<InputProps> = ({
 
     return (
         <FormControl fullWidth={screenWidth < 768 ? true : fullWidth} error={error}>
-            <TextField
+            {/* <TextField
                 type={type}
                 select={select}
 
@@ -123,7 +123,47 @@ const CustomInput: React.FC<InputProps> = ({
                         <MenuItem key={option.value} value={option.value}>
                             {option.label}
                         </MenuItem>
-                    ))}</TextField>
+                    ))}
+            </TextField> */}
+            <TextField
+                type={type}
+                select={select}
+                name={name}
+                value={value}
+                onChange={onChange}
+                required={required}
+                placeholder={placeholder}
+                variant="outlined"
+                fullWidth={screenWidth < 768 ? true : fullWidth}
+                label={label}
+                className={`flex bg-inputBackground backdrop-blur rounded-[6px] text-[info] shadow-lg border-inputBorder  ${className}`}
+                sx={sx}
+                multiline={multiline}
+                rows={rows}
+                disabled={disabled || loading}
+                InputLabelProps={{
+                    shrink: type === 'date' || type === 'Date' || type === 'file' ? true : undefined,
+                }}
+                InputProps={{
+                    endAdornment: icon ? (
+                        <InputAdornment position="end">{icon}</InputAdornment>
+                    ) : null,
+                    startAdornment: loading ? (
+                        <InputAdornment position="start">
+                            <CircularProgress size={24} color="inherit" />
+                        </InputAdornment>
+                    ) : null,
+                }}
+            >
+                {select &&
+                    (options ?? [{ label: 'No options available', value: 0 }])
+                        .filter(option => option && option.value !== undefined)
+                        .map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+            </TextField>
             {helperText && <FormHelperText>{helperText}</FormHelperText>}
         </FormControl >
     );

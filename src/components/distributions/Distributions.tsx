@@ -1,24 +1,26 @@
 'use client'
-import React from 'react'
+import React, { useCallback } from 'react'
 import CustomizedTables from '@/components/common/CustomizedTables'
-import { deleteProducts, getProducts } from '@/lib/features/producsts/productsThunk'
 import { useTableHandler } from '@/hooks/tableHandler'
 import { RootState } from '@/lib/store'
+import { deleteDistribution, getDistributions } from '@/lib/features/distributions/distributionsThunk'
 
-function Products() {
+function Distributions() {
     const formatedData = (data: any[]) =>
-        data.map(({ expiry, pros, cons, description, usage, ...rest }) => ({
+        data.map(({ ...rest }) => ({
             ...rest,
-            addedBy: rest.addedBy.fullName,
-            company: rest.company?.name,
-
+            product: rest.product.name,
+            inventory: rest.inventory.name,
         }));
+    const fetchSales = useCallback(() => {
+        return getDistributions({ page: 1, limit: 10 });
+    }, []);
     const { formattedData, selected, handleSelectAll, handleSelectRow, handleEdit, handleDelete } = useTableHandler(
-        getProducts,
-        deleteProducts,
-        (state: RootState) => state.products.data,
+        fetchSales,
+        deleteDistribution,
+        (state: RootState) => state.distributions.data,
         formatedData,
-        '/dashboard/products'
+        '/dashboard/distributions',
     );
     return (
         <div>
@@ -27,4 +29,4 @@ function Products() {
     )
 }
 
-export default Products
+export default Distributions

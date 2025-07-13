@@ -62,7 +62,7 @@ export default function DynamicTable({ data, handleSelectRow, handleSelectAll, h
     };
     return (
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
-            <TableContainer className="max-h-[500px] md:max-h-[550px] lg:max-h-[600px] overflow-auto">
+            <TableContainer className="max-h-[500px] md:max-h-[550px] lg:max-h-[600px] overflow-auto" >
                 <Table stickyHeader aria-label="dynamic table">
                     <TableHead>
                         <TableRow>
