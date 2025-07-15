@@ -16,7 +16,7 @@ export const addDistribution = createAsyncThunk(
             );
             return await response;
         } catch (error: any) {
-            return rejectWithValue(error.message);
+            return rejectWithValue(error.message || "Failed to add distribution");
         }
     }
 );

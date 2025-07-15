@@ -81,7 +81,7 @@ export const distributionSlice = createSlice({
       })
       .addCase(addDistribution.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || "Failed to add distribution";
+        state.error = action.payload as string;
       });
 
     // Get Distributions
@@ -147,7 +147,7 @@ export const distributionSlice = createSlice({
         state.form = {
           productId: action.payload.productId,
           inventoryId: action.payload.inventoryId,
-          totalDistribute: action.payload.totalDistribute,
+          totalDistributed: action.payload.totalDistribute,
         };
         state.error = "";
       })

@@ -13,7 +13,7 @@ interface UseFormHandlerProps<T, K extends keyof T, V> {
   submitAction: AsyncThunk<any, T, {}>; // Generic async thunk action for submission
   redirectPath: string; // Path to redirect after successful submission
   setFormState: ActionCreatorWithPayload<{ key: K; value: V }>; // Action creator to set form state
-  getDataById?: AsyncThunk<any, string, {}>; // Optional async thunk action to fetch data by ID
+  getDataById?: (id: string) => any; // Optional async thunk action to fetch data by ID
   id?: string; // Optional ID for fetching data
   resetState?: ActionCreator<any>;
   fetchExtraData?: Array<any>; // Optional array of async thunks to fetch extra data
@@ -83,7 +83,7 @@ export const useFormHandler = <
     if (id && id != "add" && getDataById) {
       dispatch(getDataById(id));
     }
-  }, [id, getDataById, dispatch, fetchExtraData]);
+  }, [id, dispatch, getDataById]);
   return {
     form,
     loading,

@@ -36,9 +36,9 @@ export class BaseApiService {
       }
 
       return await responseJson;
-    } catch (error) {
+    } catch (error: any) {
       console.error(`Base API ${method} Error:`, error);
-      throw error;
+      throw new Error(error.message);
     }
   }
   protected async get(endpoint: string, options?: RequestInit) {

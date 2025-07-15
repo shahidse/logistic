@@ -1,6 +1,6 @@
 'use client'
 import { Box } from '@mui/material'
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import CustomForm from '../common/CustomForm'
 import CustomInput from '../common/CustomInput'
 import ButtonStack from '../common/ButtonStack'
@@ -13,12 +13,13 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { getCompany } from '@/lib/features/company/comapanyThunk'
 
 function ProductsForm({ id }: { id: string }) {
+    const getProductById = useCallback((id: string) => getProductsById(id), []);
     const { form, loading, handleSubmit, handleChange, } = useFormHandler({
         sliceKey: "products",
         submitAction: addProducts,
         redirectPath: "products",
         setFormState,
-        getDataById: getProductsById,
+        getDataById: getProductById,
         id,
         resetState: resetState
     });
