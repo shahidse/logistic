@@ -19,14 +19,18 @@ import { addSale, getSaleById, updateSale } from '@/lib/features/sales/salesThun
 import { useSnackbar } from '../common/SnakeBarProvider'
 import { selectUsersByRole } from '@/lib/features/users/selectors'
 import { selectProductOptions } from '@/lib/features/producsts/selectors'
+import { selectInventoryOptions } from '@/lib/features/inventory/selectors'
+import { getInventories } from '@/lib/features/inventory/inventoryThunk'
 
-function SalesForm({ id }: { id: string }) {
+function CustomersSalesForm({ id }: { id: string }) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const { showSnackbar } = useSnackbar()
     const data = useAppSelector(selectUsersByRole("Client"));
     const productOptions = useAppSelector(selectProductOptions);
     const productData = useAppSelector((state) => state.products);
+    const inventoryOptions = useAppSelector(selectInventoryOptions)
+    const inventoryData = useAppSelector((state) => state.inventory);
     const { form: { products, clientIds }, loading, error } = useAppSelector((state) => state.sales)
     const styles = {
         '& label': { color: 'var(--secondary)' },
@@ -55,7 +59,7 @@ function SalesForm({ id }: { id: string }) {
                     if (res.type.endsWith("/fulfilled")) {
                         showSnackbar("Form updated successfully!", "success");
                         resetState();
-                        router.push("/dashboard/sales");
+                        router.push("/dashboard/customers-sales");
                     }
                     else if (res.type.endsWith("/rejected")) {
                         showSnackbar(error || "Update failed!", "error");
@@ -73,7 +77,7 @@ function SalesForm({ id }: { id: string }) {
                 if (res.type.endsWith("/fulfilled")) {
                     showSnackbar("Form submitted successfully!", "success");
                     resetState();
-                    router.push("/dashboard/sales");
+                    router.push("/dashboard/customers-sales");
                 }
                 else if (res.type.endsWith("/rejected")) {
                     showSnackbar(error || "Submission failed!", "error");
@@ -115,6 +119,7 @@ function SalesForm({ id }: { id: string }) {
     useEffect(() => {
         dispatch(getClient());
         dispatch(getProducts())
+        dispatch(getInventories({ page: 1, limit: 10 }));
         if (id && id != "add") {
             dispatch(getSaleById(id));
         }
@@ -143,6 +148,18 @@ function SalesForm({ id }: { id: string }) {
                                         </CustomIconButton>
                                     )
                                     }
+                                    <CustomInput
+                                        name={`inventoryId`}
+                                        onChange={(e: any) => handleChange(e, index)}
+                                        value={product.id}
+                                        fullWidth={false}
+                                        className='md:w-[250px]'
+                                        label={`Inventory ${index + 1}`}
+                                        sx={styles}
+                                        select
+                                        options={inventoryOptions}
+                                        loading={inventoryData.loading}
+                                    />
                                     <CustomInput
                                         name={`id`}
                                         onChange={(e: any) => handleChange(e, index)}
@@ -350,4 +367,4 @@ function SalesForm({ id }: { id: string }) {
     )
 }
 
-export default SalesForm
+export default CustomersSalesForm

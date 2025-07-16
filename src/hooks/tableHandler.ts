@@ -27,7 +27,6 @@ export const useTableHandler = <T extends { id: number | string }>(
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch, fetchData]);
-
   // Format data if needed
   const formattedData = useMemo(
     () => (formatData ? formatData(data) : data),

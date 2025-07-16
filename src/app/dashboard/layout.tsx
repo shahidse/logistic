@@ -89,12 +89,13 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
                             { name: 'Home', path: '/dashboard', icon: <Home /> },
                             { name: 'Company', path: '/dashboard/company', icon: <Business /> },
                             { name: 'Products', path: '/dashboard/products', icon: <Category /> },
-                            { name: 'Sales', path: '/dashboard/sales', icon: <ShoppingCart /> },
+                            { name: 'Client Distributions', path: '/dashboard/sales', icon: <ShoppingCart /> },
+                            { name: 'Customers Sales', path: '/dashboard/customers-sales', icon: <ShoppingCart /> },
                             { name: 'Clients', path: '/dashboard/clients', icon: <People /> },
                             { name: 'Customers', path: '/dashboard/customers', icon: <Group /> },
                             { name: 'Transporter', path: '/dashboard/transporters', icon: <EmojiTransportation /> },
                             { name: 'Inventory', path: '/dashboard/inventory', icon: <Inventory /> },
-                            { name: 'Distributions', path: '/dashboard/distributions', icon: <LocalShipping /> },
+                            { name: 'Inventory Distributions', path: '/dashboard/distributions', icon: <LocalShipping /> },
                             { name: 'Reports', path: '/dashboard/reports', icon: <BarChart /> },
                         ].map((item, index) => (
                             <Link key={index} href={item.path} passHref>
