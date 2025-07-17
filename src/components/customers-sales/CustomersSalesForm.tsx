@@ -1,6 +1,6 @@
 'use client'
 import { Box, Divider, SelectChangeEvent } from '@mui/material'
-import React, { Fragment, useEffect, useState, } from 'react'
+import React, { Fragment, useEffect,  } from 'react'
 import CustomForm from '../common/CustomForm'
 import CustomInput from '../common/CustomInput'
 import ButtonStack from '../common/ButtonStack'
@@ -11,27 +11,28 @@ import { useAppDispatch, useAppSelector } from '@/lib/hooks'
 import { Add, Delete } from '@mui/icons-material'
 import CustomIconButton from '../common/CustomIconButton'
 import MultipleSelectChip from '../common/MultipleSelectChip'
-import { getClient } from '@/lib/features/users/usersThunk'
-import { addClientId, addProduct, removeProduct, resetState, setProductFormState } from '@/lib/features/sales/saleSlice'
+import { getCustomers } from '@/lib/features/users/usersThunk'
 import { useRouter } from 'next/navigation'
 import { getProducts } from '@/lib/features/producsts/productsThunk'
-import { addSale, getSaleById, updateSale } from '@/lib/features/sales/salesThunk'
 import { useSnackbar } from '../common/SnakeBarProvider'
 import { selectUsersByRole } from '@/lib/features/users/selectors'
 import { selectProductOptions } from '@/lib/features/producsts/selectors'
 import { selectInventoryOptions } from '@/lib/features/inventory/selectors'
 import { getInventories } from '@/lib/features/inventory/inventoryThunk'
+import { addCustomerSale, getCustomerSaleById, updateCustomerSale } from '@/lib/features/customer-sales/customerSalesThunk'
+import { addProduct, removeProduct, resetCustomerSaleForm, setCustomers, setProductDetail } from '@/lib/features/customer-sales/customerSalesSlice'
+import { resetClientForm } from '@/lib/features/users/usersSlice'
 
-function CustomersSalesForm({ id }: { id: string }) {
+function CustomersSalessForm({ id }: { id: string }) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const { showSnackbar } = useSnackbar()
-    const data = useAppSelector(selectUsersByRole("Client"));
+    const data = useAppSelector(selectUsersByRole("Customer"));
     const productOptions = useAppSelector(selectProductOptions);
     const productData = useAppSelector((state) => state.products);
     const inventoryOptions = useAppSelector(selectInventoryOptions)
     const inventoryData = useAppSelector((state) => state.inventory);
-    const { form: { products, clientIds }, loading, error } = useAppSelector((state) => state.sales)
+    const { form: { products, customers }, loading, error } = useAppSelector((state) => state.customerSales)
     const styles = {
         '& label': { color: 'var(--secondary)' },
         '& .MuiInputLabel-asterisk': {
@@ -54,11 +55,11 @@ function CustomersSalesForm({ id }: { id: string }) {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (id && id != "add") {
-            dispatch(updateSale({ id, data: { products, clientIds } }))
+            dispatch(updateCustomerSale({ id, data: { products, customers } }))
                 .then((res) => {
                     if (res.type.endsWith("/fulfilled")) {
                         showSnackbar("Form updated successfully!", "success");
-                        resetState();
+                        resetClientForm();
                         router.push("/dashboard/customers-sales");
                     }
                     else if (res.type.endsWith("/rejected")) {
@@ -72,11 +73,11 @@ function CustomersSalesForm({ id }: { id: string }) {
             return;
 
         }
-        dispatch(addSale({ products, clientIds }))
+        dispatch(addCustomerSale({ products, customers }))
             .then((res) => {
                 if (res.type.endsWith("/fulfilled")) {
                     showSnackbar("Form submitted successfully!", "success");
-                    resetState();
+                    resetCustomerSaleForm();
                     router.push("/dashboard/customers-sales");
                 }
                 else if (res.type.endsWith("/rejected")) {
@@ -98,14 +99,14 @@ function CustomersSalesForm({ id }: { id: string }) {
     };
     const handleChange = (e: any, index: number) => {
         const { name, value } = e.target;
-        dispatch(setProductFormState({ index, key: name, value }))
+        dispatch(setProductDetail({ index, key: name, value }))
     }
     const handleSelectChange = (event: SelectChangeEvent) => {
         const {
             target: { value },
         } = event;
         const selectedIds = typeof value === 'string' ? value.split(',') : value;
-        dispatch(addClientId(selectedIds))
+        dispatch(setCustomers(selectedIds))
     };
     const clientsOptions = React.useMemo(() => {
         const formatted = data.length
@@ -117,11 +118,11 @@ function CustomersSalesForm({ id }: { id: string }) {
         return formatted;
     }, [data]);
     useEffect(() => {
-        dispatch(getClient());
+        dispatch(getCustomers());
         dispatch(getProducts())
         dispatch(getInventories({ page: 1, limit: 10 }));
         if (id && id != "add") {
-            dispatch(getSaleById(id));
+            dispatch(getCustomerSaleById(id));
         }
     }, [dispatch, id]);
     return (
@@ -131,7 +132,7 @@ function CustomersSalesForm({ id }: { id: string }) {
                     <p className='text-2xl font-semibold'>Client</p>
                     <MultipleSelectChip label="Select Clients"
                         options={clientsOptions}
-                        value={clientIds}
+                        value={customers}
                         onChange={handleSelectChange} />
                     <Divider />
                 </Box>
@@ -149,9 +150,9 @@ function CustomersSalesForm({ id }: { id: string }) {
                                     )
                                     }
                                     <CustomInput
-                                        name={`inventoryId`}
+                                        name={`inventory`}
                                         onChange={(e: any) => handleChange(e, index)}
-                                        value={product.id}
+                                        value={product.inventory}
                                         fullWidth={false}
                                         className='md:w-[250px]'
                                         label={`Inventory ${index + 1}`}
@@ -161,9 +162,9 @@ function CustomersSalesForm({ id }: { id: string }) {
                                         loading={inventoryData.loading}
                                     />
                                     <CustomInput
-                                        name={`id`}
+                                        name={`product`}
                                         onChange={(e: any) => handleChange(e, index)}
-                                        value={product.id}
+                                        value={product.product}
                                         fullWidth={false}
                                         className='md:w-[250px]'
                                         label={`Product ${index + 1}`}
@@ -367,4 +368,4 @@ function CustomersSalesForm({ id }: { id: string }) {
     )
 }
 
-export default CustomersSalesForm
+export default CustomersSalessForm

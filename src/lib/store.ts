@@ -5,6 +5,7 @@ import productsSlice from "./features/producsts/productsSlice";
 import { SalesSlice } from "./features/sales/saleSlice";
 import { inventorySlice } from "./features/inventory/inventorySlice";
 import { distributionSlice } from "./features/distributions/distributionSlice";
+import { customerSalesSlice } from "./features/customer-sales/customerSalesSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -14,7 +15,8 @@ export const makeStore = () => {
       products: productsSlice,
       sales: SalesSlice.reducer,
       inventory: inventorySlice.reducer,
-      distributions: distributionSlice.reducer
+      distributions: distributionSlice.reducer,
+      customerSales: customerSalesSlice.reducer
     },
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

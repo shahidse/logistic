@@ -3,18 +3,18 @@ import { addSale, getSaleById, getSales } from "./salesThunk";
 import { act } from "react";
 
 export interface Product {
-  id: number | string; // Assuming it can be a number or UUID string
+  id: number | string; 
   productQuantities: number;
-  netPrice: string; // string if it includes decimal or currency formatting
+  netPrice: string; 
   netPriceCurrency: string;
-  paidAmount: number; // If you're using numbers in the frontend for math
+  paidAmount: number; 
   remainingAmount: number;
   descriptions?: string;
   status: string;
   paymentMethod: string;
-  paymentDate?: string; // ISO date string (e.g. '2025-04-20T00:00:00.000Z')
+  paymentDate?: string; 
   shippingAddress?: string;
-  deliveryDate?: string; // Also ISO date format
+  deliveryDate?: string; 
   shippingStatus?: string;
   specialInstructions?: string;
 }
@@ -188,34 +188,6 @@ export const SalesSlice = createSlice({
         state.loading = false;
         state.error = action.payload as string;
       });
-    // builder
-    //   .addCase("sales/updateSale/pending", (state) => {
-    //     state.loading = true;
-    //     state.error = "";
-    //   })
-    //   .addCase("sales/updateSale/fulfilled", (state, action: PayloadAction<unknown>) => {
-    //     state.loading = false;
-    //     state.data = state.data.map((sale) =>
-    //       (sale as any).id === (action.payload as any).id ? action.payload : sale
-    //     );
-    //   })
-    //   .addCase("sales/updateSale/rejected", (state, action: PayloadAction<string>) => {
-    //     state.loading = false;
-    //     state.error = action.payload;
-    //   });
-    // builder
-    //   .addCase("sales/deleteSale/pending", (state) => {
-    //     state.loading = true;
-    //     state.error = "";
-    //   })
-    //   .addCase("sales/deleteSale/fulfilled", (state, action: PayloadAction<string>) => {
-    //     state.loading = false;
-    //     state.data = state.data.filter((sale) => (sale as any).id !== action.payload);
-    //   })
-    //   .addCase("sales/deleteSale/rejected", (state, action: PayloadAction<string>) => {
-    //     state.loading = false;
-    //     state.error = action.payload;
-    //   });
   },
 });
 

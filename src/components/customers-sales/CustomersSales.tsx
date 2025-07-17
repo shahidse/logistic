@@ -5,7 +5,7 @@ import { deleteSale, getSales } from '@/lib/features/sales/salesThunk'
 import { useTableHandler } from '@/hooks/tableHandler'
 import { RootState } from '@/lib/store'
 
-function CustomersSales() {
+function CustomersSaless() {
     const formatedData = (data: any[]) =>
         data.map(({ ...rest }) => ({
             ...rest,
@@ -31,4 +31,4 @@ function CustomersSales() {
     )
 }
 
-export default CustomersSales
+export default CustomersSaless
