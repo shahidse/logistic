@@ -7,7 +7,7 @@ import { RootState } from '@/lib/store'
 
 function Products() {
     const formatedData = (data: any[]) =>
-        data.map(({ expiry, pros, cons, description, usage, ...rest }) => ({
+        data.map(({ pros, cons, description, usage, ...rest }) => ({
             ...rest,
             addedBy: rest.addedBy.fullName,
             company: rest.company?.name,

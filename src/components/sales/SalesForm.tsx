@@ -19,13 +19,14 @@ import { addSale, getSaleById, updateSale } from '@/lib/features/sales/salesThun
 import { useSnackbar } from '../common/SnakeBarProvider'
 import { selectUsersByRole } from '@/lib/features/users/selectors'
 import { selectProductOptions } from '@/lib/features/producsts/selectors'
+import { selectDistributionsOptions } from '@/lib/features/distributions/selectors'
 
 function SalesForm({ id }: { id: string }) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const { showSnackbar } = useSnackbar()
     const data = useAppSelector(selectUsersByRole("Client"));
-    const productOptions = useAppSelector(selectProductOptions);
+    const productOptions = useAppSelector(selectDistributionsOptions);
     const productData = useAppSelector((state) => state.products);
     const { form: { products, clientIds }, loading, error } = useAppSelector((state) => state.sales)
     const styles = {
@@ -149,7 +150,7 @@ function SalesForm({ id }: { id: string }) {
                                         value={product.id}
                                         fullWidth={false}
                                         className='md:w-[250px]'
-                                        label={`Product ${index + 1}`}
+                                        label={`Product Distribution ${index + 1}`}
                                         sx={styles}
                                         select
                                         options={productOptions}

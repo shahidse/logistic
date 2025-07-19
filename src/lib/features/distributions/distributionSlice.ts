@@ -1,10 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface DistributionForm {
-  productId:  number;
-  inventoryId:  number;
-  totalDistributed: number;
-}
 import {
   addDistribution,
   deleteDistribution,
@@ -12,7 +7,20 @@ import {
   getDistributions,
   updateDistribution,
 } from "./distributionsThunk";
-
+export interface DistributionForm {
+  name:string;
+  productId: number;
+  inventoryId: number;
+  salePrice: number;
+  saleCurrency: string;
+  purchaseCurrency: string;
+  unit: string;
+  purchasePrice: number;
+  quantities: number;
+  netPurchasePrice: number;
+  netSalePrice: number;
+  expiry: string;
+}
 export interface DistributionState {
   loading: boolean;
   error: string;
@@ -26,9 +34,18 @@ const initialState: DistributionState = {
   error: "",
   id: "",
   form: {
+    name:'',
     productId: 0,
     inventoryId: 0,
-    totalDistributed: 0,
+    quantities: 0,
+    salePrice: 0,
+    saleCurrency: "",
+    purchaseCurrency: "",
+    unit: "",
+    purchasePrice: 0,
+    netPurchasePrice: 0,
+    netSalePrice: 0,
+    expiry: new Date().toISOString().split("T")[0],
   },
   data: [],
 };
@@ -59,9 +76,18 @@ export const distributionSlice = createSlice({
     },
     resetDistributionProduct: (state) => {
       state.form = {
+        name:'',
         productId: 0,
         inventoryId: 0,
-        totalDistributed: 0,
+        quantities: 0,
+        salePrice: 0,
+        saleCurrency: "",
+        purchaseCurrency: "",
+        unit: "",
+        purchasePrice: 0,
+        netPurchasePrice: 0,
+        netSalePrice: 0,
+        expiry: new Date().toISOString().split("T")[0],
       };
     },
     resetDistributionState: () => initialState,
@@ -94,6 +120,9 @@ export const distributionSlice = createSlice({
         state.loading = false;
         state.data = action.payload;
         state.error = "";
+        // state.form.expiry = new Date(action?.payload?.expiry)
+        //   .toISOString()
+        //   .split("T")[0];
       })
       .addCase(getDistributions.rejected, (state, action) => {
         state.loading = false;
@@ -144,11 +173,11 @@ export const distributionSlice = createSlice({
       .addCase(getDistributionById.fulfilled, (state, action) => {
         state.loading = false;
         state.id = action.payload.id;
-        console.log('data', action.payload)
+        console.log("data", action.payload);
         state.form = {
           productId: action.payload.product.id,
           inventoryId: action.payload.inventory.id,
-          totalDistributed: Number(action.payload.totalDistributed),
+          ...action.payload,
         };
         state.error = "";
       })

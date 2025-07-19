@@ -12,15 +12,6 @@ export interface InitialState {
   form: {
     name: string;
     companyId: string;
-    salePrice: number;
-    saleCurrency: string;
-    purchaseCurrency: string;
-    unit: string;
-    purchasePrice: number;
-    quantities: string;
-    netPurchasePrice: number;
-    netSalePrice: number;
-    expiry: string;
     pros: string;
     cons: string;
     usage: string;
@@ -35,15 +26,6 @@ const initialState: InitialState = {
   form: {
     name: "",
     companyId: "",
-    salePrice: 0,
-    saleCurrency: "",
-    purchaseCurrency: "",
-    unit: "",
-    purchasePrice: 0,
-    quantities: '0',
-    netPurchasePrice: 0,
-    netSalePrice: 0,
-    expiry: new Date().toISOString().split("T")[0], // or new Date() if you want to set it to the current date
     pros: "",
     cons: "",
     usage: "",
@@ -116,9 +98,6 @@ const productsSlice = createSlice({
         state.loading = false;
         state.error = "";
         state.form = actions.payload;
-        state.form.expiry = new Date(actions?.payload?.expiry)
-          .toISOString()
-          .split("T")[0];
         state.form.companyId = actions.payload.company?.id || '0';
       })
       .addCase(getProductsById.rejected, (state, actions) => {

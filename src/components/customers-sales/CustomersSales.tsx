@@ -12,7 +12,6 @@ function CustomersSaless() {
             createdBy: rest.createdBy.fullName,
             updatedBy: rest.updatedBy.fullName,
             client: rest.client.fullName,
-            product: rest.product.name,
         }));
     const fetchSales = useCallback(() => {
         return getSales({ page: 1, limit: 10 });

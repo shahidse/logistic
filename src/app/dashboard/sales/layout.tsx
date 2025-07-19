@@ -47,7 +47,7 @@ function SalesLayout({ children }: { children: React.JSX.Element }) {
                                 </CustomIconButton>
                                 {id === 'add' ? (
                                     <p>
-                                        Add New Sale
+                                        Add New Client Distribution
                                     </p>
                                 ) : id ? `Edit Sale with id ${id}` : ''}
                             </Box>
@@ -63,7 +63,7 @@ function SalesLayout({ children }: { children: React.JSX.Element }) {
                                     onClick={handleAddProduct}
                                     sx={{ backgroundColor: id === 'add' ? 'var(--action)' : 'var(--success)' }}
                                 >
-                                    Add New Sale
+                                    Add New Client Distribution
                                 </CustomButton>
                             </motion.div>
                         </>
