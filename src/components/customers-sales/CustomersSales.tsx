@@ -1,27 +1,27 @@
 'use client'
 import React, { useCallback } from 'react'
 import CustomizedTables from '@/components/common/CustomizedTables'
-import { deleteSale, getSales } from '@/lib/features/sales/salesThunk'
 import { useTableHandler } from '@/hooks/tableHandler'
 import { RootState } from '@/lib/store'
+import { getCustomerSales } from '@/lib/features/customer-sales/customerSalesThunk'
+import { deleteCustomerSale } from '../../lib/features/customer-sales/customerSalesThunk';
 
 function CustomersSaless() {
-    const formatedData = (data: any[]) =>
-        data.map(({ ...rest }) => ({
-            ...rest,
-            createdBy: rest.createdBy.fullName,
-            updatedBy: rest.updatedBy.fullName,
-            client: rest.client.fullName,
+    const formatedData = (data: any[] = []) =>
+        data.map((item) => ({
+            ...item,
+            sales: item.sales?.name || '',
+            customer:item.customer.fullName
         }));
     const fetchSales = useCallback(() => {
-        return getSales({ page: 1, limit: 10 });
+        return getCustomerSales();
     }, []);
     const { formattedData, selected, handleSelectAll, handleSelectRow, handleEdit, handleDelete } = useTableHandler(
         fetchSales,
-        deleteSale,
-        (state: RootState) => state.sales.data,
+        deleteCustomerSale,
+        (state: RootState) => state.customerSales.data,
         formatedData,
-        '/dashboard/sales'
+        '/dashboard/cutomers-sales'
     );
     return (
         <div>

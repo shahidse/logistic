@@ -7,8 +7,7 @@ import {
 } from "./customerSalesThunk";
 
 export interface ProductDetail {
-  product: any; // Replace with Product interface if available
-  inventory: any; // Inventory reference
+  sale: any; // Replace with Product interface if available
   productQuantities: number;
   netPriceCurrency: string;
   netPrice: number;
@@ -42,8 +41,7 @@ const initialState: CustomerSalesState = {
     customers: [],
     products: [
       {
-        product: "",
-        inventory: "",
+        sale: "",
         productQuantities: 0,
         netPriceCurrency: "PKR",
         netPrice: 0,
@@ -93,8 +91,7 @@ export const customerSalesSlice = createSlice({
 
     addProduct: (state) => {
       state.form.products.push({
-        product: "",
-        inventory: "",
+        sale: "",
         productQuantities: 0,
         netPriceCurrency: "PKR",
         netPrice: 0,

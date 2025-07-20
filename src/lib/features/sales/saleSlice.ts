@@ -4,6 +4,7 @@ import { act } from "react";
 
 export interface Product {
   id: number | string; 
+  name:string;
   productQuantities: number;
   netPrice: string; 
   netPriceCurrency: string;
@@ -39,6 +40,7 @@ const initialState: InitialState = {
     products: [
       {
         id: "",
+        name:'',
         productQuantities: 0,
         netPrice: "0",
         netPriceCurrency: "PKR",
@@ -88,6 +90,7 @@ export const SalesSlice = createSlice({
     addProduct: (state) => {
       state.form.products.push({
         id: "",
+        name:'',
         productQuantities: 0,
         netPrice: "0",
         netPriceCurrency: "PKR",
@@ -164,6 +167,7 @@ export const SalesSlice = createSlice({
         state.form.products = [
           {
             id: action.payload.product.id,
+            name: action.payload.name,
             productQuantities: action.payload.productQuantities,
             netPrice: action.payload.netPrice,
             netPriceCurrency: action.payload.netPriceCurrency,

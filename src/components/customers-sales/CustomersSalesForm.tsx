@@ -1,6 +1,6 @@
 'use client'
 import { Box, Divider, SelectChangeEvent } from '@mui/material'
-import React, { Fragment, useEffect,  } from 'react'
+import React, { Fragment, useEffect, } from 'react'
 import CustomForm from '../common/CustomForm'
 import CustomInput from '../common/CustomInput'
 import ButtonStack from '../common/ButtonStack'
@@ -13,25 +13,22 @@ import CustomIconButton from '../common/CustomIconButton'
 import MultipleSelectChip from '../common/MultipleSelectChip'
 import { getCustomers } from '@/lib/features/users/usersThunk'
 import { useRouter } from 'next/navigation'
-import { getProducts } from '@/lib/features/producsts/productsThunk'
 import { useSnackbar } from '../common/SnakeBarProvider'
 import { selectUsersByRole } from '@/lib/features/users/selectors'
-import { selectProductOptions } from '@/lib/features/producsts/selectors'
-import { selectInventoryOptions } from '@/lib/features/inventory/selectors'
-import { getInventories } from '@/lib/features/inventory/inventoryThunk'
+
 import { addCustomerSale, getCustomerSaleById, updateCustomerSale } from '@/lib/features/customer-sales/customerSalesThunk'
 import { addProduct, removeProduct, resetCustomerSaleForm, setCustomers, setProductDetail } from '@/lib/features/customer-sales/customerSalesSlice'
 import { resetClientForm } from '@/lib/features/users/usersSlice'
+import { selectSalesOptions } from '@/lib/features/sales/selectors'
+import { getSales } from '@/lib/features/sales/salesThunk'
 
 function CustomersSalessForm({ id }: { id: string }) {
     const router = useRouter()
     const dispatch = useAppDispatch()
     const { showSnackbar } = useSnackbar()
     const data = useAppSelector(selectUsersByRole("Customer"));
-    const productOptions = useAppSelector(selectProductOptions);
-    const productData = useAppSelector((state) => state.products);
-    const inventoryOptions = useAppSelector(selectInventoryOptions)
-    const inventoryData = useAppSelector((state) => state.inventory);
+    const productOptions = useAppSelector(selectSalesOptions);
+    const productData = useAppSelector((state) => state.sales);
     const { form: { products, customers }, loading, error } = useAppSelector((state) => state.customerSales)
     const styles = {
         '& label': { color: 'var(--secondary)' },
@@ -119,8 +116,7 @@ function CustomersSalessForm({ id }: { id: string }) {
     }, [data]);
     useEffect(() => {
         dispatch(getCustomers());
-        dispatch(getProducts())
-        dispatch(getInventories({ page: 1, limit: 10 }));
+        dispatch(getSales({ page: 1, limit: 20 }))
         if (id && id != "add") {
             dispatch(getCustomerSaleById(id));
         }
@@ -129,8 +125,8 @@ function CustomersSalessForm({ id }: { id: string }) {
         <Box className='h-[65vh]'>
             <CustomForm onSubmit={handleSubmit} className='max-h-full overflow-y-auto flex flex-row flex-wrap justify-start gap-3 md:gap-5 p-[32px] bg-background' >
                 <Box className='flex w-full flex-col gap-5'>
-                    <p className='text-2xl font-semibold'>Client</p>
-                    <MultipleSelectChip label="Select Clients"
+                    <p className='text-2xl font-semibold'>Customer</p>
+                    <MultipleSelectChip label="Select Customer"
                         options={clientsOptions}
                         value={customers}
                         onChange={handleSelectChange} />
@@ -150,24 +146,12 @@ function CustomersSalessForm({ id }: { id: string }) {
                                     )
                                     }
                                     <CustomInput
-                                        name={`inventory`}
+                                        name={`sale`}
                                         onChange={(e: any) => handleChange(e, index)}
-                                        value={product.inventory}
+                                        value={product.sale}
                                         fullWidth={false}
                                         className='md:w-[250px]'
-                                        label={`Inventory ${index + 1}`}
-                                        sx={styles}
-                                        select
-                                        options={inventoryOptions}
-                                        loading={inventoryData.loading}
-                                    />
-                                    <CustomInput
-                                        name={`product`}
-                                        onChange={(e: any) => handleChange(e, index)}
-                                        value={product.product}
-                                        fullWidth={false}
-                                        className='md:w-[250px]'
-                                        label={`Product ${index + 1}`}
+                                        label={`Sale ${index + 1}`}
                                         sx={styles}
                                         select
                                         options={productOptions}

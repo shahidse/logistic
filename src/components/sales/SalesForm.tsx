@@ -157,6 +157,15 @@ function SalesForm({ id }: { id: string }) {
                                         loading={productData.loading}
                                     />
                                     <CustomInput
+                                        name={`name`}
+                                        onChange={(e: any) => handleChange(e, index)}
+                                        value={product.name}
+                                        fullWidth={false}
+                                        className='md:w-[250px]'
+                                        label={`Sale Name`}
+                                        sx={styles}
+                                    />
+                                    <CustomInput
                                         name={`productQuantities`}
                                         onChange={(e: any) => handleChange(e, index)}
                                         value={product.productQuantities}
