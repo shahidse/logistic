@@ -1,5 +1,7 @@
 'use client';
 
+import { getReports } from '@/lib/features/reports/reportsThunk';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
 import { MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 
@@ -43,8 +45,11 @@ const LogisticsReport = () => {
   const [filter, setFilter] = useState<ReportFilter>('1D');
   const [customDate, setCustomDate] = useState('');
   const [filteredData, setFilteredData] = useState<LogisticReport[]>([]);
-
+  const dispatch = useAppDispatch();
+  const data = useAppSelector((state) => state.reports.reports);
+  console.log('data',data)
   useEffect(() => {
+    dispatch(getReports({ interval: new Date() }))
     const today = new Date();
     let compareDate = new Date();
 
