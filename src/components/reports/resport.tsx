@@ -1,57 +1,22 @@
 'use client';
 
-import { getReports } from '@/lib/features/reports/reportsThunk';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { MenuItem, Select, TextField } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { MenuItem, Select, TextField } from '@mui/material';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { getReports } from '@/lib/features/reports/reportsThunk';
 
 type ReportFilter = '1D' | '3D' | '7D' | 'CUSTOM';
-
-interface LogisticReport {
-  id: string;
-  date: Date;
-  origin: string;
-  destination: string;
-  status: string;
-  totalSales: number;
-  cashIn: number;
-  cashOut: number;
-}
-
-const dummyData: LogisticReport[] = [
-  {
-    id: 'SHIP123',
-    date: new Date('2025-07-20'),
-    origin: 'Karachi',
-    destination: 'Lahore',
-    status: 'Delivered',
-    totalSales: 5000,
-    cashIn: 3000,
-    cashOut: 1500,
-  },
-  {
-    id: 'SHIP124',
-    date: new Date('2025-07-18'),
-    origin: 'Islamabad',
-    destination: 'Peshawar',
-    status: 'In Transit',
-    totalSales: 4000,
-    cashIn: 2000,
-    cashOut: 1000,
-  },
-];
 
 const LogisticsReport = () => {
   const [filter, setFilter] = useState<ReportFilter>('1D');
   const [customDate, setCustomDate] = useState('');
-  const [filteredData, setFilteredData] = useState<LogisticReport[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.reports.reports);
-  console.log('data',data)
+  const { productStats = [], clientSales = [], customerSales = [] } = useAppSelector((state) => state.reports.reports);
+
   useEffect(() => {
-    dispatch(getReports({ interval: new Date() }))
     const today = new Date();
-    let compareDate = new Date();
+    let compareDate = new Date(today);
 
     if (filter === '1D') {
       compareDate.setDate(today.getDate() - 1);
@@ -63,27 +28,67 @@ const LogisticsReport = () => {
       compareDate = new Date(customDate);
     }
 
-    const result = dummyData.filter(
-      (item) => item.date > compareDate
-    );
-    setFilteredData(result);
-  }, [filter, customDate]);
+    setIsLoading(true);
+    dispatch(getReports({ interval: compareDate.toISOString().slice(0, 19).replace('T', ' ') }))
+      .finally(() => setIsLoading(false));
+  }, [filter, customDate, dispatch]);
 
-  const summary = filteredData.reduce(
-    (acc, item) => {
-      acc.totalSales += item.totalSales;
-      acc.cashIn += item.cashIn;
-      acc.cashOut += item.cashOut;
-      return acc;
-    },
-    { totalSales: 0, cashIn: 0, cashOut: 0 }
+  const renderCard = (title: string, value: string | number, bg: string, text: string) => (
+    <div className={`p-4 ${bg} rounded-xl text-center`}>
+      <p className="text-sm text-gray-600">{title}</p>
+      <p className={`text-lg font-semibold ${text}`}>{value}</p>
+    </div>
   );
+
+  const renderTable = (data: any[], columns: { label: string; key: string }[], title: string) => (
+    <div className="mt-6">
+      <h3 className="text-lg font-semibold mb-2">{title}</h3>
+      <div className="overflow-x-auto border rounded-lg">
+        <table className="min-w-full text-sm">
+          <thead className="bg-gray-100">
+            <tr>
+              {columns.map((col) => (
+                <th key={col.key} className="p-2 border">{col.label}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {data.length ? (
+              data.map((item, idx) => (
+                <tr key={idx} className="hover:bg-gray-50">
+                  {columns.map((col) => (
+                    <td key={col.key} className="p-2 border">
+                      {item[col.key] ?? '-'}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={columns.length} className="text-center p-4 text-gray-500">
+                  No data available.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-80">
+        <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 bg-white rounded-2xl shadow-md">
-      <h2 className="text-xl font-bold mb-4">Logistics Report</h2>
+      <h2 className="text-xl font-bold mb-4">Logistics Product Report</h2>
 
-      {/* Time Filter */}
+      {/* Filter Controls */}
       <div className="flex gap-4 items-center mb-6">
         <Select
           value={filter}
@@ -95,7 +100,6 @@ const LogisticsReport = () => {
           <MenuItem value="7D">Last 7 Days</MenuItem>
           <MenuItem value="CUSTOM">Custom Date</MenuItem>
         </Select>
-
         {filter === 'CUSTOM' && (
           <TextField
             type="date"
@@ -106,73 +110,54 @@ const LogisticsReport = () => {
         )}
       </div>
 
-      {/* Summary */}
+      {/* Summary Cards */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-        <div className="p-4 bg-gray-100 rounded-xl text-center">
-          <p className="text-sm text-gray-500">Total Sales</p>
-          <p className="text-lg font-semibold">Rs {summary.totalSales}</p>
-        </div>
-        <div className="p-4 bg-green-100 rounded-xl text-center">
-          <p className="text-sm text-gray-600">Cash In</p>
-          <p className="text-lg font-semibold text-green-700">
-            Rs {summary.cashIn}
-          </p>
-        </div>
-        <div className="p-4 bg-red-100 rounded-xl text-center">
-          <p className="text-sm text-gray-600">Cash Out</p>
-          <p className="text-lg font-semibold text-red-700">
-            Rs {summary.cashOut}
-          </p>
-        </div>
-        <div className="p-4 bg-blue-100 rounded-xl text-center">
-          <p className="text-sm text-gray-600">Net Balance</p>
-          <p className="text-lg font-semibold text-blue-700">
-            Rs {summary.cashIn - summary.cashOut}
-          </p>
-        </div>
+        {renderCard('Total Products', productStats.length, 'bg-blue-100', 'text-blue-700')}
+        {renderCard('Client Sales', clientSales.length, 'bg-green-100', 'text-green-700')}
+        {renderCard('Customer Sales', customerSales.length, 'bg-yellow-100', 'text-yellow-700')}
+        {renderCard(
+          'Total Remaining',
+          productStats.reduce((sum, p) => sum + Number(p.totalRemaining || 0), 0),
+          'bg-red-100',
+          'text-red-700'
+        )}
       </div>
 
-      {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full text-sm border">
-          <thead>
-            <tr className="bg-gray-100 text-left">
-              <th className="p-2 border">Date</th>
-              <th className="p-2 border">Shipment ID</th>
-              <th className="p-2 border">Origin</th>
-              <th className="p-2 border">Destination</th>
-              <th className="p-2 border">Status</th>
-              <th className="p-2 border">Sales</th>
-              <th className="p-2 border">Cash In</th>
-              <th className="p-2 border">Cash Out</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((item) => (
-                <tr key={item.id} className="hover:bg-gray-50">
-                  <td className="p-2 border">
-                    {item.date.toISOString().slice(0, 10)}
-                  </td>
-                  <td className="p-2 border">{item.id}</td>
-                  <td className="p-2 border">{item.origin}</td>
-                  <td className="p-2 border">{item.destination}</td>
-                  <td className="p-2 border">{item.status}</td>
-                  <td className="p-2 border">Rs {item.totalSales}</td>
-                  <td className="p-2 border">Rs {item.cashIn}</td>
-                  <td className="p-2 border">Rs {item.cashOut}</td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={8} className="text-center p-4 text-gray-500">
-                  No data found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      {/* Tables */}
+      {renderTable(
+        productStats,
+        [
+          { label: 'Product ID', key: 'productId' },
+          { label: 'Name', key: 'productName' },
+          { label: 'Remaining', key: 'totalRemaining' },
+          { label: 'Sold', key: 'totalSold' },
+        ],
+        'Product Inventory Stats'
+      )}
+
+      {renderTable(
+        clientSales,
+        [
+          { label: 'Product ID', key: 'productId' },
+          { label: 'Name', key: 'productName' },
+          { label: 'Remaining', key: 'remainingInStock' },
+          { label: 'Sold', key: 'totalSold' },
+          { label: 'Paid', key: 'totalPaid' },
+        ],
+        'Client Sales Summary'
+      )}
+
+      {renderTable(
+        customerSales,
+        [
+          { label: 'Product ID', key: 'productId' },
+          { label: 'Name', key: 'productName' },
+          { label: 'Remaining', key: 'remainingInStock' },
+          { label: 'Sold', key: 'totalSold' },
+          { label: 'Paid', key: 'totalPaid' },
+        ],
+        'Customer Sales Summary'
+      )}
     </div>
   );
 };

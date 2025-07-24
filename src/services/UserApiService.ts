@@ -18,7 +18,7 @@ export class UserApiService extends BaseApiService {
   }
   async logIn(data: any, options?: RequestInit) {
     const res = await this.post("users/login", data, options);
-    return res
+    return res;
   }
   async createClient(data: any, options?: RequestInit) {
     return await this.post(`clients`, data, options);
@@ -41,13 +41,16 @@ export class UserApiService extends BaseApiService {
   async getCustomers(options?: RequestInit) {
     return await this.get(`customers`, options);
   }
-   async getCustoemrById(id: any, options?: RequestInit) {
+  async getCustoemrById(id: any, options?: RequestInit) {
     return await this.get(`customers/${id}`, options);
   }
   async getTransporters(options?: RequestInit) {
     return await this.get(`transporters`, options);
   }
-   async getTransportersById(id: any, options?: RequestInit) {
+  async getTransportersById(id: any, options?: RequestInit) {
     return await this.get(`transporters/${id}`, options);
+  }
+  async getUserIfo(options?: RequestInit) {
+    return await this.get(`users/info`, options);
   }
 }

@@ -189,3 +189,18 @@ export const getTransportersById = createAsyncThunk(
     }
   }
 );
+
+export const getUserInfo = createAsyncThunk(
+  "users/info",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await UserApiService.getInstance().getUserIfo( {
+        headers: { authorization: `Bearer ${token}` },
+      });
+      return await response;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);

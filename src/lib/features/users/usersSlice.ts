@@ -10,6 +10,7 @@ import {
   getSecretToken,
   getTransporters,
   getTransportersById,
+  getUserInfo,
   signin,
   signup,
   updateClient,
@@ -301,6 +302,19 @@ export const usersSlice = createSlice({
         state.form.rolesId = String(actions.payload?.roles?.id) || "";
       })
       .addCase(getTransportersById.rejected, (state, actions) => {
+        state.loading = false;
+        state.error = actions.payload as string;
+      });
+    builder
+      .addCase(getUserInfo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getUserInfo.fulfilled, (state, actions) => {
+        state.loading = false;
+        state.error = "";
+        state.data = actions.payload;
+      })
+      .addCase(getUserInfo.rejected, (state, actions) => {
         state.loading = false;
         state.error = actions.payload as string;
       });

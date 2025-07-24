@@ -10,8 +10,8 @@ function CustomersSaless() {
     const formatedData = (data: any[] = []) =>
         data.map((item) => ({
             ...item,
-            sales: item.sales?.name || '',
-            customer:item.customer.fullName
+            sales: item?.sales?.name || '',
+            customer:item?.customer?.fullName
         }));
     const fetchSales = useCallback(() => {
         return getCustomerSales();

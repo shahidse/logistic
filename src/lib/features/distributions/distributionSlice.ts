@@ -173,7 +173,6 @@ export const distributionSlice = createSlice({
       .addCase(getDistributionById.fulfilled, (state, action) => {
         state.loading = false;
         state.id = action.payload.id;
-        console.log("data", action.payload);
         state.form = {
           productId: action.payload.product.id,
           inventoryId: action.payload.inventory.id,

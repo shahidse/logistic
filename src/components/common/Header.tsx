@@ -3,6 +3,7 @@ import { Box, Menu, MenuItem, Avatar, IconButton, Typography } from '@mui/materi
 import Link from 'next/link';
 import { useState } from 'react';
 import { Person, Settings, Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
+import Image from 'next/image';
 
 function Header() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -27,8 +28,12 @@ function Header() {
                     {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
                 </button>
             </div>
-            <Box className="flex-grow text-center">
-                <h2 className="text-lg font-semibold">Dashboard Panel</h2>
+            <Box className="flex items-center gap-2 justify-center flex-grow">
+                <Image
+                    src="/public/logistic-logo.png"
+                    alt="Logo"
+                    className="h-6 w-6"
+                />
             </Box>
 
             {/* User Account Menu */}

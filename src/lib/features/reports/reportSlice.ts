@@ -3,13 +3,13 @@ import { getReports } from './reportsThunk';
 
 
 interface ReportState {
-    reports: any[];
+    reports: any;
     loading: boolean;
     error: string | null;
 }
 
 const initialState: ReportState = {
-    reports: [],
+    reports: {},
     loading: false,
     error: null,
 };
