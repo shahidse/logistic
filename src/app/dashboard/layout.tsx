@@ -1,11 +1,12 @@
 'use client';
-import { Box, Menu, MenuItem, Avatar, IconButton, Typography } from '@mui/material';
+import { Box, Menu, MenuItem, Avatar, IconButton, Typography, Button } from '@mui/material';
 import Link from 'next/link';
 import React, { useState } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { Home, Person, Settings, BarChart, Menu as MenuIcon, Close as CloseIcon, People, LogoutOutlined, Inventory, EmojiTransportation, ShoppingCart, Group, Business, Category, Warehouse, MoveToInbox, LocalShipping } from '@mui/icons-material';
 import Footer from '@/components/common/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
 
 export default function DashboardLayout({ children }: { children: React.JSX.Element }) {
     const pathname = usePathname();
@@ -44,8 +45,18 @@ export default function DashboardLayout({ children }: { children: React.JSX.Elem
                         {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
                     </button>
                 </div>
-                <Box className="flex-grow text-center">
-                    <h2 className="text-lg font-semibold">Dashboard Panel</h2>
+                <Box className="flex items-center gap-2 justify-center flex-grow">
+                    <Button>
+                        <Link href="/dashboard" className="flex items-center">
+                            <Image
+                                src="/logistic-logo.png"
+                                alt="Logo"
+                                width={40}
+                                height={40}
+                                className="h-16 w-16 object-contain"
+                            />
+                        </Link>
+                    </Button>
                 </Box>
 
                 {/* User Account Menu */}
